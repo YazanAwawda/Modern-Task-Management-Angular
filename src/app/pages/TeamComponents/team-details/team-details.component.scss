@@ -1,0 +1,73 @@
+
+#container {
+  background: white;
+  height: 500px;
+  position: relative;
+  width: 100%;
+}
+
+#content {
+  background: white;
+  margin-right: 350px;
+  bottom: 0;
+  height: 450px;
+  left: 0;
+  position:absolute;
+  right: 0;
+  top: 0;
+  width: 600px;
+}
+
+
+.team-members-list {
+  height: 195px; /* Adjust the height as needed */
+  overflow-y: scroll; /* Use 'scroll' to always show scrollbar or 'auto' to show it only when needed */
+  padding: 5px;
+  border: none; /* Hide the border */
+  //width:350px
+}
+.form{
+
+  position: relative;
+}
+
+.form .fa-search{
+
+  position: absolute;
+  top:20px;
+  left: 20px;
+  color: #9ca3af;
+
+}
+
+.form span{
+
+  position: absolute;
+  right: 17px;
+  top: 13px;
+  padding: 2px;
+  border-left: 1px solid #d1d5db;
+
+}
+
+.left-pan{
+  padding-left: 7px;
+}
+
+.left-pan i{
+
+  padding-left: 10px;
+}
+
+.form-input{
+
+  height: 55px;
+  text-indent: 33px;
+  border-radius: 10px;
+}
+
+.form-input:focus{
+
+  box-shadow: none;
+  border:none;
+}

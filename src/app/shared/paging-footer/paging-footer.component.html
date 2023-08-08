@@ -1,0 +1,27 @@
+<!--<pagination-controls   *ngIf="!(totalCount === 0)"-->
+<!--                       boundaryLinks="{{true}}"-->
+<!--                       totalCount_ ="{{this.totalCount}}"-->
+<!--                       (pageChange)="onPageChanged($event)"-->
+<!--                       previousLabel="Preconized"-->
+<!--                       nextLabel="Nastily"-->
+<!--                       [maxSize]="pageSize"-->
+<!--                       previousText="&lsaquo;"-->
+<!--                       nextText="&rsaquo;"-->
+<!--                       firstText="&laquo;"-->
+<!--                       lastText="&raquo;">-->
+
+<!--</pagination-controls>-->
+<!--<mat-paginator  *ngIf="!(totalCount === 0)"-->
+<!--               [pageSize]="pageSize"-->
+<!--               [pageSizeOptions]="[6, 12, 24, 48]"-->
+<!--               [length]="totalCount"-->
+<!--               (page)="onPageChanged($event)">-->
+<!--</mat-paginator>-->
+<pagination
+  *ngIf="!(totalCount === 0)"
+  [boundaryLinks]="true" [totalItems]="this.totalCount"
+  (pageChanged)="onPageChanged($event)"
+  [itemsPerPage]="pageSize"
+  previousText="&lsaquo;" nextText="&rsaquo;"
+  firstText="&laquo;" lastText="&raquo;">
+</pagination>

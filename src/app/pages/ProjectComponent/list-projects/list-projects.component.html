@@ -1,0 +1,97 @@
+
+
+<div class="container justify-content-center " style="margin-left:55px;">
+  <div class="row">
+<div class="col-11">
+  <h1>All Projects </h1>
+</div>
+  </div>
+  <div class="row">
+    <div class="col-11" >
+
+      <div class="d-flex justify-content-between align-items-center pb-2">
+        <app-paging-header  [pageNumber]="this.projectParams.PageIndex" [pageSize]="projectParams.PageSize" [totalCount]="totalCount"></app-paging-header>
+      </div>
+
+      <div class="row row-cols-1 row-cols-md-4 g-4">
+        <div class="col" *ngFor="let project of projects">
+
+          <div class="card h-100">
+            <div class="d-flex justify-content-between">
+              <div class="p-2 bd-highlight">
+                <div style="background-color: white; --border-color--hover:
+                white; border-radius: 50%;cursor: pointer;  border-color: white "
+                        title="Project Details"
+                        [routerLink]="['/ui-components/project/',project.id]"  >
+                  <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+                  <lord-icon
+                    src="https://cdn.lordicon.com/ckatldkn.json"
+                    trigger="hover"
+                    colors="primary:#646e78,secondary:#08a88a,tertiary:#ebe6ef"
+                    style="width:50px;height:50px">
+                  </lord-icon>
+                </div>
+
+              </div>
+              <div
+
+                [routerLink]="['/ui-components/edit-project/',project.id]"
+                style="cursor:pointer ;" title="Edit Project"  class="p-2 bd-highlight"><script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+                <lord-icon
+                  src="https://cdn.lordicon.com/bxxnzvfm.json"
+                  trigger="hover"
+                  colors="primary:#3a3347,secondary:#ffc738,tertiary:#f9c9c0,quaternary:#ebe6ef"
+                  style="width:50px;height:50px">
+                </lord-icon></div>
+            </div>
+
+            <div class="card-body">
+              <h5 class="card-title">{{project.name}}</h5>
+              <p class="card-text">
+             {{project.description}}
+              </p>
+            </div>
+
+
+            <div style="cursor: pointer;" title="Delete Project">
+              <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+              <lord-icon
+                src="https://cdn.lordicon.com/qjwkduhc.json"
+                trigger="hover"
+                colors="primary:#c71f16,secondary:#4bb3fd,tertiary:#ebe6ef"
+                style="width:45px;height:45px;padding-left: 8px">
+              </lord-icon>
+            </div>
+
+
+
+
+  <button class="btn34"
+           (click)="onAssignTeam(project.id)"  *ngIf="project.teamId === null" >Assign Team</button>
+
+  <button class="btn34" (click)="onViewTeam(project.teamId)" *ngIf="project.teamId !== null">View Team</button>
+
+
+            <div class="card-footer">
+            <small class="text-muted">Created at {{project.estimatedStartDate | date}}</small>
+          </div>
+        </div>
+
+
+</div>
+        <div class="row">
+<!--          <div class="col-4 mb-4" *ngFor="let project of projects">-->
+<!--            <app-product-item (deleteProject)="deleteProject($event)" [ProjectInput]="project"></app-product-item>-->
+<!--          </div>-->
+        </div>
+
+      </div>
+      <br>
+      <div class="d-flex justify-content-center">
+        <app-paging-footer [totalCount]="totalCount" [pageSize]="projectParams.PageSize"
+                           (pageChanged)="onPageChanged($event)"></app-paging-footer>
+      </div>
+
+    </div>
+  </div>
+</div>

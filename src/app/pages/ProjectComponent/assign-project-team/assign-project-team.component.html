@@ -1,0 +1,35 @@
+<div class="container shadow-lg p-3 mb-5 bg-body rounded" style="width: 1250px ; height: 450px; margin-left: 150px;">
+  <div class="text">
+    Assign a project team
+  </div>
+  <form class="row" #AddTeamProjectFormGroup [formGroup]="AddTeamProjectForm">
+    <div class="col-12">
+    <div formControlName="id" hidden>
+      <label for="id">#Project</label>
+      <input style="background-color: white; color:white"
+             type="number"  id="id" disabled class="col" [value]="projectID" >
+    </div>
+
+    </div>
+    <div class="form-group col-12">
+      <div class="form-group  add-boarder ">
+        <div class="form-group">
+          <div class="input-data">
+        <ng-multiselect-dropdown
+           id="Teams"
+           formControlName="teamId"
+           [placeholder]="'Teams'"
+           [settings]="dropdownSettings"
+           [data]="teams"
+           (onSelect)="onTeamSelect($event)"
+           (onDeSelect)="onTeamDeSelect($event)">
+        </ng-multiselect-dropdown>
+      </div>
+    </div>
+      </div>
+    </div>
+<div class="form-group col-6" style="margin-top: 70px; margin-left: 250px;">
+  <button class="button-65" type="submit" (click) ="onTeamProjectAdoption($event)">Approve on Team</button>
+</div>
+  </form>
+</div>

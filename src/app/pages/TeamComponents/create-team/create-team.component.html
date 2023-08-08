@@ -1,0 +1,70 @@
+<div>
+  <img
+    src="/assets/images/backgrounds/teamCover.gif"
+    alt="team"
+    class="side-img"
+    style="width: 1035px; height: 350px; object-fit: cover; padding:25px;"/>
+<div style="padding-left:25px; padding-right:25px; ">
+  <h5 style="text-align: center;
+    background-color: rgba(133,180,248,0.36);
+    color:#000000" >Create Team</h5>
+</div>
+
+
+  <form [formGroup]="TeamFormGroup" class="row" style="margin-top:55px;padding-left:25px; padding-right:25px;  ">
+      <div class="form-group col-md-4">
+        <div class="form-group  add-boarder ">
+          <div class="form-group">
+            <label>Team Name</label>
+            <input type="text"
+                   placeholder="Write unique team name "
+                   class="form-control"
+                   formControlName="teamName">
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <div class="form-group  add-boarder ">
+          <div class="form-group">
+            <div>
+              <label for="teamLeader">Team Leader</label>
+              <ng-multiselect-dropdown
+                formGroupName="teamLeader"
+                id="teamLeader"
+                [placeholder]="'Choose Team Leader'"
+                [settings]="dropdownSettingsTeamLeader"
+                [data]="( EmployeesObservable | async ) || []"
+                (onSelect)="onTeamLeaderSelect($event)"
+                (onDeSelect)="onTeamLeaderDeSelect($event)">
+              </ng-multiselect-dropdown>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+        <div class="form-group col-md-4">
+          <div class="form-group  add-boarder ">
+            <div class="form-group">
+              <div>
+                <label for="employees" >Employees</label>
+                <ng-multiselect-dropdown
+                  #EmployeesSelectDropDown
+                  formArrayName="employees"
+                  id="employees"
+                  [placeholder]="'Choose Employees(*optional)'"
+                  [settings]="dropdownSettingsEmployees"
+                  [data]="(ExcludedEmployees | async) || []"
+                  (onSelect)="onEmployeesSelect($event)"
+                  (onDeSelect)="onDeselectEmployees($event)">
+                </ng-multiselect-dropdown>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    <button style="margin-top: 80px; padding-left:25px; padding-right:25px; "
+      type="button" class="btn btn-primary col-md-4"  (click)="onCreateTeam()">Create Team </button>
+  </form>
+</div>

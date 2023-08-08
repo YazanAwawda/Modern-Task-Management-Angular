@@ -1,0 +1,432 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#container {
+  background: white;
+  height: 500px;
+  position: relative;
+  width: 100%;
+}
+
+#content {
+  background: white;
+  margin-right: 350px;
+  bottom: 0;
+  height: 450px;
+  left: 0;
+  position:absolute;
+  right: 0;
+  top: 0;
+  width: 600px;
+}
+
+#container2{
+  background: white;
+  height: 500px;
+  position: relative;
+  width:20%;
+}
+#content2{
+  background: white;
+  margin-right: 350px;
+  bottom: 0;
+  height: 450px;
+  left: 0;
+  position:absolute;
+  right: 0;
+  top: 0;
+  width: 420px;
+}
+#container3{
+  background: white;
+  height: 500px;
+  position: relative;
+  width:20%;
+}
+#content3{
+  background: white;
+  margin-right: 350px;
+  bottom: 0;
+  height: 250px;
+  left: 0;
+  position:absolute;
+  right: 0;
+  top: 0;
+  width: 1038px;
+}
+.tForm {
+  display: block;
+  text-overflow: ellipsis;
+  inline-size:425px;
+  overflow-wrap: break-word;
+}
+
+.button {
+  display: inline-block;
+  padding: .75rem 1.25rem;
+  border-radius: 10rem;
+  border-color: white;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: .15rem;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0cf;
+    border-radius: 10rem;
+    z-index: -2;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: darken(#0cf, 15%);
+    transition: all .3s;
+    border-radius: 10rem;
+    z-index: -1;
+  }
+  &:hover {
+    color: #fff;
+    &:before {
+      width: 100%;
+    }
+  }
+}
+.btnHover {
+  position: relative;
+}
+
+.btnHover:hover::after {
+  margin:15px;
+  content: "Project status";
+  /* Additional styles for the hover text */
+  position: absolute;
+  top: 100%;
+  background-color: #f2f8f8;
+  color: #000000;
+  padding: 5px;
+  border-radius: 100px;
+}
+
+.btnAllTask {
+  display: inline-block;
+  background: #4285f4;
+  color: #fff;
+  text-transform: uppercase;
+  padding: 20px 30px;
+  border-radius: 5px;
+  box-shadow: 0px 17px 10px -10px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  -webkit-transition: all ease-in-out 300ms;
+  transition: all ease-in-out 300ms;
+}
+.btnAllTask:hover {
+  box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
+  -webkit-transform: translate(0px, -10px) scale(1.2);
+  transform: translate(0px, -10px) scale(1.2);
+}
+
+.example-container mat-form-field + mat-form-field {
+  margin-left: 8px;
+}
+
+.btnLabel {
+  position: relative;
+  background: #444;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: none;
+  letter-spacing: 0.1rem;
+  font-size: 1rem;
+  padding: 1rem 3rem;
+  transition: 0.2s;
+  border-radius: 100px;
+}
+
+.btnLabel:hover {
+  letter-spacing: 0.2rem;
+  padding: 1.1rem 3.1rem;
+  background: var(--clr);
+  color: var(--clr);
+  /* box-shadow: 0 0 35px var(--clr); */
+  animation: box 3s infinite;
+  border-radius: 100px;
+
+}
+
+.btnLabel::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: #272822;
+  border-radius: 100px;
+
+}
+
+.btnLabel span {
+  position: relative;
+  z-index: 1;
+  border-radius: 100px;
+
+}
+.btnLabel i {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: 100px;
+
+}
+
+.btnLabel i::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 80%;
+  top: -2px;
+  border: 2px solid var(--clr);
+  background: #272822;
+  transition: 0.2s;
+  border-radius: 100px;
+
+}
+
+.btnLabel:hover i::before {
+  width: 15px;
+  left: 20%;
+  animation: move 3s infinite;
+  border-radius: 100px;
+
+}
+
+.btnLabel i::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 20%;
+  bottom: -2px;
+  border: 2px solid var(--clr);
+  background: #272822;
+  transition: 0.2s;
+  border-radius: 100px;
+
+}
+
+.btnLabel:hover i::after {
+  width: 15px;
+  left: 80%;
+  animation: move 3s infinite;
+  border-radius: 100px;
+
+}
+
+@keyframes move {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes box {
+  0% {
+    box-shadow: #27272c;
+  }
+  50% {
+    box-shadow: 0 0 25px var(--clr);
+  }
+  100% {
+    box-shadow: #27272c;
+  }
+}
+
+
+.spanLabel {
+  position: relative;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: none;
+  letter-spacing: 0.1rem;
+  font-size: 1rem;
+  padding: 1rem 3rem;
+  transition: 0.2s;
+  border-radius: 100px;
+}
+
+.spanLabel:hover {
+  letter-spacing: 0.2rem;
+  padding: 1.1rem 3.1rem;
+  background: var(--cls);
+  color: var(--cls);
+  box-shadow: 0 0 35px var(--cls);
+  animation: box 3s infinite;
+  border-radius: 100px;
+
+}
+
+.spanLabel::before {
+  position: absolute;
+  inset: 2px;
+  border-radius: 100px;
+
+}
+
+.spanLabel span {
+  position: relative;
+  z-index: 1;
+  border-radius: 100px;
+
+}
+.spanLabel i {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: 100px;
+
+}
+
+.spanLabel i::before {
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 80%;
+  top: -2px;
+  border: 2px solid var(--cls);
+  background: #272822;
+  transition: 0.2s;
+  border-radius: 100px;
+
+}
+
+.spanLabel:hover i::before {
+  width: 15px;
+  left: 20%;
+  animation: move 3s infinite;
+  border-radius: 100px;
+
+}
+
+.spanLabel i::after {
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 20%;
+  bottom: -2px;
+  border: 2px solid var(--cls);
+  background: #272822;
+  transition: 0.2s;
+  border-radius: 100px;
+
+}
+
+.spanLabel:hover i::after {
+  width: 15px;
+  left: 80%;
+  animation: move 3s infinite;
+  border-radius: 100px;
+
+}
+
+@keyframes move {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes box {
+  0% {
+    box-shadow: #27272c;
+  }
+  50% {
+    box-shadow: 0 0 25px var(--cls);
+  }
+  100% {
+    box-shadow: #27272c;
+  }
+}
+.team-members-list {
+  height: 280px; /* Adjust the height as needed */
+  overflow-y: scroll; /* Use 'scroll' to always show scrollbar or 'auto' to show it only when needed */
+  padding: 5px;
+  border: none; /* Hide the border */
+
+}
+
+
+
+/* Custom styles to make everything smaller */
+
+.section-title h3 {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.section-title p {
+  font-size: 12px;
+}
+
+.career-search input,
+.career-search select {
+  font-size: 12px;
+  padding: 5px;
+}
+
+.career-search button {
+  font-size: 12px;
+  padding: 8px;
+}
+
+.filter-result p {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.job-content h5 {
+  font-size: 18px;
+}
+
+.job-content ul li {
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.job-right .btn {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+.pagination li {
+  font-size: 12px;
+  padding: 5px;
+}
+
+/* Additional custom styles can be added here */
+
+/* End of custom styles */

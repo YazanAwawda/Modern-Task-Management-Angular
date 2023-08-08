@@ -1,0 +1,91 @@
+
+<div class="main-content">
+  <div class="container">
+    <!-- Table -->
+    <div class="row">
+    <div class="col">
+<!--      <div class="card-group shadow">-->
+<!--        <h2 class="mb-5">Tasks List</h2>-->
+
+<!--        <div class="mb-3">-->
+<!--          <form class="search-bar" style="margin-left: 675px;">-->
+<!--            <input type="search" name="search" pattern=".*\S.*" required>-->
+<!--            <button class="search-btn" type="submit">-->
+<!--              <span>Search</span>-->
+<!--            </button>-->
+<!--          </form>-->
+<!--        </div>-->
+
+<!--      </div>-->
+    </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">Task</th>
+              <th scope="col">Description</th>
+              <th scope="col">Current-Status</th>
+              <th scope="col">Task-Type</th>
+              <th scope="col">Task-Priority</th>
+              <th scope="col">Estimated-Due-Date</th>
+              <th scope="col">Assigned Team-Member</th>
+              <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  style="cursor: pointer" *ngFor="let task of tasks">
+              <th scope="row">
+                <div class="media align-items-center">
+                  {{task.name}}
+                </div>
+              </th>
+              <td>
+                {{task.description}}
+              </td>
+              <td>
+                <label>
+               <span [class]="onColorTaskStatus(enumToString(TaskStatus,task.currentStatus))" >
+                  {{enumToString(TaskStatus,task.currentStatus)}}
+               </span>
+                </label>
+              </td>
+              <td>
+                <div class="avatar-group">
+                  <label>
+                    <span  [class]="onColorTaskType(enumToString(TaskType ,task.taskType))">
+                      {{enumToString(TaskType ,task.taskType)}}
+                    </span>
+                  </label>
+                </div>
+              </td>
+              <td >
+                <label>
+                  <span [class]="onColorTaskPriority(enumToString( TaskPriority ,task.priority))">
+                    {{enumToString( TaskPriority ,task.priority)}}
+                  </span>
+                </label>
+              </td>
+              <td class="text-center" >
+              {{task.estimatedDueDate | date}}
+              </td>
+              <td  class="text-center" >
+                {{task.assignee.employee.name}}
+              </td>
+              <td>
+
+                <p class="d-inline p-2 text-primary" style="cursor:pointer"
+                   title="Task Details" [routerLink]="['/ui-components/task-details/',task.id]">View</p>
+                <p class="d-inline p-2 text-warning"  style="cursor:pointer" title="Edit task"
+                   [routerLink]="['/ui-components/edit-task/',task.id]">Edit</p>
+                <p class="d-inline p-2 text-danger">Del</p>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer py-4">
+Created By Yazan Awawda
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,27 @@
+
+
+.toggle-bg {
+  display: inline-block;
+  height: 1rem;
+  width: 2rem;
+  background-color: #74992e;;
+  border-radius: 3px;
+  position: relative;
+
+  .toggle {
+    width: 1rem;
+    display: inline-block;
+    background-color: white;
+    position: absolute;
+    left: 0.01rem;
+    top: 0;
+    bottom: 0;
+    margin: 0.1rem;
+    border-radius: 3px;
+    box-shadow: 2px 2px 12px #00000050;
+  }
+}
+
+.toggle-on {
+  background-color: #28a745;
+}

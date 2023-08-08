@@ -1,0 +1,85 @@
+
+
+  <mat-dialog-content  class="container" style="width: 750px; margin:25px;"
+                       #taskForm [formGroup]="TaskFormGroup">
+
+    <h5 style="text-align: center;">{{projectName}}
+    </h5>
+    <div class=row>
+      <div class="mb-3 col">
+        <label for="name" class="form-label">Task Name:</label>
+        <input formControlName="name" placeholder="Name" type="text" class="form-control" id="name">
+      </div>
+    </div>
+
+    <div class=row>
+      <div class="mb-3 col">
+        <label for="description" class="form-label">Task Description:</label>
+        <input formControlName="description" placeholder="Description" type="text" class="form-control" id="description">
+      </div>
+    </div>
+    <mat-form-field>
+      <mat-label>
+        Task Type
+      </mat-label>
+      <mat-select formControlName="taskType">
+        <mat-option *ngFor="let e of enumValue(taskType) " [value]="e">{{e | TaskType  }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>
+        Task Priority
+      </mat-label>
+      <mat-select formControlName="taskPriority">
+        <mat-option *ngFor="let e of enumValue(taskPriority) " [value]="e">{{e | TaskPriority  }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class=row>
+      <div class="mb-3 col">
+        <label for="estimatedDueDate" class="form-label">Estimated Due Date:</label>
+        <input formControlName="estimatedDueDate" type="date" class="form-control" id="estimatedDueDate">
+      </div>
+    </div>
+    <div class="col-12">
+      <div formControlName="teamId" hidden>
+        <label for="id">#Team</label>
+        <input style="background-color: white; color:white"
+               type="number"  id="id" disabled class="col" [value]="teamId" >
+      </div>
+
+
+      <div class="col-5"  style="margin-left:200px; ">
+        <label for="empId">Choose Team Member </label>
+        <ng-multiselect-dropdown
+                                 id="empId"
+                                 formControlName="empId"
+                                 [placeholder]="'Employees'"
+                                 [settings]="dropdownSettings"
+                                 [data]="employees"
+                                 (onSelect)="onEmployeeSelect($event)"
+                                 (onDeSelect)="onEmployeeDeSelect($event)">
+        </ng-multiselect-dropdown>
+      </div>
+
+    </div>
+<br><br><br>
+    <div>
+      <mat-dialog-actions class="d-inline p-2 " style="padding-left: 300px;">
+        <button (click)="onSubmit()" type="submit" mat-raised-button>
+          <b style="color: #42b6f8">Create Task</b>
+        </button>
+      </mat-dialog-actions>
+
+
+      <mat-dialog-actions class="d-inline p-2 ">
+        <button mat-raised-button [mat-dialog-close] (click)="close()">
+          <b style="color: red">Close</b></button>
+      </mat-dialog-actions>
+
+    </div>
+
+
+  </mat-dialog-content>
+
+

@@ -1,0 +1,45 @@
+<div>
+  <div id="container">
+    <div id="content" class="shadow-lg p-3 mb-5 bg-body rounded">
+       <div>
+         <p class="d-inline p-2  text-dark fs-3" >{{teamData.teamName}}</p>
+         <p  class="d-inline p-2 btn btn-success text-white" style="margin-left:220px; position: fixed;">Update Team</p>
+       </div>
+
+      <div  style="text-align: right; padding-top:35px;">
+        <div>
+          <div class="col-6 mx-auto">
+            <div class="section-title">
+              <div class="top-c-sep">
+                <div class="input-group mb-3">
+                  <button class="btn btn-outline-primary" type="submit"
+                          id="button-addon1"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                    <path d="M21 21l-6 -6"></path>
+                  </svg></button>
+                  <input type="text" class= "form-control"
+                         placeholder="Search Team-Members "
+                         aria-label="Example text with button addon"
+                         aria-describedby="button-addon1">
+                  <!--                    [(ngModel)]="searchTerm" (input)="onSearchEmployee()"-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="d-grid gap-3 team-members-list">
+
+        <div class="p-2 bg-light bg-opacity-25 border"  *ngFor="let emp of teamData.teamMembers">
+          {{emp.employee.name}}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

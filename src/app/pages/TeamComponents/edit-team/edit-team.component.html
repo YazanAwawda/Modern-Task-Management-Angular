@@ -1,0 +1,123 @@
+<div class="container shadow-lg p-3 mb-5 bg-body rounded"
+     style="width: 1250px ; height: 550px; margin-left: 150px;">
+  <div class="text">
+<!--    Edit {{team?.teamName}}-->
+  </div>
+  <form class="row" #EditTeamFormGroup [formGroup]="teamFormGroup">
+
+    <div style="padding:15px; ">
+      <mat-form-field class="example-full-width">
+        <mat-label>Team Name</mat-label>
+        <input matInput placeholder="Ex. ExpertsTeam" formControlName="teamName">
+      </mat-form-field>
+    </div>
+    <div>
+
+      <div class="team-members-list " >
+        <div >
+
+          <div class="mb-3" style="margin-left:8px; " (click)="openDialog(dialogContent)">
+            <button class="btn btn-primary position-relative" style="width: 50vh; height: 5vh;">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                <path d="M3 21v-2a4 4 0 0 1 4 -4h4c.96 0 1.84 .338 2.53 .901" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                <path d="M16 19h6" />
+                <path d="M19 16v6" />
+              </svg>
+              Add New Member to list
+            </button>
+          </div>
+
+          <div class="list-group"  formArrayName="teamMembers">
+
+            <div class=" list-group-item list-group-item-action p-2   bg-opacity-75 border bg-warning"
+                    style="cursor: auto"
+                              *ngFor="let memberControl of TeamMember;
+                              let i = index"
+                              [formGroupName]="i"
+                              [value]="memberControl.employee.id">
+              <div>
+                <!--                  [ngClass]="{'bg-warning': changeColor[i], 'bg-success': !changeColor[i]}"-->
+                <p  class="d-inline p-2 text-bg-light"
+                    style="width: 10vh;"  >{{memberControl.employee.name}}</p>
+                <p   style="margin-left:500px ;
+                   cursor: pointer;"
+                     class="d-inline p-2">
+                  <!--                  Show only when employee has no tasks -->
+                  <!--                  <div>-->
+                  <!--                    &lt;!&ndash; Show an Undo button only for removed team members &ndash;&gt;-->
+                  <!--                    <button *ngIf="changeColor[i]" (click)="onUndoRemove(i)">Undo</button>-->
+                  <!--                  </div>-->
+                  <!--                  show when employee inActive -->
+
+<!--                  *ngIf="isInNewlyAddedMembers(memberControl)"-->
+
+                  <button type="button" class="btn btn-danger"
+                          (click)="onRemoveMember(memberControl)"
+                          style="height: 5vh; width: 20vh;">
+                    Remove
+                  </button>
+              </div>
+
+            </div>
+
+
+
+<!--            <button type="button"-->
+<!--                    (click)="onRemoveEmployee($event);"-->
+<!--                    style="height: 5vh; width: 50vh;margin-top:15px;"-->
+<!--                    class="btn btn-danger">-->
+<!--              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users-minus" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">-->
+<!--                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>-->
+<!--                <path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />-->
+<!--                <path d="M3 21v-2a4 4 0 0 1 4 -4h4c.948 0 1.818 .33 2.504 .88" />-->
+<!--                <path d="M16 3.13a4 4 0 0 1 0 7.75" />-->
+<!--                <path d="M16 19h6" />-->
+<!--              </svg>  Remove New Member-->
+<!--            </button>-->
+          </div>
+        </div>
+
+      </div>
+
+      <ng-template #dialogContent>
+
+
+        <div style="margin: 20px" >
+          <ng-multiselect-dropdown
+            [placeholder]="'Employees'"
+            [settings]="dropdownSettings"
+            [data]="AllEmployees"
+            (onSelect)="onEmployeeSelect($event)"
+            (onDeSelect)="onEmployeeDeSelect($event)"
+
+          >
+          </ng-multiselect-dropdown>
+        </div>
+        <p  class="d-inline p-2 ">
+          <button type="button"
+                  (click)="onAddEmployee($event);"
+                  style="height: 5vh; width: 40vh; margin-left: 25px; margin-top: 85px;"
+                  class="btn btn-primary">
+            Add Member
+          </button>
+
+        </p>
+
+      </ng-template>
+
+
+
+
+      </div>
+
+
+    <div class="form-group col-6" style="margin-top: 20px; margin-left: 300px;">
+      <button class="button-65" type="submit">Save changes</button>
+    </div>
+  </form>
+
+
+</div>

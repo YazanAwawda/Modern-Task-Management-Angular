@@ -1,0 +1,48 @@
+<div class="container shadow-lg p-3 mb-5 bg-body rounded"
+     style="width: 1250px ; height: 590px; margin-left: 150px;">
+  <div class="text">
+    Edit {{task.name}}
+  </div>
+  <form class="row" #EditTaskFormGroup
+        [formGroup]="editTaskFormGroup" (ngSubmit)="editTask()">
+
+    <div class="mb-lg-4">
+      <label for="exampleFormControlTextarea1" class="form-label">Name</label>
+      <input style="height: 35px;"
+             formControlName="name"
+             class="form-control"
+             type="text" placeholder="Exe.TaskExpert1"
+             aria-label="default input example">
+    </div>
+    <div class="mb-lg-4">
+      <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+      <textarea class="form-control" type="text" formControlName="description" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </div>
+
+
+    <div>
+      <label>Task Type</label>
+      <select style="height: 35px;" class="form-select" aria-label="Default select example" formControlName="taskType">
+        <option selected disabled> <p class="text-center align-content-md-center">Select Task Type: </p>  </option>
+        <option   *ngFor="let e of enumValue(taskType) " [value]="e">{{e | TaskType  }}</option>
+      </select>
+    </div>
+    <div>
+      <br>
+
+      <label>Task Priority</label>
+      <select style="height: 35px;" class="form-select" aria-label="Default select example" formControlName="taskType">
+        <option selected disabled> <p class="text-center align-content-md-center">Select Task Type: </p>  </option>
+        <option   *ngFor="let e of enumValue(taskType) " [value]="e">{{e | TaskType  }}</option>
+      </select>
+    </div>
+
+    <div style="padding-top: 20px;">
+      <label for="endDate">Estimated-End Date</label>
+      <input type="date" name="endDate" id="endDate" formControlName="endDate">
+    </div>
+    <div class="form-group col-6" style=" padding-left: 500px; position: relative">
+      <button class="button-65" type="submit">Save changes</button>
+    </div>
+  </form>
+</div>

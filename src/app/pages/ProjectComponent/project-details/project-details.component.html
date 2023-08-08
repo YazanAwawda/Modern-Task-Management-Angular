@@ -1,0 +1,160 @@
+
+<div>
+
+<div class="d-inline p-2" id="container">
+  <div id="content" class="shadow-lg p-3 mb-5 bg-body rounded">
+    <div>
+      <p class="d-inline p-2  text-dark"  style="font-size: 30px ; margin-right:150px;" >Project Details</p>
+      <p style="margin:5px" class="d-inline p-2 btn btn-success text-white"  (click)="openDialog(projectID)" >Add Task</p>
+      <p style="margin:5px" class="d-inline p-2 btn btn-primary text-white" [routerLink]="['/ui-components/all-tasks/',projects_?.id]">View Tasks</p>
+    </div>
+    <br><br>
+    <div class="row">
+
+      <div class="col-md-6">
+        <div>
+          <div class="d-inline p-2  text-dark text-right">
+            <b style="font-size: 20px;">{{projects_?.name}}</b>
+          </div>
+        </div>
+      </div>
+      <br><br><br>
+      <div class="col-12">
+      <div>
+        <div  class="tForm d-inline p-2  text-dark text-center">{{projects_?.description}}</div>
+      </div>
+      </div>
+<br><br><br><br>
+      <div class="col-md-6">
+        <div class="d-inline p-2  text-dark"><b>Estimated-Start-Date:</b></div>
+        <div  class=" d-inline p-2  text-dark">{{projects_?.estimatedStartDate | date:"MM/dd"}}</div>
+      </div>
+      <div class="col-md-6">
+        <div class="d-inline p-2  text-dark"><b>Estimated-End-Date:</b></div>
+        <div  class=" d-inline p-2  text-dark">{{projects_?.estimatedEndDate |  date:"MM/dd"}}</div>
+      </div>
+<br><br><br>
+      <div class="col-md-6">
+        <div class="d-inline p-2  text-dark"><b>Remaining-Time:</b></div>
+        <div  class=" d-inline p-2  badge bg-danger text-danger bg-opacity-25">{{timeRemaining}}</div>
+      </div>
+      <div class="col-md-6">
+        <div class="d-inline p-2  text-dark"><b>Project Status:</b></div>
+        <div  class=" d-inline p-2" [class]="colorStatus">{{projects_?.currentStatus}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="d-inline p-2 "  id="container2" style="margin-left: 600px">
+    <div id="content2"  class=" shadow-lg p-3 mb-5 bg-body rounded">
+     <div>
+       <div>
+         <p class="d-inline p-2  text-dark" style="font-size: 30px
+           ; margin-right:150px;">Assigned team</p>
+       </div>
+       <br>
+       <div>
+         <p class="text-dark text-left" style="font-size: 21px;">{{projects_.team.teamName}}</p>
+       </div>
+
+       <!--         <div>-->
+       <!--           <ng-template #dialogTemplate>-->
+       <!--             &lt;!&ndash; Define your dialog content here &ndash;&gt;-->
+       <!--             <mat-dialog-content>-->
+       <!--               <div *ngFor="let emp of projects_.team.teamMembers">-->
+       <!--                 {{emp.employee.name}}</div>-->
+       <!--             </mat-dialog-content>-->
+       <!--             <mat-dialog-actions>-->
+       <!--               <button mat-button mat-dialog-close>Close</button>-->
+       <!--             </mat-dialog-actions>-->
+       <!--           </ng-template>-->
+       <!--         </div>-->
+
+       <!--           <button  mat-raised-button (click)="openDialog_(dialogTemplate)">-->
+       <!--             <h5 style="font-size: 15px;">Team-Members</h5></button>-->
+       <div>
+
+         <div>
+           <div class="team-members-list" >
+             <div class="container">
+               <div class="row">
+                 <div class="col-lg-12 mx-auto mb-6">
+                   <div class="section-title text-center">
+                     <div class="top-c-sep">
+                       <div class="input-group mb-3">
+                       <button class="btn btn-outline-primary" type="submit"
+                               id="button-addon1"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                         <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                         <path d="M21 21l-6 -6"></path>
+                       </svg></button>
+                              <input type="text" class= "form-control"
+                              placeholder="Search Team-Members "
+                              aria-label="Example text with button addon"
+                              aria-describedby="button-addon1"
+                                     [(ngModel)]="searchTerm" (input)="onSearchEmployee()">
+                     </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+              </div>
+             <ul class="list-group">
+               <li class="list-group-item d-inline p-2 "
+                   *ngFor="let emp of filteredEmp">
+                   {{emp.employee.name}}
+                   <div class="d-inline p-2">
+                   <p style="margin-left: 200px;"
+                      [class]="printRole(emp.isTeamLeader).colorClass">
+                      {{printRole(emp.isTeamLeader).role}}
+                   </p>
+                 </div>
+               </li>
+<!--               <li class="list-group-item d-inline p-2 "-->
+<!--                   *ngFor="let emp of filteredEmp">-->
+<!--                 {{emp.employee.name}}-->
+<!--                 <div class="d-inline p-2">-->
+<!--                   <p style="margin-left: 200px;"-->
+<!--                      [class]="printRole(emp.isTeamLeader).colorClass">-->
+<!--                     {{printRole(emp.isTeamLeader).role}}-->
+<!--                   </p>-->
+<!--                 </div>-->
+<!--               </li>-->
+
+             </ul>
+         </div>
+       </div>
+
+
+       <div>
+       </div>
+
+     </div>
+   </div>
+
+
+    </div>
+  </div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+  <div   id="container3">
+    <div id="content3"  class=" shadow-lg p-3 mb-5 bg-body rounded">
+      <div>
+        <div>
+          <div>
+            <p class="d-inline p-2  text-dark" style="font-size: 30px
+           ; margin-right:150px;">Attachment Files</p>
+          </div>
+
+          <div *ngFor="let file of projects_.attachments">
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+</div>

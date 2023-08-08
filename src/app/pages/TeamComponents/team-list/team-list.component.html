@@ -1,0 +1,62 @@
+
+<main>
+  <mat-toolbar color="primary">
+    <button mat-icon-button
+            class="example-icon"
+            aria-label="Example icon-button with menu icon">
+      <mat-icon>supervised_user_circle</mat-icon>
+    </button>
+
+    <h4 style="color:rgb(233,255,2)"> Teams List </h4>
+  </mat-toolbar>
+</main>
+
+
+<div class="main-content">
+  <div class="container">
+    <!-- Table -->
+    <div class="row">
+      <div class="col">
+        <!--      <div class="card-group shadow">-->
+        <!--        <h2 class="mb-5">Tasks List</h2>-->
+
+        <!--        <div class="mb-3">-->
+        <!--          <form class="search-bar" style="margin-left: 675px;">-->
+        <!--            <input type="search" name="search" pattern=".*\S.*" required>-->
+        <!--            <button class="search-btn" type="submit">-->
+        <!--              <span>Search</span>-->
+        <!--            </button>-->
+        <!--          </form>-->
+        <!--        </div>-->
+
+        <!--      </div>-->
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">Team Name</th>
+          <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  style="cursor: pointer" *ngFor="let team of teams">
+          <th scope="row">
+            <div class="media align-items-center">
+              {{team.teamName}}
+            </div>
+          </th>
+
+
+            <p class="d-inline p-2  bg-primary  text-white" title="View"  [routerLink]="['/ui-components/team-details',team.id]" >View</p>
+            <p class="d-inline p-2 bg-success  text-white" title="Edit" [routerLink]="['/ui-components/edit-team/',team.id]">Edit</p>
+            <p class="d-inline p-2 bg-danger  text-white" title="Remove">Del</p>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+

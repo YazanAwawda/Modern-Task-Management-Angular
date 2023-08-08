@@ -1,0 +1,66 @@
+<!--  <div class="sidenav-task" *ngIf="showDetails">-->
+<!--    <div>-->
+<!--      &lt;!&ndash; Display the task details here &ndash;&gt;-->
+<!--      Task ID : {{tasksInfo.id}}-->
+<!--     Task Name : {{tasksInfo.name}}-->
+<!--    </div>
+-->
+
+<!--   <button (click)="toggleDetails()">Close</button>-->
+<!--
+ </div>
+-->
+
+<div class="container-content">
+  <mat-sidenav-container class="example-container"  *ngIf="showDetails">
+    <mat-sidenav position="end" #sidenav mode="side">
+      <div id="container">
+        <button (click)="toggleDetails()">Close</button>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div>
+        Task ID : {{tasksInfo?.id}}
+        Task Name : {{tasksInfo?.name}}
+      </div>
+      <div>
+        Task ID : {{tasksInfo?.id}}
+        Task Name : {{tasksInfo?.name}}
+      </div> <div>
+      Task ID : {{tasksInfo?.id}}
+      Task Name : {{tasksInfo?.name}}
+    </div> <div>
+      Task ID : {{tasksInfo?.id}}
+      Task Name : {{tasksInfo?.name}}
+    </div> <div>
+      Task ID : {{tasksInfo?.id}}
+      Task Name : {{tasksInfo?.name}}
+    </div> <div>
+      Task ID : {{tasksInfo?.id}}
+      Task Name : {{tasksInfo?.name}}
+    </div> <div>
+      Task ID : {{tasksInfo?.id}}
+      Task Name : {{tasksInfo?.name}}
+    </div> <div>
+      Task ID : {{tasksInfo?.id}}
+      Task Name : {{tasksInfo?.name}}
+    </div> <div>
+      Task ID : {{tasksInfo?.id}}
+      Task Name : {{tasksInfo?.name}}
+    </div> <div>
+      Task ID : {{tasksInfo?.id}}
+      Task Name : {{tasksInfo?.name}}
+    </div> <div>
+      Task ID : {{tasksInfo?.id}}
+      Task Name : {{tasksInfo?.name}}
+    </div> <div>
+      Task ID : {{tasksInfo?.id}}
+      Task Name : {{tasksInfo?.name}}
+    </div>
+
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+</div>
+
