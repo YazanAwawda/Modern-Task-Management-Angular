@@ -1,6 +1,8 @@
 
 import * as Enum_ from "../../Enum/enum.model" ;
 import {AbstractControl} from "@angular/forms";
+import { TaskType } from "../TaskType/task-type";
+import {TaskPriority} from "../TaskPriority/task-priority";
 export interface GetAllTasks {
   name: string,
   description: string,
@@ -10,8 +12,8 @@ export interface GetAllTasks {
   endDate:  Date,
   currentStatus: Enum_.TaskStatus,
   projectId: number,
-  taskType:Enum_.TaskType ,
-  priority: Enum_.TaskPriority,
+  type:TaskType ,
+  priority: TaskPriority,
   durationProgress: null,
   assignee: {
     employee: {
@@ -24,22 +26,59 @@ export interface GetAllTasks {
 
 }
 
-export  interface  GetTask{
+export  interface  GetTask
 
-    name: string ,
-    description :string  ,
-    startDate:  Date,
+{
+    name: string,
+    description: string,
+    startDate: Date,
     endDate: Date,
     subTasks: [],
-    comments: [],
-    taskType: Enum_.TaskType,
-    priority: Enum_.TaskPriority,
-    assignedEmployee: {
-    id: string,
-      name: string
-  },
-    currentStatus: Enum_.TaskStatus,
+    comments: [{
+    content: string,
+    parentCommentId: number,
+     replies: [{
+      content: string,
+      parentCommentId: number,
+      replies: [],
+      taskId: number,
+      attachments: null,
+      username: string,
+      createdAt: Date,
+      lastUpdatedAt: Date,
+      id: number
+    }],
+    taskId: number,
     attachments: [],
+    username: string,
+    createdAt: Date,
+    lastUpdatedAt: Date,
+    id: number
+  }],
+        type: {
+        name: string,
+        id: number}
+  ,
+  priority: {
+  name: string,
+      id: number
+},
+  assignedEmployee: {
+  id: string
+},
+  currentStatus: {
+    status: number,
+    name: string
+},
+  attachments: allFilesOfTask[],
+  taskTimeline: [
+  {
+    fromState:string,
+     toState: string,
+    assignedUser: string,
+    transitionDate: null
+  }
+],  createdBy: string,
     id: number
   }
 
@@ -53,8 +92,8 @@ export interface CreateTasks {
   name ?: string,
   description ?: string,
   projectId ?: number,
-  taskType ?: Enum_.TaskType ,
-  priority ?: Enum_.TaskPriority ,
+  taskTypeId ?: TaskType ,
+  priorityId ?: TaskPriority ,
   assignedTeamMember ?: AssignedTeamMember,
   estimatedDueDate ?: Date
 }
@@ -63,8 +102,8 @@ export interface EditTask {
   id: number,
   name: string,
   description: string,
-  endDate: Date,
-  taskType: Enum_.TaskType;
+  taskTypeId : number,
+  priorityId : number
 }
 export interface DeleteTask {
   id: number
@@ -92,11 +131,24 @@ export interface ReAssignTeamMember {
   taskId: number,
   employeeID: string
 }
-export interface UploadTasksFile {
+export interface UploadTasksFiles {
   OwnerId: number,
-  File: string
+  Files: File[]
+}
+
+export interface UploadTasksFile {
+    OwnerId: number,
+    Files: File
 }
 export interface DownloadFileTask {
   taskId: number,
   attachmentId: number
+}
+
+export  interface  allFilesOfTask  {
+
+     fileName: string,
+     fileType:string,
+     fileSize: string,
+     id : number ;
 }

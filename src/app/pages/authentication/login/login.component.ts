@@ -3,6 +3,8 @@ import {User} from "../../../Models/User/User";
 import {AuthenticationService} from "../../../services/auth-service/auth.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
+import {PermissionService} from "../../../services/permission-service/permission.service";
 
 @Component({
   selector: 'app-login',
@@ -11,10 +13,13 @@ import {Router} from "@angular/router";
 export class AppSideLoginComponent {
   users !: User  | any;
   userFormGroup !: FormGroup<any> ;
+  isAuth !: boolean ;
 
   constructor(private  authService : AuthenticationService ,
               private  fb :  FormBuilder ,
-              private  router : Router ) {
+              private  toasty : ToastrService ,
+              private  permissionService : PermissionService ,
+              private  router : Router) {
 
     localStorage.clear();
   }
@@ -40,14 +45,20 @@ export class AppSideLoginComponent {
     if(this.userFormGroup.valid){
       this.authService.On_Login(loginObj).subscribe((user: any) => {
         this.users = user ;
-        if(this.users != null) {
+        this.authService.isAuthenticatedValue = true;
+          if(this.users != null || this.authService.isAuthenticated()) {
           localStorage.setItem('token' , this.users.token);
           this.router?.navigate(['/ui-components/project-list']);
           this.authService.updateMenu.next();
-        }else {
-          alert('Login Failed')
+          this.toasty.success("Login Successfully");
         }
-      });
+          this.authService.SaveTokens(this.users);
+         this.permissionService.getAllPermission();
+      }, err => {
+          this.toasty.error("Login Failed , " +
+              "Rewrite the right email and password");
+        }
+      );
     }
 
 

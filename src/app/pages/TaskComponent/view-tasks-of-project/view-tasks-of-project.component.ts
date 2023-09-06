@@ -81,15 +81,15 @@ export class ViewTasksOfProjectComponent implements OnInit {
       for (const re of this.tasks) {
          let x = enumToString( TaskStatus ,re.currentStatus) ;
 
-         let y =enumToString( TaskType , re.taskType );
-
-         let z = enumToString( TaskPriority , re.priority) ;
+         // let y =enumToString( TaskType , re.taskType );
+         //
+         // let z = enumToString( TaskPriority , re.priority) ;
 
         this.onColorTaskStatus(x);
 
-        this.onColorTaskPriority(y);
-
-        this.onColorTaskType(z);
+        // this.onColorTaskPriority(y);
+        //
+        // this.onColorTaskType(z);
       }
 
       console.log(projectId);
@@ -258,7 +258,8 @@ export class ViewTasksOfProjectComponent implements OnInit {
 
     return { role: roleEmp, colorClass: color };
   }
-  protected readonly TaskPriority = TaskPriority;
-  protected readonly TaskType = TaskType;
+  // protected readonly TaskPriority = TaskPriority;
+  // protected readonly TaskType = TaskType;
   protected readonly TaskStatus = TaskStatus;
+
 }

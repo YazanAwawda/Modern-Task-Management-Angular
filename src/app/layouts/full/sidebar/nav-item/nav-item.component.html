@@ -7,11 +7,12 @@
   [ngClass]="{ 'mat-toolbar mat-primary activeMenu': item.route
    ? router.isActive(item.route, true) : false, }"
   class="menu-list-item"
-  *ngIf="!item.navCap"
->
-  <i-tabler
-    class="routeIcon"
-    name="{{ item.iconName }}"
-    matListItemIcon ></i-tabler>
-  <span class="hide-menu">{{ item.displayName }}</span>
+  *ngIf="!item.navCap && (item.hasPermission | async) ">
+    <i-tabler
+      class="routeIcon"
+      name="{{ item.iconName }}"
+      matListItemIcon ></i-tabler>
+    <span class="hide-menu"  >{{ item.displayName }}</span>
+
+
 </a>

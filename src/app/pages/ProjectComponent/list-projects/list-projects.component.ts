@@ -2,10 +2,12 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {ProjectService} from "../../../services/project-service/project.service";
 import {GetProjects} from "../../../Models/Project/project.model";
 import {ProjectParams} from "../../../Models/Pagination/ProjectPagination/ProjectParams";
-import {ProjectStatus} from "../../../Enum/enum.model";
-import {enumValues} from "../../../EnumHelper/enum.helper";
+import {ProjectStatus, TaskType} from "../../../Enum/enum.model";
+import {enumToString, enumValues} from "../../../EnumHelper/enum.helper";
 import {Router} from "@angular/router";
-import {classNames} from "@angular/cdk/schematics";
+import {PermissionService} from "../../../services/permission-service/permission.service";
+import {Permission} from "../../../Models/Permission/permission-model";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -23,12 +25,15 @@ export class ListProjectsComponent implements  OnInit{
 
    projectParams  = new ProjectParams();
 
-  totalCount !: number ;
+    totalCount !: number ;
 
-   enumValue : any = enumValues;
+    hasEditProject : Observable<boolean>  ;
+    hasViewProject : boolean ;
+    hasDeleteProject : boolean ;
 
-   selected_projectStatus : ProjectStatus[] ;
-   checked_ !: boolean ;
+    selected_projectStatus : ProjectStatus[] ;
+    checked_ !: boolean ;
+    permissionArr: Permission[];
   sortOptions = [
     {name:"Alphabetical",value:"name"},
     {name:"Project:Low to High",value:"projectAsc"},
@@ -36,12 +41,30 @@ export class ListProjectsComponent implements  OnInit{
   ]
 
    show !:string  ;
-  constructor(private  projectService : ProjectService , private  router : Router) {
+  constructor(private  projectService : ProjectService ,
+              private  router : Router ,
+              public  permissionService : PermissionService) {
   }
 
     ngOnInit(): void {
     this.getProjects();
+    this.getAllPermission();
+
     }
+
+   getAllPermission(){
+   //   this.permissionService.getAllPermission();
+       // Subscribe to the currentPermission$ observable
+       this.permissionService.getCurrentPermission$().subscribe((res) => {
+           // Check if the user has permission with key 7
+           console.log(res);
+           this.permissionService.Permissions = res ;
+           this.hasViewProject = this.permissionService.hasPermissionForOperation(7);
+           this.hasEditProject = this.permissionService.checkPermission( [12] ) ;
+        console.log(this.hasViewProject) ;
+        console.log(     this.hasEditProject) ;
+       });
+   }
 
     getProjects(){
     this.projectService.getAllProjectsWithPagination(this.projectParams).subscribe((response) => {
@@ -49,6 +72,12 @@ export class ListProjectsComponent implements  OnInit{
       this.projectParams.PageIndex = response.pageIndex ;
       this.projectParams.PageSize = response.pageSize;
       this.totalCount = response.count;
+
+      for (const re of this.projects) {
+        let x = enumToString( ProjectStatus ,re.currentStatus) ;
+        this.onColorProjectStatus(x);
+      }
+
       console.log(response);
     } , err => {
       console.log(err);
@@ -119,4 +148,60 @@ this.projectService.getProjectByID($event).subscribe(()=>{
    this.router?.navigate(['/ui-components/assignation',id]);
  }
 
+
+  transform(text: string): string {
+    const maxCharacters = 60; // Maximum characters for two lines
+    const maxLines = 2;       // Maximum lines
+
+    const words = text.split(' ');
+    let truncatedText = '';
+
+    for (const word of words) {
+      if ((truncatedText + word).length <= maxCharacters) {
+        truncatedText += (truncatedText.length === 0 ? '' : ' ') + word;
+      } else {
+        if (truncatedText.split('\n').length >= maxLines) {
+          truncatedText += '...';
+          break;
+        }
+        truncatedText += '\n' + word;
+      }
+    }
+
+    return truncatedText;
+  }
+
+  onColorProjectStatus(val:string)  {
+
+    let colorStatus : any ;
+
+      if( val === "New")
+      {
+          return colorStatus = "badge text-bg-secondary" ;
+      }
+      if ( val === "Open")
+      {
+          return colorStatus   = "badge text-bg-success" ;
+      }
+      if ( val === "InProgress")
+      {
+          return colorStatus = "badge text-bg-warning" ;
+      }
+      if ( val === "Completed")
+      {
+          return colorStatus = "badge text-bg-primary" ;
+
+      }
+      if (val === "Canceled")
+      {
+          return colorStatus = "badge text-bg-danger" ;
+      }
+
+    return colorStatus as string ;
+
+  }
+
+  protected readonly TaskType = TaskType;
+  protected readonly ProjectStatus = ProjectStatus;
+  protected readonly enumToString = enumToString;
 }

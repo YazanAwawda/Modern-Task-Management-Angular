@@ -1,41 +1,59 @@
 import {emp} from "../User/User";
+import {Observable} from "rxjs";
 
 export interface editComment {
-    id : number ,
-    content  :string
+    id ?: number | undefined ,
+    content  : string | null
 }
 
 export  interface  getComment {
 
-  content: string,
-  parentCommentId: number,
-  replies: [],
-  taskId: number,
-  attachments: [],
-  id: number
+  content : string,
+  parentCommentId? : number,
+  replies ?: getComment[] | undefined,
+    taskId ?: number,
+    username: string,
+    createdAt: Date,
+    lastUpdatedAt: Date,
+  attachments ?: commentAttachment[],
+  id : number
+  showEdit ?: boolean
 }
 
+export interface commentAttachment {
+    fileName: string,
+    fileType:string,
+    fileSize: string,
+    id : number ;
+}
 export interface  deleteComment {
     id : number
 }
 
-export  interface  uploadComment {
-    OwnerId:number ,
-    File : string[]
+export  interface  uploadFileComment {
+    OwnerId : number ,
+    File : File
+}
+export  interface  uploadFilesComment {
+    OwnerId:number | null | undefined ,
+    File : File[]
 }
 
-export interface  downloadComment {
+export interface  downloadCommentAttachment {
     commentId : number ,
     attachmentId:number
 }
-
+export interface  removeCommentAttachment {
+    commentId : number ,
+    attachmentId:number
+}
 export interface  taskComment {
-     id ?: number ;
+     id ?: number  | null;
      content: string,
      parentCommentId ?: number | null,
      author ?: emp
      taskId ?: number,
-     replies : taskComment[] ;
+     replies ?: (taskComment & CommentState) [] | undefined | any ;
 }
 
 export interface CommentState extends  taskComment {
@@ -51,7 +69,7 @@ export interface CommentState extends  taskComment {
 }
 
 export interface  commentAdded {
-  id ?: number ,
+  id ?: number | null |undefined ,
   commentUser  ?: (taskComment  & CommentState)
 }
 
@@ -59,7 +77,7 @@ export  const  findReplayInComment  = (id: number, comment: (CommentState & task
   if (!comment || !comment.replies)
     return null;
 
-  let result1 = comment.replies.find(r => r && r.id == id)!;
+  let result1 = comment.replies.find((r:any) => r && r.id == id)!;
   if (result1)
     return result1;
   else {
@@ -98,7 +116,7 @@ export  const mergeNewComment = (orgComment : (CommentState & taskComment),
     if (areRepliesLoaded) {
       if (newComment.areRepliesLoaded) {
         orgComment.replies.forEach((newReply : (taskComment)) => {
-          let orgReply  = replies.find(r => r.id == newReply.id)!;
+          let orgReply  = replies.find((r:any) => r.id == newReply.id)!;
           if (orgReply)
             newReply = mergeNewComment(orgReply, newReply);
         });

@@ -6,6 +6,8 @@ export interface GetProjectById {
   description : string;
   estimatedStartDate : Date;
   estimatedEndDate : Date;
+  startDate : Date;
+  endDate : Date;
   currentStatus: enum_.ProjectStatus;
   team: {
     teamName: string,
@@ -29,40 +31,23 @@ export interface GetProjectById {
     id: number
   ],
   trackerValue: string,
-  attachments : Attachments[]
+  attachments : allFilesOfProject[]
 }
-export interface  Attachments {
-  fileName: string,
-  fileType: string,
-  fileSize: number,
-  id: number
-}
+
 export interface GetProjects
 {
-  name: string,
-  description: string,
-  team: {
-    teamName: string,
-    teamMembers: [
-      {
-        employee: {
-          id: string,
-          name: string
-        },
-        isTeamLeader: boolean
-      }
-    ],
-    teamLeader: null,
-    id: number
-  },
-  numberOfOpenTasks: number,
-  estimatedStartDate: Date,
-  estimatedEndDate: Date,
-  startDate: Date,
-  endDate: Date,
-  currentStatus: enum_.ProjectStatus,
-  teamId: number,
-  id : number
+   name: string,
+   description: string,
+   numberOfOpenTasks: number,
+   estimatedStartDate: Date,
+   estimatedEndDate: Date,
+   startDate: Date,
+   endDate: Date,
+   currentStatus: enum_.ProjectStatus,
+   progress: number,
+   teamId: number,
+   createdBy: string,
+   id: number
 }
 
 
@@ -89,12 +74,27 @@ export interface DeleteProject {
   id?: number;
 }
 
+export interface uploadFilesProject {
+  projectId : number;
+  fileProject: File [] ;
+}
+
 export interface uploadFileProject {
   projectId : number;
-  fileProject ?: File [] ;
+  fileProject : File ;
 }
+
+
+
 
 export interface downloadFileProject {
   projectId: number;
   attachmentId: number;
+}
+
+export  interface  allFilesOfProject  {
+  fileName: string,
+  fileType:string,
+  fileSize: string,
+  id : number ;
 }

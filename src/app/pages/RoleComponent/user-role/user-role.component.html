@@ -1,0 +1,54 @@
+<nav  class="navbar bg-light mb-3" >
+    <div class="container-fluid">
+        <header class="fs-5 px-2">Roles System</header>
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="btnradio1" id="btnradio1" autocomplete="off" checked>
+            <label class="btn btn-outline-success" for="btnradio1" [routerLink]="['/ui-components/add-role']">
+                Add Roles</label>
+            <div class="d-inline p-2"></div>
+        </div>
+    </div>
+</nav>
+
+<div id="container">
+    <div id="content" class="d-inline p-2 shadow-lg p-3 mb-5 bg-body rounded">
+        <div class="col-lg-12 mx-auto mb-6">
+            <div class="section-title text-center">
+                <div class="top-c-sep">
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-primary" type="submit"
+                                id="button-addon1"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                            <path d="M21 21l-6 -6"></path>
+                        </svg></button>
+                        <input type="text" class= "form-control"
+                               name="search"
+                               [(ngModel)]="this.searchTerm" (input)="onSearchRole()"
+                               placeholder="Search Role "
+                               aria-label="Example text with button addon"
+                               aria-describedby="button-addon1">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="list-group" style="overflow-y:scroll ; height: 450px;">
+            <li class="list-group-item d-flex justify-content-between align-items-start"
+                *ngFor="let role of filteredRole"
+                [value]="role.roleId">
+                <div class="ms-2 me-auto">
+                    <div class="fw-semibold">{{role.roleName}}</div>
+                </div>
+                <span class="d-inline p-2 rounded-pill">
+                    <button class="btn btn-primary"
+                            [routerLink]="['/ui-components/update-role/',role.roleName]">Update</button>
+                </span>
+                <span class="d-inline p-2 rounded-pill">
+                    <button class="btn btn-danger" (click)="onRemoveRole(role.roleName)">Remove</button>
+                </span>
+            </li>
+        </ul>
+    </div>
+
+</div>

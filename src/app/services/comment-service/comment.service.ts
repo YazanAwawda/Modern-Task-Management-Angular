@@ -1,14 +1,25 @@
 import {Injectable, InjectionToken} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpEvent, HttpHeaders} from "@angular/common/http";
 import {
   commentAdded,
   CommentState,
   editComment,
   getComment,
   taskComment,
-  uploadComment
+    uploadFileComment
 } from "../../Models/Comment/comment.model";
-import {catchError, map, Observable, Subscriber, throwError} from "rxjs";
+import {
+    BehaviorSubject,
+    catchError,
+    concatMap,
+    interval,
+    map,
+    Observable,
+    Subject,
+    Subscriber,
+    switchMap,
+    throwError
+} from "rxjs";
 import {
   HttpTransportType,
   HubConnection,
@@ -17,10 +28,9 @@ import {
   LogLevel
 } from '@microsoft/signalr';
 import {Router} from "@angular/router";
-import {setDisplayName} from "../../Models/User/User";
 import {AuthenticationService} from "../auth-service/auth.service";
+import {FileUploadService} from "../file-service/file.service";
 
-export const TASK_ID_TOKEN = new InjectionToken<number>('task_id_token');
 
 @Injectable()
 export class CommentService {
@@ -35,26 +45,30 @@ export class CommentService {
 
 
 
-   private  hubConnection : HubConnection ;
-   private  connectionId : string ;
+   public  hubConnection : HubConnection   ;
+   public  connectionId : string ;
 
-  comment : (taskComment & CommentState) ;
 
    public submitComment : Observable<commentAdded> =
      new Observable<commentAdded>(e => this.emitter = e);
    public emitter : Subscriber<commentAdded>;
 
 
+  public  commentSubject : BehaviorSubject<getComment[]> = new BehaviorSubject<getComment[]>([]);
+  public  comments$ : Observable<getComment[]> = this.commentSubject.asObservable();
+
+
+  public subject = new Subject();
+
     constructor(private  http: HttpClient ,
                 private  router : Router,
+                private  fileService : FileUploadService,
                 private authService: AuthenticationService)
     {
       this.httpOptions.headers.set("Authorization",this.authService.getToken())
-      this.startConnection();
-      this.addSubmitCommentListener();
     }
 
-    public  startConnection = (taskId ?: number) => {
+    public  startConnection = (taskId: number) => {
       let token = this.authService.getToken()
       this.hubConnection = new HubConnectionBuilder()
         .configureLogging(LogLevel.Trace)
@@ -75,27 +89,28 @@ export class CommentService {
         .withAutomaticReconnect()
         .build();
 
-      this.hubConnection.start()
-        .then(()=> {
-          this.hubConnection.invoke("GetConnectionID").then((connectionId:any) => {
-            console.log("Connection ID: " + connectionId);
-            this.connectionId = connectionId;
-          });
-         console.log("Connection started");
-        })
-        .catch(err => console.error('Error while starting connection: ' +err))
+      this.hubConnection.start().then(value => {
+        this.addSubmitCommentListener();
+      })
+        .catch(err => console.error('Error while starting connection: ' +err));
+
 
     }
+
+
 
 
 
        private  addSubmitCommentListener = () => {
 
 
-       this.hubConnection.on('submitTask' ,(res) => {
+       this.hubConnection.on('GetCommentsForTask' ,(res) => {
+        console.log(res);
 
-       let comment = <(taskComment & CommentState)> res ;
-       if(comment.connectionId != this.connectionId)
+       let comment = <(taskComment & CommentState & getComment)> res ;
+         this.commentSubject.next(res)
+
+         if(comment.connectionId != this.connectionId)
 
        {
          let temp = comment;
@@ -131,7 +146,7 @@ export class CommentService {
            temp.areRepliesLoaded = true;
 
            let  output : commentAdded = {
-             id : temp.id ,
+             id : temp.id! ,
              commentUser : comment
            };
 
@@ -144,14 +159,49 @@ export class CommentService {
     }
 
 
-    create(comment : (taskComment & CommentState)):Observable<(taskComment & CommentState) | any>  {
-      comment.connectionId = this.connectionId ;
+    stopConnection() :any {
+
+       console.log('Stopping');
+       this.hubConnection.stop()
+         .then(value => console.log(value))
+         .catch(reason => console.log(reason));
+
+    }
+
+
+    uploadAttachmentFileComment(commentFile : uploadFileComment) : Observable<HttpEvent<any>>{
+        let formData: FormData = new FormData();
+        formData.append('OwnerId', commentFile.OwnerId.toString());
+        formData.append('File', commentFile.File);
+
+        const reqPost =
+            this.http.post("https://localhost:7011/api/Comment/Upload", formData,
+                {
+                    reportProgress: true,
+                    observe: "events"
+                });
+
+        return reqPost.pipe(
+            map(res => {
+                return res;
+            }))
+    }
+    create(commentFile : uploadFileComment ,comment : (taskComment & CommentState) ): Observable<(taskComment & CommentState) | any | HttpEvent<any> >  {
+
+        let  issuesList: any[] = [];
+
       return this.http.post("https://localhost:7011/api/Tasks/submit-comment" , comment , this.httpOptions)
         .pipe(map(res => {
-          let comment = <(CommentState & taskComment)>res ;
+       return  <(CommentState & taskComment)>res ;
           // setDisplayName(comment.author!);
-          return comment ;
-        }),catchError((err : any):any=>{
+        }),concatMap((val : any ) => {
+                for (let item of val.body) {
+                    issuesList.push(item);
+                }
+              return this.uploadAttachmentFileComment(commentFile)
+        }),
+            map(() => issuesList)
+            ,catchError((err : any):any=>{
           let errorMessage= 'Unknown error!';
 
           if(err.error instanceof  ErrorEvent) {
@@ -160,20 +210,16 @@ export class CommentService {
           } else  {
             // Server-side errors
             if(err.status == 401 ){
-            this.router?.navigate([''])
+            this.router?.navigate(['/authentication/login'])
             }
           }
-          errorMessage = `Error Code: ${err.status}\nMessage: ${err.message}`
+          errorMessage = `Error Code: ${err.status}\n Message: ${err.message}`
            return throwError(errorMessage);
          }));
     }
 
     edit(comment:editComment) : Observable<editComment> {
-      let formData = new FormData();
-      formData.append('Id' , comment.id.toString());
-      formData.append('Content',comment.content);
-
-      return this.http.patch<editComment>("https://localhost:7011/api/Comment" + '/' , formData)
+      return this.http.patch<editComment>("https://localhost:7011/api/Comment",comment)
     }
 
    delete(commentId:number){
@@ -184,27 +230,26 @@ export class CommentService {
       );
    }
 
-   getReplies(taskId:number) :Observable<getComment[] | any>{
-      return this.http.get<getComment[]>("https://localhost:7011/api/Comment" + '/' + taskId , this.httpOptions)
+   getReplies(taskId ?:number ) :Observable<getComment[] | any>{
+      return this.http.get<getComment[] | any>("https://localhost:7011/api/Comment" + '/' + taskId , this.httpOptions)
         .pipe(map(res => {
           let comments = <(taskComment[] & CommentState[])> res;
           comments.forEach((comment) => {
           // setDisplayName(comment.author!)
-            comment.replies = [];
+         //   comment.replies = [];
           });
           return comments;
         }))
    }
 
-   save(comment : uploadComment){
 
-    let  formData  = new FormData();
 
-    formData.append("OwnerId" , comment.OwnerId.toString());
 
-    comment.File.forEach((file ,index) => {
-      formData.append(`File[${index}]` , file);
-    });
-    this.http.post("https://localhost:7011/api/Comment",formData)
-   }
+
+
+    handelWindowLoad(val ?: any){
+      this.subject.next(val);
+    }
+
+
 }

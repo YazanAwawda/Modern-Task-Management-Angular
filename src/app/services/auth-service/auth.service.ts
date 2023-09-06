@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, Subject} from "rxjs";
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
+import {catchError, map, Observable, of, Subject} from "rxjs";
 import {User, userRegister} from "../../Models/User/User";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
+  public  isAuthenticatedValue  : boolean = false ;
 
-  constructor(private  http : HttpClient , private  router : Router) { }
+  constructor(private  http : HttpClient , private  router : Router , private  toasty : ToastrService ) {
 
-  tokenResp :  any ;
+
+  }
+
 
   private  _updateMenu = new Subject<void>();
   get updateMenu(){
@@ -26,13 +30,37 @@ export class AuthenticationService {
   getToken(){
     return localStorage.getItem('token') || ' ' ;
   }
-  isLogged(){
-    return localStorage.getItem('token') != null ;
+  public isAuthenticated(): Observable<boolean> {
+    const token = localStorage.getItem('token');
+
+    if (token === null) {
+      this.logOut();
+      return of(false); // Return a false Observable because the user is not authenticated.
+    } else {
+      // Make an HTTP request to check the token validity.
+      let headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      }
+      );
+
+      return this.http.get<any>('https://localhost:7011/api/Team', { headers }).pipe(
+          map((res) => {
+            console.log(res);
+            return res.status !== 401; // Check the response status to determine authentication.
+          }),
+          catchError((error) => {
+            console.error(error);
+            return of(false); // Return a false Observable in case of an error.
+          })
+      );
+    }
   }
 
   logOut(){
     alert('Your session expired');
+    this.isAuthenticatedValue = false;
     localStorage.clear();
+    localStorage.removeItem('token');
     this.router?.navigate(['/authentication/login']);
   }
 
@@ -40,7 +68,5 @@ export class AuthenticationService {
   {
     return localStorage.setItem('token' , tokenData.token);
   }
-  // GenerateRefreshToken(tokenData : any){
-  // return localeStorage.setItem('refreshToken', tokenDate.token);
-  // }
+
 }

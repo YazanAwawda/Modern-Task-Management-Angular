@@ -4,7 +4,8 @@
     Edit {{task.name}}
   </div>
   <form class="row" #EditTaskFormGroup
-        [formGroup]="editTaskFormGroup" (ngSubmit)="editTask()">
+        [formGroup]="editTaskFormGroup"
+        (ngSubmit)="editTask()">
 
     <div class="mb-lg-4">
       <label for="exampleFormControlTextarea1" class="form-label">Name</label>
@@ -22,27 +23,31 @@
 
     <div>
       <label>Task Type</label>
-      <select style="height: 35px;" class="form-select" aria-label="Default select example" formControlName="taskType">
+      <select style="height: 35px;" class="form-select" aria-label="Default select example" formControlName="taskType_">
         <option selected disabled> <p class="text-center align-content-md-center">Select Task Type: </p>  </option>
-        <option   *ngFor="let e of enumValue(taskType) " [value]="e">{{e | TaskType  }}</option>
+<!--        <option   *ngFor="let e of enumValue(taskType) " [value]="e">{{e | TaskType  }}</option>-->
+       <option *ngFor="let taskType of taskTypeArr" [value]="taskType.id" > {{taskType.name}}</option>
       </select>
     </div>
     <div>
       <br>
 
       <label>Task Priority</label>
-      <select style="height: 35px;" class="form-select" aria-label="Default select example" formControlName="taskType">
-        <option selected disabled> <p class="text-center align-content-md-center">Select Task Type: </p>  </option>
-        <option   *ngFor="let e of enumValue(taskType) " [value]="e">{{e | TaskType  }}</option>
+      <select style="height: 35px;" class="form-select" aria-label="Default select example" formControlName="taskPriority">
+        <option selected disabled> <p class="text-center align-content-md-center">Select Task Priority: </p>  </option>
+<!--        <option   *ngFor="let e of enumValue(taskType) " [value]="e">{{e | TaskType  }}</option>-->
+        <option *ngFor="let taskPriority of taskPriorityArr" [value]="taskPriority.id" > {{taskPriority.name}}</option>
+
       </select>
     </div>
 
-    <div style="padding-top: 20px;">
-      <label for="endDate">Estimated-End Date</label>
-      <input type="date" name="endDate" id="endDate" formControlName="endDate">
-    </div>
+<!--    <div style="padding-top: 20px;">-->
+<!--      <label for="endDate">Estimated-End Date</label>-->
+<!--      <input type="date" name="endDate" id="endDate" formControlName="endDate">-->
+<!--    </div>-->
     <div class="form-group col-6" style=" padding-left: 500px; position: relative">
-      <button class="button-65" type="submit">Save changes</button>
+      <button class="button-65" type="submit"
+              *ngIf="this.permissionService.checkPermission([28 , 60 , 62]) | async">Save changes</button>
     </div>
   </form>
 </div>

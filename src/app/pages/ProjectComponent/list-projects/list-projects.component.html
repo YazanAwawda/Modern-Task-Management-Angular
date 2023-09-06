@@ -1,8 +1,6 @@
-
-
 <div class="container justify-content-center " style="margin-left:55px;">
   <div class="row">
-<div class="col-11">
+<div class="col-11 ">
   <h1>All Projects </h1>
 </div>
   </div>
@@ -18,42 +16,158 @@
 
           <div class="card h-100">
             <div class="d-flex justify-content-between">
-              <div class="p-2 bd-highlight">
-                <div style="background-color: white; --border-color--hover:
+                <div class="p-2 bd-highlight">
+                  <div style="background-color: white; --border-color--hover:
                 white; border-radius: 50%;cursor: pointer;  border-color: white "
-                        title="Project Details"
-                        [routerLink]="['/ui-components/project/',project.id]"  >
-                  <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
-                  <lord-icon
-                    src="https://cdn.lordicon.com/ckatldkn.json"
-                    trigger="hover"
-                    colors="primary:#646e78,secondary:#08a88a,tertiary:#ebe6ef"
-                    style="width:50px;height:50px">
-                  </lord-icon>
+                       title="Project Details"
+
+                       *ngIf="(this.permissionService.checkPermission([7] ) | async ) "
+                       [routerLink]="['/ui-components/project/',project.id]">
+<!--                    <div>-->
+<!--                    <span style="padding-left:10px;">-->
+<!--                      <i class="text-info">View</i>-->
+<!--                    </span>-->
+<!--                    </div>-->
+                    <script src="https://cdn.lordicon.com/bhenfmcm.js">
+                    </script>
+                    <lord-icon
+                      src="https://cdn.lordicon.com/ckatldkn.json"
+                      trigger="hover"
+                      colors="primary:#646e78,secondary:#08a88a,tertiary:#ebe6ef"
+                      style="width:50px;height:50px">
+                    </lord-icon>
+
+
+                  </div>
+
                 </div>
 
-              </div>
-              <div
 
-                [routerLink]="['/ui-components/edit-project/',project.id]"
-                style="cursor:pointer ;" title="Edit Project"  class="p-2 bd-highlight"><script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+
+              <div  *ngIf="(this.permissionService.checkPermission([12] ) | async ) " [routerLink]="['/ui-components/edit-project/',project.id]"
+                style="cursor:pointer ;" title="Edit Project"  class="p-2 bd-highlight">
+
+<!--                <div>-->
+<!--                    <span style="padding-left:10px;">-->
+<!--                      <i class="text-warning">Edit</i>-->
+<!--                    </span>-->
+<!--                </div>-->
+                <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
                 <lord-icon
                   src="https://cdn.lordicon.com/bxxnzvfm.json"
                   trigger="hover"
                   colors="primary:#3a3347,secondary:#ffc738,tertiary:#f9c9c0,quaternary:#ebe6ef"
                   style="width:50px;height:50px">
-                </lord-icon></div>
+                </lord-icon>
+              </div>
             </div>
 
             <div class="card-body">
-              <h5 class="card-title">{{project.name}}</h5>
-              <p class="card-text">
-             {{project.description}}
+              <div class="card-title">
+                <p class ="fs-6 text-dark text-start">
+                  {{project.name}}
+                </p>
+              </div>
+              <p class="card-text" >
+                <small>
+                  {{ transform(project.description)}}
+                </small>
               </p>
+
+              <div class="d-flex justify-content-start   align-items-start  ">
+                <div style="padding-right : 5px;">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-status-change" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M6 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                    <path d="M18 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                    <path d="M6 12v-2a6 6 0 1 1 12 0v2"></path>
+                    <path d="M15 9l3 3l3 -3"></path>
+                  </svg>
+                </div>
+          Status : <div style="padding-left:5px">
+                <span  [class]="onColorProjectStatus(enumToString(ProjectStatus ,project.currentStatus))">
+                      {{enumToString(ProjectStatus ,project.currentStatus)}}
+                    </span>
+              </div>
+              </div>
+<br>
+              <div class="d-flex justify-content-start   align-items-start  ">
+                <div style="padding-right : 5px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-number" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M4 17v-10l7 10v-10"></path>
+                    <path d="M15 17h5"></path>
+                    <path d="M17.5 10m-2.5 0a2.5 3 0 1 0 5 0a2.5 3 0 1 0 -5 0"></path>
+                  </svg>
+
+                </div>
+               Of Tasks : <span style="padding-left:5px">
+                <p>
+ {{project.numberOfOpenTasks}}
+                    </p>
+              </span>
+              </div>
+
+              <br>
+                <div class="d-flex justify-content-start   align-items-start  ">
+                  <div  style="padding-right : 5px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-due" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                      <path d="M16 3v4"></path>
+                      <path d="M8 3v4"></path>
+                      <path d="M4 11h16"></path>
+                      <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                    </svg>
+                  </div>
+                    <p class="badge bg-light text-dark text-wrap">
+                        Start-Date :
+                    </p>
+                  <span>{{project.estimatedStartDate  | date:"MM/dd/yy"}}</span>
+                </div>
+<br>
+
+              <div class="d-flex justify-content-start   align-items-start  ">
+
+                <div style="padding-right : 5px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-due" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                    <path d="M16 3v4"></path>
+                    <path d="M8 3v4"></path>
+                    <path d="M4 11h16"></path>
+                    <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                  </svg>
+                </div>
+                  <p class="badge bg-light text-dark text-wrap" >
+                      End-Date :
+                  </p>
+                <span>{{project.estimatedEndDate  | date:"MM/dd/yy"}}</span>
+                </div>
+                <br>
+               <div class="d-flex justify-content-start   align-items-start  ">
+
+                <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-asana" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M12 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                    <path d="M17 16m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                    <path d="M7 16m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                  </svg>
+                </div>
+                <p class="badge bg-light text-dark text-wrap" >Assignee-Team :</p>
+          <p class="fs-6">{{project.teamId}}</p>
+              </div>
+
+
             </div>
 
 
-            <div style="cursor: pointer;" title="Delete Project">
+
+
+            <div style="cursor: pointer;" title="Delete Project" *ngIf="hasDeleteProject">
+
               <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
               <lord-icon
                 src="https://cdn.lordicon.com/qjwkduhc.json"
@@ -65,16 +179,15 @@
 
 
 
-
   <button class="btn34"
            (click)="onAssignTeam(project.id)"  *ngIf="project.teamId === null" >Assign Team</button>
 
   <button class="btn34" (click)="onViewTeam(project.teamId)" *ngIf="project.teamId !== null">View Team</button>
 
 
-            <div class="card-footer">
-            <small class="text-muted">Created at {{project.estimatedStartDate | date}}</small>
-          </div>
+<!--            <div class="card-footer">-->
+<!--            <small class="text-muted">Created at {{project.estimatedStartDate | date}}</small>-->
+<!--          </div>-->
         </div>
 
 

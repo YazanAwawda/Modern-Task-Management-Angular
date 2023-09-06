@@ -1,15 +1,17 @@
 import {Component, Inject, Input} from '@angular/core';
 import {CreateTasks} from "../../../Models/Tasks/task.model";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {enumValues} from "../../../EnumHelper/enum.helper";
 import {TaskServices} from "../../../services/task-service/task-service";
-import {ActivatedRoute} from "@angular/router";
-import  * as enum_ from  "../../../Enum/enum.model";
-import {TaskPriority, TaskType} from '../../../Enum/enum.model';
+import {ActivatedRoute, Router} from "@angular/router";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TeamService} from "../../../services/team-service/team.service";
-import {Employee, GetTeam, TeamMembers} from "../../../Models/Team/team.model";
+import {Employee, GetTeam, GetTeamMembers, TeamMembers} from "../../../Models/Team/team.model";
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import {TaskTypeService} from "../../../services/task-type-service/task-type";
+import {TaskPriorityService} from "../../../services/task-priority-service/task-priority";
+import {TaskPriority} from "../../../Models/TaskPriority/task-priority";
+import { TaskType } from 'src/app/Models/TaskType/task-type';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-create-task',
@@ -18,30 +20,33 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 })
 export class CreateTaskComponent {
 
-  public enumValue = enumValues;
-  public taskType = enum_.TaskType ;
-  public selectedTaskType = enum_.TaskType.FeatureRemove ;
 
-  public taskPriority = enum_.TaskPriority ;
-  public selectedTaskPriority = enum_.TaskPriority.Low ;
 
    TaskFormGroup !: FormGroup<any>  ;
    tasks !: CreateTasks;
    @Input() projectID !: number ;
    projectName !: string ;
 
-   dropdownList :TeamMembers[] = [];
-   selectedItems: TeamMembers[] = [];
+   dropdownList :GetTeamMembers[] = [];
+   selectedItems: GetTeamMembers[] = [];
    employees: Employee[] = [];
    dropdownSettings = {};
 
-   team:GetTeam;
+   teamMembers:GetTeamMembers[];
    teamId!:number;
    empId :string | undefined;
+
+  taskTypes : TaskType[] ;
+  taskPriorities : TaskPriority[] ;
+
+
   constructor(private  taskService : TaskServices ,
-              private route: ActivatedRoute,
+              private route: Router,
               private  teamService: TeamService,
               private  fb : FormBuilder ,
+              private  toasty : ToastrService ,
+              private  taskTypeService : TaskTypeService ,
+              private  taskPriorityService : TaskPriorityService ,
               private dialogRef: MatDialogRef<CreateTaskComponent>,
               @Inject(MAT_DIALOG_DATA) public data:any ) {
 
@@ -64,18 +69,20 @@ export class CreateTaskComponent {
 
 
     this.TaskFormGroup = this.fb.group({
-      name : ['' ] ,
-      description : [''] ,
-      projectId: [this.projectID] ,
-      taskType : [this.selectedTaskType,Validators.required] ,
-      taskPriority : [this.selectedTaskPriority,Validators.required] ,
-      estimatedDueDate : [''],
+      name : ['' , Validators.required] ,
+      description : ['' , Validators.required] ,
+      projectId: [this.projectID ] ,
+      taskType : ['',Validators.required] ,
+      taskPriority : ['',Validators.required] ,
+      estimatedDueDate : ['' , Validators.required],
       assignedTeamMember : this.fb.group({
         id: this.empId ,
         teamId:this.teamId
       })
     });
    this.getTeamMembersProject();
+   this.getTaskPriority();
+   this.getTaskTypes();
   }
   onSubmit() : void{
 
@@ -95,9 +102,9 @@ export class CreateTaskComponent {
     const creatTask_ : CreateTasks = {
       name : this.name?.value ,
       description : this.description?.value ,
-      taskType : this.taskType_?.value ,
+      taskTypeId : this.taskType_?.value ,
       estimatedDueDate : this.estimatedDueDate?.value,
-      priority : this.TaskPriority_?.value,
+      priorityId : this.TaskPriority_?.value,
       projectId :  this.projectID as number ,
       assignedTeamMember : this.assignedTeamMember_?.value,
     }
@@ -107,6 +114,11 @@ export class CreateTaskComponent {
 
     this.taskService.addTask(creatTask_).subscribe(task => {
       this.tasks = task ;
+
+      if(this.tasks){
+        this.toasty.success("Task Created Successfully.")
+        this.route?.navigate([`ui-components/all-tasks/${this.projectID}`])
+      }
       console.log(task)
       // Close the dialog
 
@@ -119,40 +131,40 @@ export class CreateTaskComponent {
   }
 
   getTeamMembersProject(){
-   this.teamService.getTeamByID(this.teamId).subscribe(
-     res => {
+
+   this.teamService.getTeamMembers(this.teamId).subscribe(res =>  {
 
 
-       this.team = res;
-       this.dropdownList = this.team.teamMembers  ;
-       this.selectedItems = this.team.teamMembers ;
+     this.teamMembers = res;
+     this.dropdownList = this.teamMembers  ;
+     this.selectedItems = this.teamMembers;
 
-       this.dropdownList.map(item => {
-         return<TeamMembers>{
-           employee : {
-             id : item.employee.id ,
-             name : item.employee.name
-           }
+     this.dropdownList.map(item => {
+       return<TeamMembers>{
+         employee : {
+           id : item.employee.id ,
+           name : item.employee.name
          }
-       });
-
-
-       this.employees = this.dropdownList.map(x => {
-         return x.employee;
-       })
-
-       this.dropdownSettings = <IDropdownSettings>{
-         singleSelection: true,
-         idField: 'id',
-         textField: 'name',
-         allowSearchFilter: true,
-         closeDropDownOnSelection: false,
-         showSelectedItemsAtTop: true,
-         defaultOpen: false,
-         itemsShowLimit: this.employees.length,
-         selectedItems : this.selectedItems
        }
      });
+
+
+     this.employees = this.dropdownList.map(x => {
+       return x.employee;
+     })
+
+     this.dropdownSettings = <IDropdownSettings>{
+       singleSelection: true,
+       idField: 'id',
+       textField: 'name',
+       allowSearchFilter: true,
+       closeDropDownOnSelection: false,
+       showSelectedItemsAtTop: true,
+       defaultOpen: false,
+       itemsShowLimit: this.employees.length,
+       selectedItems : this.selectedItems
+     }
+   })
 
 
     this.onEmployeeSelect(this.selectedItems);
@@ -168,4 +180,22 @@ export class CreateTaskComponent {
     console.log(item);
     this.empId = undefined;
   }
+
+  getTaskTypes() {
+  this.taskTypeService.getTaskTypes().subscribe(res =>
+  {
+  this.taskTypes = res;
+  console.log(res);
+  }
+  )
+  }
+
+  getTaskPriority(){
+    this.taskPriorityService.getTaskPriorities().subscribe(res => {
+      this.taskPriorities = res ;
+      console.log(res)
+    })
+  }
+
+
 }

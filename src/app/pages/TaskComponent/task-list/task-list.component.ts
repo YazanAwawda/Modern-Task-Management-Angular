@@ -26,9 +26,9 @@ export class TaskListComponent {
 
   totalCount !: number ;
 
-  taskType : any  = TaskType;
-  taskPriority : any  = TaskPriority;
-  taskStatus : any   = TaskStatus ;
+  // taskType : any  = TaskType;
+  // taskPriority : any  = TaskPriority;
+  // taskStatus : any   = TaskStatus ;
 
 
   protected readonly enumToString = enumToString;

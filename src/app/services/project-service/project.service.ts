@@ -7,7 +7,7 @@ import {
   downloadFileProject,
   EditProject,
   GetProjectById,
-  GetProjects, ProjectAddTeam, uploadFileProject
+  GetProjects, ProjectAddTeam, uploadFilesProject
 } from "../../Models/Project/project.model";
 import {IProjectPagination} from "../../Models/Pagination/ProjectPagination/ProjectPagination";
 import {ProjectParams} from "../../Models/Pagination/ProjectPagination/ProjectParams";
@@ -19,7 +19,7 @@ import {ProjectParams} from "../../Models/Pagination/ProjectPagination/ProjectPa
 export class ProjectService {
 
   private  projectUrl : 'https://localhost:7011/api/Project';
-  file_s !: uploadFileProject ;
+  file_s !: uploadFilesProject ;
 
 
   //Create Object call Http Headers to set a header

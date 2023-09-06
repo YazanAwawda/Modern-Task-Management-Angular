@@ -7,11 +7,23 @@
       <div class="col-md-6">
         <label for="inputName" class="form-label">Project Name</label>
         <input formControlName="name" type="text" class="form-control" id="inputName">
+        <div *ngIf="isControlInvalid('name') && isControlTouched('name')">
+          Name is required.
+        </div>
+        <div *ngIf="isControlInvalid('name', 'duplicateName')">
+          Project name already exists.
+        </div>
       </div>
 
       <div  class="col-md-6">
         <label for="inputDescription" class="form-label">Description</label>
         <input formControlName="description" type="text" class="form-control" id="inputDescription" >
+        <div *ngIf="isControlInvalid('description') && isControlTouched('description')">
+          Description is required.
+        </div>
+        <div *ngIf="isControlInvalid('description', 'minlength') && isControlTouched('description')">
+          Description must be at least 30 characters long.
+        </div>
       </div>
     <div class="col-md-6">
       <label for="fileProject" class="form-label">File upload:</label>
@@ -31,21 +43,24 @@
              formControlName="estimatedEndDate" >
     </div>
           <div class="col-md-4" style="margin-left:180px;">
-            <label for="Teams" class="form-label">Choose Team  *(Optional) </label>
+            <label for="Teams" class="form-label">Choose Team </label>
             <ng-multiselect-dropdown
               id="Teams"
-              formControlName="teamID"
+              formControlName="teamId"
               [placeholder]="'Teams'"
               [settings]="dropdownSettings"
               [data]="availableTeams"
               (onSelect)="onTeamSelect($event)"
               (onDeSelect)="onTeamDeSelect($event)">
             </ng-multiselect-dropdown>
+            <div *ngIf="isControlInvalid('teamId') && isControlTouched('teamId')">
+              Team ID is required.
+            </div>
           </div>
 
 
     <div class="row-cols-md-3" style="margin-top: 80px; text-align: left">
-        <button type="submit" class="btn btn-primary" >Create</button>
+        <button type="submit" class="btn btn-primary">Create</button>
      </div>
 
   </form>

@@ -7,7 +7,6 @@ import {ProjectDetailsComponent} from "../ProjectComponent/project-details/proje
 import {CreateTaskComponent} from "../TaskComponent/create-task/create-task.component";
 import {ViewTaskComponent} from "../TaskComponent/view-task/view-task.component";
 import {ViewTasksOfProjectComponent} from "../TaskComponent/view-tasks-of-project/view-tasks-of-project.component";
-import {SidenavTaskComponent} from "../TaskComponent/sidenav-task/sidenav-task.component";
 import {AssignProjectTeamComponent} from "../ProjectComponent/assign-project-team/assign-project-team.component";
 import {TeamDetailsComponent} from "../TeamComponents/team-details/team-details.component";
 import {AssigneTaskComponent} from "../TaskComponent/assigne-task/assigne-task.component";
@@ -16,13 +15,13 @@ import {EditTaskComponent} from "../TaskComponent/edit-task/edit-task.component"
 import {EditTeamComponent} from "../TeamComponents/edit-team/edit-team.component";
 import {TaskDetailsComponent} from "../TaskComponent/task-details/task-details.component";
 import {ReplyFormComponent} from "../CommentsComponent/reply-form/reply-form.component";
-
-// ui
-// import { AppBadgeComponent } from './badge/badge.component';
-// import { AppChipsComponent } from './chips/chips.component';
-// import { AppListsComponent } from './lists/lists.component';
-// import { AppMenuComponent } from './menu/menu.component';
-// import { AppTooltipsComponent } from './tooltips/tooltips.component';
+import {hasChildAccessPage} from "../../Gurad/global-route-guard";
+import {TaskPriorityComponent} from "../TaskComponent/task-priority/task-priority/task-priority.component";
+import {TaskTypeComponent} from "../TaskComponent/task-type/task-type/task-type.component";
+import {UserRoleComponent} from "../RoleComponent/user-role/user-role.component";
+import {AddRoleComponent} from "../RoleComponent/add-role/add-role.component";
+import {UpdateRoleComponent} from "../RoleComponent/update-role/update-role.component";
+import {AppSideRegisterComponent} from "../authentication/register/register.component";
 
 export const UiComponentsRoutes: Routes = [
   {
@@ -35,32 +34,48 @@ export const UiComponentsRoutes: Routes = [
    }
    , {
         path : 'create-team' ,
-        component : CreateTeamComponent
+        component : CreateTeamComponent ,
+        canActivate : [hasChildAccessPage] ,
+          data: {requiredPermissions: [39]}
       },
       {
         path : 'project-list' ,
-        component : ListProjectsComponent
-      },
+        component : ListProjectsComponent ,
+         canActivate:[hasChildAccessPage],
+          data : {requiredPermissions: [8,9] }
+
+      }
+      ,
       {
         path:'create-project' ,
-        component : CreateProjectComponent
+        component : CreateProjectComponent ,
+        canActivate :[hasChildAccessPage] ,
+        data : {requiredPermissions: [10]}
       }
       ,
       {
         path:'project/:id' ,
-        component: ProjectDetailsComponent
+        component: ProjectDetailsComponent ,
+        canActivate : [hasChildAccessPage] ,
+        data : {requiredPermissions: [7] }
       }
       , {
         path : 'create-task' ,
-        component : CreateTaskComponent
+        component : CreateTaskComponent ,
+        canActivate : [hasChildAccessPage] ,
+        data : {requiredPermissions: [19]}
       },
       {
         path : 'view-task/:id'
-        ,component : ViewTaskComponent
+        ,component : ViewTaskComponent,
+        canActivate : [hasChildAccessPage] ,
+        data : {requiredPermissions: [21]}
       } ,
       {
         path : 'all-tasks/:id',
-       component : ViewTasksOfProjectComponent
+       component : ViewTasksOfProjectComponent,
+          canActivate : [hasChildAccessPage] ,
+          data : {requiredPermissions: [19,20]}
       } ,
       {
         path : 'assignation/:id' ,
@@ -68,32 +83,79 @@ export const UiComponentsRoutes: Routes = [
       } ,
       {
           path : 'team-details/:id'
-        , component : TeamDetailsComponent
+        , component : TeamDetailsComponent ,
+          canActivate : [hasChildAccessPage] ,
+          data : {requiredPermissions: [40]}
       }
       , {
          path: 'task-assignation',
-        component : AssigneTaskComponent
+        component : AssigneTaskComponent ,
+            canActivate : [hasChildAccessPage] ,
+            data : {requiredPermissions: []}
       } ,
       {
         path:'edit-project/:id' ,
-        component : EditProjectComponent
+        component : EditProjectComponent,
+        canActivate: [hasChildAccessPage] ,
+        data : {requiredPermissions: [12]}
       },
       {
         path : 'edit-task/:id',
-        component : EditTaskComponent
-      },
+        component : EditTaskComponent,
+        canActivate: [hasChildAccessPage],
+        data: { requiredPermissions: [28] }
+      } ,
+
        {
         path : 'edit-team/:id',
-        component : EditTeamComponent
+        component : EditTeamComponent ,
+           canActivate : [hasChildAccessPage] ,
+           data :{requiredPermissions: [44]}
         },
         {
         path : 'task-details/:id',
-        component : TaskDetailsComponent
+        component : TaskDetailsComponent ,
+            canActivate : [hasChildAccessPage] ,
+            data :{requiredPermissions: [21]}
         },
       {
-        path : 'comment-form/:id',
-        component : ReplyFormComponent
-      }
+         path : 'comment-form/:id',
+          component : ReplyFormComponent ,
+          canActivate : [hasChildAccessPage] ,
+          data : {requiredPermissions: [1]}
+      } ,
+        {
+         path : 'task-priority',
+         component : TaskPriorityComponent ,
+         canActivate : [hasChildAccessPage] ,
+         data : {requiredPermissions: [61]}
+        }  ,
+        {
+         path:"task-type" ,
+          component:TaskTypeComponent,
+          canActivate : [hasChildAccessPage] ,
+          data :{requiredPermissions: [58]}
+        } ,
+        {
+            path : "user-role" ,
+            component:UserRoleComponent,
+            canActivate :[hasChildAccessPage],
+            data : {requiredPermissions: [55 ,57]}
+        }
+        ,{
+           path:"add-role" ,
+           component : AddRoleComponent ,
+        },
+        {
+            path:"update-role/:roleName" ,
+            component : UpdateRoleComponent ,
+        },
+        {
+            path: 'create-user',
+            component: AppSideRegisterComponent,
+            canActivate : [hasChildAccessPage] ,
+            data : {requiredPermissions: [47]}
+        }
     ],
   },
 ];

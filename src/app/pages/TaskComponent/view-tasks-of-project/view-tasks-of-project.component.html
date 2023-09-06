@@ -34,7 +34,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr  style="cursor: pointer" *ngFor="let task of tasks">
+            <tr  style="cursor: pointer" *ngFor="let task of tasks"
+                 title="Click To View Task Details"
+                 [routerLink]="['/ui-components/task-details/',task.id]">
               <th scope="row">
                 <div class="media align-items-center">
                   {{task.name}}
@@ -53,17 +55,25 @@
               <td>
                 <div class="avatar-group">
                   <label>
-                    <span  [class]="onColorTaskType(enumToString(TaskType ,task.taskType))">
-                      {{enumToString(TaskType ,task.taskType)}}
+<!--                    <span  [class]="onColorTaskType(enumToString(TaskType ,task.taskType))">-->
+<!--                      {{enumToString(TaskType ,task.taskType)}}-->
+<!--                    </span>-->
+
+                    <span>
+                      {{task.type.name}}
                     </span>
                   </label>
                 </div>
               </td>
               <td >
                 <label>
-                  <span [class]="onColorTaskPriority(enumToString( TaskPriority ,task.priority))">
-                    {{enumToString( TaskPriority ,task.priority)}}
-                  </span>
+<!--                  <span [class]="onColorTaskPriority(enumToString( TaskPriority ,task.priority))">-->
+<!--                    {{enumToString( TaskPriority ,task.priority)}}-->
+<!--                  </span>-->
+
+                  <span>
+                      {{task.priority.name}}
+                    </span>
                 </label>
               </td>
               <td class="text-center" >
@@ -84,8 +94,6 @@
             </tbody>
           </table>
         </div>
-        <div class="card-footer py-4">
-Created By Yazan Awawda
-        </div>
+
       </div>
     </div>

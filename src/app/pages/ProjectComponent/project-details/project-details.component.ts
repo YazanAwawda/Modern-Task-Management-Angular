@@ -1,14 +1,16 @@
 import {Component, ElementRef, ViewChild,TemplateRef } from '@angular/core';
-import {Attachments, downloadFileProject, GetProjectById} from "../../../Models/Project/project.model";
+import { downloadFileProject, GetProjectById} from "../../../Models/Project/project.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import * as enumModal from "../../../Enum/enum.model";
 import {enumToString} from "../../../EnumHelper/enum.helper";
 import {ProjectService} from "../../../services/project-service/project.service";
 import {MatDialog, MatDialogConfig , MatDialogRef} from "@angular/material/dialog";
 import {CreateTaskComponent} from "../../TaskComponent/create-task/create-task.component";
-import {CreateTasks} from "../../../Models/Tasks/task.model";
+import {CreateTasks, GetTask} from "../../../Models/Tasks/task.model";
 import {ProjectStatus} from "../../../Enum/enum.model";
 import {TeamMembers} from "../../../Models/Team/team.model";
+import {PermissionService} from "../../../services/permission-service/permission.service";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -42,19 +44,23 @@ export class ProjectDetailsComponent {
   projectStatus : any ;
 
   timeCount : any ;
-  timeRemaining : string ;
+  timeRemaining : string | undefined ;
+  endDate : string | undefined ;
+  startDate : string | undefined ;
 
   date:Date =  new Date();
   role:{ role: string; colorClass: string; };
 
   isTeamLeader : boolean  ;
 
+    attachmentId : number ;
+    type : string = "Project";
+    typeId:string = "projectId";
 
-  fileDownload : downloadFileProject ;
-  fileName : string ;
   constructor(private  projectService : ProjectService ,
               private route : ActivatedRoute ,
               private  router : Router,
+              private  permissionService : PermissionService,
               private  dialog : MatDialog) {
   }
   openDialog(projectID: number) {
@@ -86,7 +92,7 @@ export class ProjectDetailsComponent {
     let color : any;
     if( val === "New")
     {
-      return color = "badge text-bg-secondary bg-opacity-75" ;
+      return color = "badge text-bg-secondary" ;
     }
     if ( val === "Open")
     {
@@ -149,23 +155,24 @@ export class ProjectDetailsComponent {
 
          // For color status
          this.colorStatus = this.onColorStatus(this.projectStatus);
-         let eventStartTime = (new Date(this.projects_.estimatedStartDate)); //Start Date
-         // let eventEndTime = +(new Date(this.projects_.endDate)); //End Date
-         let eventEndTime  = (new Date (this.projects_.estimatedEndDate)) ; //Date Now
-         this.timeCount = eventEndTime.getTime() - eventStartTime.getTime() ;
-         if(this.timeCount <= 0) {
-           this.timeRemaining = 'Time expired';
-         }
-         else
-         {
-           let days =  Math.floor(this.timeCount / (24 * 60 * 60 * 1000));
-           let hours =  Math.floor((this.timeCount % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-           let minutes=   Math.floor((this.timeCount % (1000 * 60 * 60)) / (1000 * 60));
-           let seconds =     Math.floor((this.timeCount % (1000 * 60)) / 1000);
-           this.timeRemaining    = `${this.formatNumber(days)}d`;
-         }
+         let eventEs_StartTime = (new Date(this.projects_.estimatedStartDate));
+         let eventEs_EndTime  = (new Date (this.projects_.estimatedEndDate)) ;
+         let eventStartTime = undefined;
+         let eventEndTime = undefined;
+         if(this.projects_.startDate !== null)
+          eventStartTime = (new Date(this.projects_.startDate));
+         if(this.projects_.endDate !== null)
+           eventEndTime  = (new Date (this.projects_.endDate)) ;
+         let dateNow = new Date();
+
+         this.calStartDate(eventStartTime ,eventEs_StartTime);
+         this.calEndDate(eventEndTime ,eventEs_EndTime);
+         this.calDateBetween(eventEs_EndTime , dateNow , eventEndTime , eventStartTime);
+
+         console.log(project_);
 
        });
+     this.getPermission();
      //For Files
      // this.fileDownload.projectId = this.projectID ;
      // this.projects_.attachments.map(item =>  {
@@ -180,12 +187,64 @@ export class ProjectDetailsComponent {
      // })
   }
 
+ hasViewTasks : Observable<boolean> ;
+ hasAddTask   : Observable<boolean> ;
 
+ //حساب الوقت المتأخر للمشروع ليبدأ
+ // حساب الوقت المتأخر لانتهاء المشروع
+  // الوقت المتبقي
+  calStartDate(sDate : Date | undefined , esDate:Date){
+    if(sDate !== undefined){
+      let timeCount =   (esDate.getTime() - sDate.getTime());
+      let days =  Math.floor(timeCount / (24 * 60 * 60 * 1000));
+      if(sDate  > esDate) {
+        this.startDate    = `${this.formatNumber(days)}d late`;
+      }
+      if(sDate  < esDate) {
+        this.startDate    = `${this.formatNumber(days)}d early`;
+      }
+    }
+  }
+
+ calEndDate(eDate :Date | undefined ,esDate:Date) {
+    if(eDate !== undefined){
+      let timeCount =   (esDate.getTime() - eDate.getTime());
+      let days =  Math.floor(timeCount / (24 * 60 * 60 * 1000));
+      if(eDate  > esDate) {
+        this.endDate    = `${this.formatNumber(days)}d late`;
+      }
+      if(eDate  < esDate) {
+        this.endDate    = `${this.formatNumber(days)}d early`;
+      }
+    }
+
+
+ }
+
+ calDateBetween(esEDate:Date , nowDate:Date , eDate:Date | undefined, sDate: Date | undefined){
+   if(eDate == undefined && sDate !== undefined){
+     let timeCount =   (esEDate.getTime() - nowDate.getTime());
+     let days =  Math.floor(timeCount / (24 * 60 * 60 * 1000));
+     if(days <0) {
+       this.timeRemaining = ` project overdue by ${this.formatNumber(-(days))}d`;
+     }
+    if(days > 0) {
+      this.timeRemaining = `${this.formatNumber((days))}d `;
+    }
+   }
+ }
+
+ getPermission(){
+ // this.permissionService.getAllPermission() ;
+  this.hasViewTasks = this.permissionService.checkPermission([19]);
+  this.hasAddTask   = this.permissionService.checkPermission([24]);
+ }
   onSearchEmployee(){
-  const searchTerm = this.searchTerm.trim();
+  let searchTerm = this.searchTerm.trim();
   this.filteredEmp = this.AllEmp.filter(item =>
-    (item.employee.name.toLowerCase().includes(searchTerm) ||
-      (item.employee.name.toUpperCase().includes(searchTerm)) || (item.employee.name.includes(searchTerm)) ));
+         (item.employee.name.toLowerCase().includes(searchTerm) ||
+        (item.employee.name.toUpperCase().includes(searchTerm))
+        || (item.employee.name.includes(searchTerm)) ));
   }
 
   formatNumber(val :  number ) : string {

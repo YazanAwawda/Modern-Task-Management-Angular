@@ -1,0 +1,130 @@
+
+<div class="container-sm  flex-sm-grow-1">
+  <div class="row d-flex justify-content-sm-end" >
+    <div class="col-md-12 col-lg-10 col-xl-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-body p-4">
+            <h4 class="text-center mb-4 pb-2"> Comment section & review</h4>
+            <div class="row">
+
+              <div style="height: 250px; overflow:hidden; overflow-y:scroll; " >
+                <div class="d-flex flex-start shadow-sm p-3 mb-5 bg-body rounded"
+                     *ngFor="let comment_ of (comments | async );
+                 let commentIndex = index">
+
+                  <app-reply-form   [comment]="comment_" [taskId]="taskId" ></app-reply-form>
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+        </div>
+        <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
+          <div class="d-flex flex-start w-100">
+            <img class="rounded-circle shadow-1-strong me-3"
+                 src="https://img.freepik.com/free-psd/3d-illustration-person-with-glasses_23-2149436189.jpg?w=740&t=st=1692820753~exp=1692821353~hmac=29386306275105d37beaf3702479f83c0f6df216f5cd2db84b07c36ce57c6c55"
+                 alt="avatar" width="40"
+                 height="40" />
+            <div class="form-outline w-100 " >
+              <form #r="ngForm" (ngSubmit)="r.form.valid && submitReply( $event, $event)" class="container-sm p-2 ">
+
+                <div class="form-group">
+            <textarea
+
+              style="height: 125px; width:280px;"
+              name="newComment2"
+              placeholder="Add comment"
+              type="text" id="newComment2" class="form-control"
+              [(ngModel)]="newComment.content"
+              required>
+            </textarea>
+                </div>
+<div style="margin-top:10px; position: relative">
+  <div>
+
+    <div class="d-inline p-2" style="position: absolute">
+      <input class="custom-file-input" style="width:130px" type="file" multiple (change)="commentFileSelected($event)" />
+    </div>
+  </div>
+
+  <div class="d-inline p-2"></div>
+  <div class="d-inline p-2"></div>
+  <div class="d-inline p-2"></div>
+  <div class="d-inline p-2"></div>
+  <div class="d-inline p-2"></div>
+  <div class="d-inline p-2"></div>
+  <div class="d-inline p-2"></div>
+  <div class="d-inline p-2"></div>
+  <div class="d-inline p-2"></div>
+  <div class="d-inline p-2" style="margin-top:15px;">
+    <button class="col-4 btn btn-outline-primary"
+            type="submit"
+            style="
+                   border:none;
+                   margin-top: 10px; "
+            (click)="uploadFilesComment()"
+            [disabled]="!r.valid">
+      <p class="d-inline p-2">
+        <svg  xmlns="http://www.w3.org/2000/svg"
+              class="icon icon-tabler icon-tabler-send"
+              width="20" height="20" viewBox="0 0 24 24"
+              stroke-width="2" stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+          <title>Send</title>
+          <path stroke="none"
+                d="M0 0h24v24H0z"
+                fill="none">
+          </path>
+          <path d="M10 14l11 -11"></path>
+          <path d="M21 3l-6.5 18a.55 .55 0 0 1
+                              -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0
+                               -1l18 -6.5">
+          </path>
+        </svg>
+      </p>
+      <p class="d-inline p-2">
+        Send
+      </p>
+    </button>
+  </div>
+</div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

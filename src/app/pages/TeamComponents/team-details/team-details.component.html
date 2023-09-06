@@ -1,5 +1,5 @@
 <div>
-  <div id="container">
+  <div class="d-inline p-2 "   id="container">
     <div id="content" class="shadow-lg p-3 mb-5 bg-body rounded">
        <div>
          <p class="d-inline p-2  text-dark fs-3" >{{teamData.teamName}}</p>
@@ -40,6 +40,30 @@
 
     </div>
   </div>
+
+
+  <div class="d-inline p-2 "  id="container2" style="margin-left: 600px">
+    <div id="content2"  class=" shadow-lg p-3 mb-5 bg-body rounded">
+      <div *ngFor="let project of teamData.projects">
+        <div>
+          <p class="text-center text-dark" style="font-size: 30px;">Project Info</p>
+        </div>
+        <br>
+        <div style="margin: 5px;">
+          <p class="text-start fs-4">Project List:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              {{project.name}}
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
 </div>
 
 

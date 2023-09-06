@@ -33,7 +33,9 @@ export class TaskServices {
   getTaskByProjectID(projectId : number ):Observable<GetAllTasks[]>{
     //set request params
     let params =  this.httpParams.set('projectId', projectId);
-    return this.http.get<GetAllTasks[]>(`${this.taskUrl}`,{'headers': this.httpOptions.header , params : params});
+    return this.http.get<GetAllTasks[]>(`${this.taskUrl}`,{
+      'headers': this.httpOptions.header
+      ,params : params});
   }
   getTaskByID(taskId : number) : Observable<GetTask> {
     return  this.http.get<GetTask>(`https://localhost:7011/api/Tasks/${taskId}` );

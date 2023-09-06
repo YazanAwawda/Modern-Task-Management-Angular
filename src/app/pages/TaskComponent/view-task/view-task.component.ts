@@ -136,15 +136,8 @@ export class ViewTaskComponent implements  OnInit {
       this.onColorTaskStatus(e);
       console.log(e);
 
-      let x = enumToString(TaskType , this.task.taskType) ;
-      this.task.taskType = x ;
-      this.onColorTaskType(x);
-      console.log(x);
 
-      let y = enumToString(TaskPriority , this.task.priority) ;
-      this.task.priority = y ;
-      this.onColorTaskPriority(y);
-      console.log(y);
+
     });
   }
 

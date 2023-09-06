@@ -16,23 +16,32 @@ import { AuthenticationRoutes } from './authentication.routing';
 
 import { AppSideLoginComponent } from './login/login.component';
 import { AppSideRegisterComponent } from './register/register.component';
+import { SecurityComponent } from './security/security.component';
+import {MaterialModule} from "../../material.module";
+import {TreeviewModule} from "@charmedme/ngx-treeview";
+import {AutocompleteLibModule} from "angular-ng-autocomplete";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(AuthenticationRoutes),
-    MatIconModule,
-    MatCardModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatButtonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TablerIconsModule.pick(TablerIcons),
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(AuthenticationRoutes),
+        MatIconModule,
+        MatCardModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatButtonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TablerIconsModule.pick(TablerIcons),
+        MaterialModule,
+        TreeviewModule,
+        TreeviewModule,
+        AutocompleteLibModule,
+    ],
   declarations: [
     AppSideLoginComponent,
     AppSideRegisterComponent,
+    SecurityComponent,
   ]
 
 })

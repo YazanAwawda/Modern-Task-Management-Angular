@@ -5,15 +5,19 @@
   <div id="content" class="shadow-lg p-3 mb-5 bg-body rounded">
     <div>
       <p class="d-inline p-2  text-dark"  style="font-size: 30px ; margin-right:150px;" >Project Details</p>
-      <p style="margin:5px" class="d-inline p-2 btn btn-success text-white"  (click)="openDialog(projectID)" >Add Task</p>
-      <p style="margin:5px" class="d-inline p-2 btn btn-primary text-white" [routerLink]="['/ui-components/all-tasks/',projects_?.id]">View Tasks</p>
+      <p style="margin:5px" class="d-inline p-2 btn btn-success text-white"
+         *ngIf="hasAddTask"
+         (click)="openDialog(projectID)">Add Task</p>
+      <p style="margin:5px" class="d-inline p-2 btn btn-primary text-white"
+         *ngIf="hasViewTasks"
+         [routerLink]="['/ui-components/all-tasks/',projects_?.id]" >View Tasks</p>
     </div>
     <br><br>
     <div class="row">
 
-      <div class="col-md-6">
+      <div>
         <div>
-          <div class="d-inline p-2  text-dark text-right">
+          <div class=" p-2  text-dark text-left">
             <b style="font-size: 20px;">{{projects_?.name}}</b>
           </div>
         </div>
@@ -27,14 +31,27 @@
 <br><br><br><br>
       <div class="col-md-6">
         <div class="d-inline p-2  text-dark"><b>Estimated-Start-Date:</b></div>
-        <div  class=" d-inline p-2  text-dark">{{projects_?.estimatedStartDate | date:"MM/dd"}}</div>
+        <div  class=" d-inline p-2  text-dark">{{projects_?.estimatedStartDate | date:"MM/dd/yy"}}</div>
       </div>
       <div class="col-md-6">
         <div class="d-inline p-2  text-dark"><b>Estimated-End-Date:</b></div>
-        <div  class=" d-inline p-2  text-dark">{{projects_?.estimatedEndDate |  date:"MM/dd"}}</div>
+        <div  class=" d-inline p-2  text-dark">{{projects_?.estimatedEndDate |  date:"MM/dd/yy"}}</div>
       </div>
 <br><br><br>
-      <div class="col-md-6">
+      <div class="col-md-6" *ngIf="startDate !== undefined">
+        <div class="d-inline p-2  text-dark"><b>Start-Date:</b></div>
+        <div  class=" d-inline p-2  badge bg-danger text-danger bg-opacity-25">{{startDate }}</div>
+      </div>
+      <div class="col-md-6" *ngIf="endDate !== undefined">
+        <div class="d-inline p-2  text-dark"><b>End-Date:</b></div>
+        <div  class=" d-inline p-2  badge bg-danger text-danger bg-opacity-25">{{endDate}}</div>
+      </div>
+      <div class="col-md-6" *ngIf="timeRemaining !== undefined">
+        <div class="d-inline p-2  text-dark"><b>Remaining-Time:</b></div>
+        <div  class=" d-inline p-2  badge bg-danger text-danger bg-opacity-25">{{timeRemaining}}</div>
+      </div>
+
+      <div class="col-md-6" *ngIf="timeRemaining !== undefined">
         <div class="d-inline p-2  text-dark"><b>Remaining-Time:</b></div>
         <div  class=" d-inline p-2  badge bg-danger text-danger bg-opacity-25">{{timeRemaining}}</div>
       </div>
@@ -102,26 +119,13 @@
                </div>
               </div>
              <ul class="list-group">
-               <li class="list-group-item d-inline p-2 "
-                   *ngFor="let emp of filteredEmp">
-                   {{emp.employee.name}}
-                   <div class="d-inline p-2">
-                   <p style="margin-left: 200px;"
-                      [class]="printRole(emp.isTeamLeader).colorClass">
-                      {{printRole(emp.isTeamLeader).role}}
-                   </p>
+               <li *ngFor="let emp of filteredEmp" class="list-group-item d-flex justify-content-between align-items-start">
+                 <div class="ms-2 me-auto">
+                   <div class="fw-semibold"> {{emp.employee.name}}</div>
                  </div>
+                 <span class="badge rounded-pill" [class]="printRole(emp.isTeamLeader).colorClass">
+                   {{printRole(emp.isTeamLeader).role}}</span>
                </li>
-<!--               <li class="list-group-item d-inline p-2 "-->
-<!--                   *ngFor="let emp of filteredEmp">-->
-<!--                 {{emp.employee.name}}-->
-<!--                 <div class="d-inline p-2">-->
-<!--                   <p style="margin-left: 200px;"-->
-<!--                      [class]="printRole(emp.isTeamLeader).colorClass">-->
-<!--                     {{printRole(emp.isTeamLeader).role}}-->
-<!--                   </p>-->
-<!--                 </div>-->
-<!--               </li>-->
 
              </ul>
          </div>
@@ -139,22 +143,17 @@
   </div>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
-  <div   id="container3">
-    <div id="content3"  class=" shadow-lg p-3 mb-5 bg-body rounded">
-      <div>
-        <div>
-          <div>
-            <p class="d-inline p-2  text-dark" style="font-size: 30px
-           ; margin-right:150px;">Attachment Files</p>
-          </div>
 
-          <div *ngFor="let file of projects_.attachments">
-          </div>
-        </div>
-      </div>
-
+  <div class="d-inline p-2">
+    <div    id="container3"  class="shadow-lg p-3 mb-5 bg-body rounded" >
+      <app-upload-multiple-files [OwnerId]="projectID"
+                                 [type]="type"
+                                 [typeId]="typeId"
+                                 [filesOfProject]="projects_.attachments"></app-upload-multiple-files>
 
     </div>
+
   </div>
+
 
 </div>

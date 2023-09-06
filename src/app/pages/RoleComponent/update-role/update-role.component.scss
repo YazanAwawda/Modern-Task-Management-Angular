@@ -1,0 +1,18 @@
+
+.items{
+  height: 150px; /* Adjust the height as needed */
+  overflow-y: scroll; /* Use 'scroll' to always show scrollbar or 'auto' to show it only when needed */
+  padding: 5px;
+  border: none; /* Hide the border */
+  //width:350px
+}
+
+.clk:hover{
+  background: #628bf5;
+  color:white;
+}
+
+.clk{
+  background: #faf5f5;
+
+}

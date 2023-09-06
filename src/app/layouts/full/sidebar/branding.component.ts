@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-branding',
   template: `
     <div class="branding">
-      <a href="/">
+      <a [routerLink]="['/ui-components/project-list']" >
         <img style="width : 160px; height :160px   ; object-fit: fill ;"
              src="./assets/images/logos/logoExpertsNew.png"
              class="align-middle ms-4"

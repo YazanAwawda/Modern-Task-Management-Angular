@@ -7,6 +7,8 @@ import {Router} from "@angular/router";
 import {IDropdownSettings, NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 import {TeamService} from "../../../services/team-service/team.service";
 import {GetAvailableTeams} from "../../../Models/Team/team.model";
+import {PermissionService} from "../../../services/permission-service/permission.service";
+import {PermissionKeyValue} from "../../../Models/Permission/permission-model";
 
 // https://lordicon.com/icons/wired/flat?group=free&categoryId=98
 @Component({
@@ -24,12 +26,13 @@ export class CreateProjectComponent implements  OnInit{
   dropdownList:GetAvailableTeams[] = [];
   selectedItems : GetAvailableTeams[] = [];
   dropdownSettings = {};
-  userSubmitted !: boolean ;
 
   constructor(private  projectService : ProjectService ,
               private  teamServices : TeamService ,
-              private toastr: ToastrService,
-              private  fb : FormBuilder , private  router : Router) {
+              private toasty: ToastrService,
+              private  fb : FormBuilder,
+               private  permission : PermissionService
+              , private  router : Router) {
   }
   ngOnInit(): void {
 
@@ -43,6 +46,12 @@ export class CreateProjectComponent implements  OnInit{
 
     this.GetAvailableTeam();
   }
+
+
+
+
+
+
 
   projectData() : CreateProject {
     return this.project_ = {
@@ -60,12 +69,30 @@ export class CreateProjectComponent implements  OnInit{
       this.projectData();
       this.projectService.createProject(this.file,this.project_ ).subscribe(data => {
 
-        console.log(this.project_);
-        console.log(this.file);
+        if(data)
+        this.toasty.success('Project created successfully.');
+
         if(this.file != undefined || this.file != null ){
           this.handleFileInput(event);
         }
+      },
+        error => {
+          if (error.status === 400) {
+            // Handle name duplication error
+            this.toasty.error('Project name already exists.');
+          } else if (error.status === 400 && error.error === 'DescriptionTooShort') {
+            // Handle description length error
+            this.toasty.error('Description must be at least 30 characters.');
+          } else if (error.status === 400 && error.error === 'TeamIdRequired') {
+            // Handle missing team ID error
+            this.toasty.error('Team ID is required.');
+          } else {
+            // Handle other errors
+            this.toasty.error('An error occurred while creating the project.');
+          }
       });
+    } else {
+      this.toasty.warning('Please fill in all required fields.');
     }
   }
 
@@ -129,10 +156,24 @@ export class CreateProjectComponent implements  OnInit{
     console.log(item);
   }
 
-
+isControlInvalid(
+  controlName : string ,
+  errName? : string){
+const control =
+  this.projectForm.get(controlName);
+if(!control) {
+  return false ;
+}
+return  errName ? control.hasError(errName) : control.invalid ;
 }
 
 
+  isControlTouched(controlName : string) : boolean{
+   const control = this.projectForm.get(controlName) ;
+   return  control ? control.touched  : false;
+  }
+
+}
 
 // this.toastr.warning('Please wait for uploaded');
 // setTimeout(() => {

@@ -1,4 +1,4 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, forwardRef, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -16,7 +16,7 @@ import { defineElement } from 'lord-icon-element';
 import lottie from 'lottie-web';
 //Import all material modules
 import { MaterialModule } from './material.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms';
 
 //Import Layouts
 import { FullComponent } from './layouts/full/full.component';
@@ -63,11 +63,35 @@ import {EditTeamComponent} from "./pages/TeamComponents/edit-team/edit-team.comp
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {DataService} from "./services/data-service/data.service";
 import {TaskDetailsComponent} from "./pages/TaskComponent/task-details/task-details.component";
-import {EditReplyComponent} from "./pages/CommentsComponent/edit-reply/edit-reply.component";
-import {ReplyFormComponent} from "./pages/CommentsComponent/reply-form/reply-form.component";
-import {ReplyListComponent} from "./pages/CommentsComponent/reply-list/reply-list.component";
-import {CommentService, TASK_ID_TOKEN} from "./services/comment-service/comment.service";
+import {ReplyFormComponent, TypeofPipe} from "./pages/CommentsComponent/reply-form/reply-form.component";
+import {CommentService} from "./services/comment-service/comment.service";
+import {PermissionService} from "./services/permission-service/permission.service";
+import {ReplyTemplateComponent} from "./pages/CommentsComponent/reply-form/reply-template/reply-template.component";
+import {AccessDeniedComponent} from "./layouts/access-denied/access-denied.component";
+import {hasChildAccessPage} from "./Gurad/global-route-guard";
 
+
+import {TaskPriorityService} from "./services/task-priority-service/task-priority";
+import {TaskTypeService} from "./services/task-type-service/task-type";
+import {TaskTypeComponent} from "./pages/TaskComponent/task-type/task-type/task-type.component";
+import {TaskPriorityComponent} from "./pages/TaskComponent/task-priority/task-priority/task-priority.component";
+import {UploadMultipleFilesComponent} from "./pages/upload-multiple-files/upload-multiple-files.component";
+import {FileUploadService} from "./services/file-service/file.service";
+import {ProfileUserComponent} from "./pages/ProfileComponent/profile-user/profile-user.component";
+import {UserRoleComponent} from "./pages/RoleComponent/user-role/user-role.component";
+import {RoleService} from "./services/role-service/role-service";
+import {TreeviewModule} from "@charmedme/ngx-treeview";
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import {ProfileService} from "./services/profile-service/profile-service";
+import {UpdateRoleComponent} from "./pages/RoleComponent/update-role/update-role.component";
+import {AddRoleComponent} from "./pages/RoleComponent/add-role/add-role.component";
+import {ListUserPermissionComponent} from "./pages/RoleComponent/list-user-permission/list-user-permission.component";
+
+export const INPUT_VALUE_ACCESSOR = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => UserRoleComponent),
+  multi: true,
+};
 @NgModule({
   declarations: [
     AppComponent,
@@ -99,9 +123,18 @@ import {CommentService, TASK_ID_TOKEN} from "./services/comment-service/comment.
     AssigneTaskComponent,
     EditTeamComponent,
     TaskDetailsComponent,
-    EditReplyComponent ,
     ReplyFormComponent ,
-    ReplyListComponent
+    ReplyTemplateComponent,
+    AccessDeniedComponent,
+    TaskTypeComponent,
+    TaskPriorityComponent,
+    UploadMultipleFilesComponent,
+    ProfileUserComponent,
+    UserRoleComponent,
+    UpdateRoleComponent ,
+    AddRoleComponent,
+    ListUserPermissionComponent,
+    TypeofPipe
   ],
   imports: [
     BrowserModule,
@@ -116,12 +149,13 @@ import {CommentService, TASK_ID_TOKEN} from "./services/comment-service/comment.
     NgOptimizedImage,
     MatDialogModule,
     PaginationModule,
+    AutocompleteLibModule,
     PipeModule.forRoot(),
     ToastrModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
     NgbModule,
-    NoopAnimationsModule
-
+    NoopAnimationsModule ,
+    TreeviewModule.forRoot()
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
@@ -131,21 +165,23 @@ import {CommentService, TASK_ID_TOKEN} from "./services/comment-service/comment.
        ProjectService,
        TaskServices ,
        DataService,
+       FileUploadService,
+       PermissionService ,
+       TaskPriorityService ,
+       TaskTypeService,
+       ProfileService,
+       RoleService,
        CommentService
-    ,{ provide: MatDialogRef, useValue: {}},
+    ,{ provide: MatDialogRef, useValue: {}}
+      ,
     { provide: MAT_DIALOG_DATA, useValue: {} },
     AuthenticationService , {
       provide : HTTP_INTERCEPTORS ,
       useClass : AuthInterceptor ,
       multi : true
-    }
-    // SignalRService,
-    // {
-    //   provide: APP_INITIALIZER,
-    //   useFactory: (signalrService: SignalRService) => () => signalrService.initiateSignalrConnection(),
-    //   deps: [SignalRService],
-    //   multi: true,
-    // }
+    } ,
+    INPUT_VALUE_ACCESSOR
+
   ],
   entryComponents:[CreateTaskComponent]
   , schemas :  [CUSTOM_ELEMENTS_SCHEMA , NO_ERRORS_SCHEMA]
@@ -155,3 +191,4 @@ export class AppModule {
     defineElement(lottie.loadAnimation);
   }
 }
+

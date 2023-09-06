@@ -18,12 +18,30 @@
         <input formControlName="description" placeholder="Description" type="text" class="form-control" id="description">
       </div>
     </div>
+
+
+<div class="row">
+
+  <div class="mb-3 col">
+    <label for="empId">Choose Team Member </label>
+    <ng-multiselect-dropdown
+      id="empId"
+      formControlName="empId"
+      [placeholder]="'Employees'"
+      [settings]="dropdownSettings"
+      [data]="employees"
+      (onSelect)="onEmployeeSelect($event)"
+      (onDeSelect)="onEmployeeDeSelect($event)">
+    </ng-multiselect-dropdown>
+  </div>
+
+</div>
     <mat-form-field>
       <mat-label>
         Task Type
       </mat-label>
       <mat-select formControlName="taskType">
-        <mat-option *ngFor="let e of enumValue(taskType) " [value]="e">{{e | TaskType  }}</mat-option>
+        <mat-option *ngFor="let taskType of taskTypes  " [value]="taskType.id">{{taskType.name  }}</mat-option>
       </mat-select>
     </mat-form-field>
     <br>
@@ -32,7 +50,7 @@
         Task Priority
       </mat-label>
       <mat-select formControlName="taskPriority">
-        <mat-option *ngFor="let e of enumValue(taskPriority) " [value]="e">{{e | TaskPriority  }}</mat-option>
+        <mat-option *ngFor="let taskPriority of taskPriorities " [value]="taskPriority.id">{{taskPriority.name  }}</mat-option>
       </mat-select>
     </mat-form-field>
     <div class=row>
@@ -48,19 +66,6 @@
                type="number"  id="id" disabled class="col" [value]="teamId" >
       </div>
 
-
-      <div class="col-5"  style="margin-left:200px; ">
-        <label for="empId">Choose Team Member </label>
-        <ng-multiselect-dropdown
-                                 id="empId"
-                                 formControlName="empId"
-                                 [placeholder]="'Employees'"
-                                 [settings]="dropdownSettings"
-                                 [data]="employees"
-                                 (onSelect)="onEmployeeSelect($event)"
-                                 (onDeSelect)="onEmployeeDeSelect($event)">
-        </ng-multiselect-dropdown>
-      </div>
 
     </div>
 <br><br><br>

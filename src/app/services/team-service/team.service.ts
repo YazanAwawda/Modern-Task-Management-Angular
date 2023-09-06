@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import { Observable} from "rxjs";
-import {CreateTeam, EditTeam, Employee, GetAvailableTeams, GetTeam, UpdateLeader} from "../../Models/Team/team.model";
+import {
+  CreateTeam,
+  EditTeam,
+  Employee,
+  GetAvailableTeams,
+  GetTeam,
+  GetTeamMembers,
+  UpdateLeader
+} from "../../Models/Team/team.model";
 import {TeamParams} from "../../Models/Pagination/TeamPagination/TeamParams";
 import {ITeamPagination} from "../../Models/Pagination/TeamPagination/TeamPagination";
 
@@ -11,7 +19,7 @@ import {ITeamPagination} from "../../Models/Pagination/TeamPagination/TeamPagina
 export class TeamService {
 
   private  teamUrl =  'https://localhost:7011/api/Team';
-  //Create Object call Http Headers to set a header
+  // Create Object call Http Headers to set a header
   private  httpOptions = {
     header: new HttpHeaders(
       {
@@ -23,11 +31,11 @@ export class TeamService {
   private  httpParams = new HttpParams();
   constructor(private  http: HttpClient) { }
 
-  //Create Team
+  // Create Team
   CreateTeam(creatTeam : CreateTeam) : Observable<CreateTeam>{
     return this.http.post<CreateTeam>(`${this.teamUrl}`,creatTeam);
   }
-  //Get All Teams
+  // Get All Teams
  getAllTeams() : Observable<GetTeam[]>{
     return this.http.get<GetTeam[]>(`${this.teamUrl}` );
  }
@@ -51,14 +59,12 @@ export class TeamService {
       { params : params_});
       }
 
-      //All Employees
+      // All Employees
      getAllEmployees():Observable<Employee[]>{
      return  this.http.get<Employee[]>("https://localhost:7011/api/Employee/GetEmployees");
     }
 
-
-
-      //Update Team
+    // Update Team
     updateTeam(editTeam : EditTeam) : Observable<EditTeam>{
     return this.http.patch<EditTeam>(`${this.teamUrl}` , editTeam);
     }
@@ -73,14 +79,20 @@ export class TeamService {
     return this.http.delete<GetTeam>(`${this.teamUrl}/${teamID}`);
   }
 
-  //Get Available Team
+  // Get Available Team
   GetAvailableTeam(): Observable<GetAvailableTeams[]>{
     return this.http.get<GetAvailableTeams[]>(`https://localhost:7011/api/Team/GetAvailableTeams`) ;
   }
 
-  //Update Team Leader
+  // Update Team Leader
   updateLeader(teamLeader : UpdateLeader) : Observable<GetTeam>{
   return this.http.patch<GetTeam>(`${this.teamUrl}/UpdateLeader` , teamLeader) ;
   }
+
+  // GetTeamMembers
+  getTeamMembers(id : number) : Observable<GetTeamMembers[]> {
+  return this.http.get<GetTeamMembers[]>(`https://localhost:7011/api/Team/${id}/TeamMembers`)
+  }
+
 
 }

@@ -9,7 +9,7 @@ import { NavService } from '../../../../services/nav-service/nav.service';
   styleUrls: [],
 })
 export class AppNavItemComponent implements OnChanges {
-  @Input() item: NavItem | any;
+  @Input() item: NavItem;
   @Input() depth: any;
 
   constructor(public navService: NavService, public router: Router) {
@@ -27,7 +27,7 @@ export class AppNavItemComponent implements OnChanges {
 
   onItemSelected(item: NavItem) {
     if (!item.children || !item.children.length) {
-      this.router.navigate([item.route]);
+      this.router?.navigate([item.route]);
     }
 
     // scroll

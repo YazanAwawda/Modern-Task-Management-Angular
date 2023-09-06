@@ -1,0 +1,45 @@
+<div>
+    <form  [formGroup]="formRole1" (ngSubmit)="updateRole()">
+        <div class="form-outline">
+            <div  class="navbar navbar-light bg-light">
+           <p class="fw-normal fs-5 ms-3">
+               Update {{this.roleName}} Role
+           </p>
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio1" id="btnradio1" autocomplete="off" checked>
+                    <label class="btn btn-outline-info text-white" for="btnradio1"
+                           [routerLink]="['/ui-components/user-role']">
+                        Back to Roles</label>
+                    <div class="d-inline p-2"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <!-- Role input -->
+            <div class="form-outline">
+                <label class="form-label"> Role Name</label>
+                <input type="text"
+                       formControlName="roleName1"
+                       placeholder="Update Role Name" id="roleName" class="form-control" />
+            </div>
+        </div>
+        <br>
+        <div class="col">
+            <div class="form-outline" formArrayName="permission1" >
+                <label class="form-label" >Select New Permissions</label>
+                <ngx-treeview
+
+                        [config]="config1" [items]="items1"
+                        (selectedChange)="values1 = $event">
+                </ngx-treeview>
+            </div>
+        </div>
+
+        <div class=" d-grid gap-2 col-6 mx-auto form-outline"  *ngIf="this.permissionService.checkPermission([53])">
+            <button class="btn btn-primary col" type="submit" style="position: absolute ;"
+            >Update Role</button>
+        </div>
+    </form>
+
+</div>
+

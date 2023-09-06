@@ -8,7 +8,7 @@ export interface TeamLeader {
 export class Employee {
   id: string;
   name : string
-
+  email ?: string
 }
 
 export interface CreateTeam {
@@ -20,6 +20,15 @@ export interface  TeamMembers {
   employee : Employee  ;
   isTeamLeader ?: boolean ;
   id ?: number;
+}
+
+export interface GetTeamMembers {
+   employee: {
+    id : string,
+    name: string,
+    email : string
+  },
+  isTeamLeader: boolean
 }
 
 export interface  GetTeam {
