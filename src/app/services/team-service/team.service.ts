@@ -95,4 +95,11 @@ export class TeamService {
   }
 
 
+  editTeam(team:EditTeam) : Observable<{ succes: string[], errors: string[] }>{
+    return this.http.patch<{ succes: string[], errors: string[] }>("https://localhost:7011/api/Team", {
+      id : team.id,
+      teamName : team.teamName,
+      teamMembers: team.teamMembers
+    })
+  }
 }

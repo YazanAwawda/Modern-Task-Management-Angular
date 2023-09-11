@@ -43,7 +43,6 @@ export class ProjectDetailsComponent {
   colorStatus : string;
   projectStatus : any ;
 
-  timeCount : any ;
   timeRemaining : string | undefined ;
   endDate : string | undefined ;
   startDate : string | undefined ;
@@ -52,10 +51,12 @@ export class ProjectDetailsComponent {
   role:{ role: string; colorClass: string; };
 
   isTeamLeader : boolean  ;
+  teamLeaderId: string  ;
+  teamLeadId: any;
+  type : string = "Project";
+  typeId:string = "projectId";
 
-    attachmentId : number ;
-    type : string = "Project";
-    typeId:string = "projectId";
+  isLeader : boolean;
 
   constructor(private  projectService : ProjectService ,
               private route : ActivatedRoute ,
@@ -133,10 +134,17 @@ export class ProjectDetailsComponent {
          // For show the value string of Team Leader Of Project
          for(const res of this.projects_.team.teamMembers){
            this.teamMembers = res;
+           this.isTeamLeader =  this.teamMembers.isTeamLeader!  ;
+           this.teamLeaderId =   this.teamMembers.employee.id  ;
            this.projects_.team.teamMembers.map(item => {
              return<TeamMembers> {
+               employee : {
+                 id : this.teamMembers.employee.id
+               },
                isTeamLeader : this.teamMembers.isTeamLeader
              }});
+
+           this.isLeader = this.isTeamLeader;
 
 
            //Search..Employees
@@ -145,7 +153,6 @@ export class ProjectDetailsComponent {
 
            //For specify the admin employee from normal employee.
            this.role = this.printRole(this.isTeamLeader);
-
          }
 
 
@@ -284,24 +291,7 @@ export class ProjectDetailsComponent {
     return { role: roleEmp, colorClass: color };
   }
 
-  // downloadFile() {
-  //   this.projectService.downloadFile().subscribe(
-  //     (res: any) => {
-  //       if (res instanceof ArrayBuffer) {
-  //         // Handle ArrayBuffer
-  //         // For example, if you want to save it as a file
-  //         const fileName = 'downloaded_file.txt'; // Set the desired file name
-  //         const blob = new Blob([res], { type: 'application/octet-stream' });
-  //         saveAs(blob, fileName);
-  //       } else {
-  //         // Handle downloadFileProject object
-  //         // Example: You may use the response for other purposes
-  //       }
-  //     },
-  //     error => {
-  //       console.error('Error downloading file:', error);
-  //     }
-  //   );
-  // }
-
+  getTeamLeader():string {
+   return this.projects_.team.teamMembers.filter(x => x.isTeamLeader === true)[0].employee.id;
+  }
  }

@@ -103,6 +103,7 @@ export class TaskPriorityComponent implements  OnInit {
     onDeletePriority(id:number){
     this.taskPriorityService.deleteTaskPriority(id).subscribe(res => {
         console.log(res);
+        this.getAllTaskPriority();
         this.toastyService.success("Deleted Done.")
     } , err => {
         this.toastyService.error("An Error Occurred.")

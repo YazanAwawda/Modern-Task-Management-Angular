@@ -1,0 +1,33 @@
+<div class="container-fluid">
+  <p class="navbar-brand fw-semibold text-center" >Re-Assign Employee</p>
+</div>
+<div style="margin:10px;">
+
+  <div class="row">
+
+    <div class="mb-3 col">
+      <label>Choose Employee </label>
+      <ng-multiselect-dropdown
+        [placeholder]="'Employees'"
+        [settings]="dropdownSettings"
+        [data]="employees"
+        (onSelect)="onEmployeeSelect($event)"
+        (onDeSelect)="onEmployeeDeSelect($event)">
+      </ng-multiselect-dropdown>
+    </div>
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="col">
+  <button class="btn-group-lg btn btn-primary"
+          type="submit"
+          (click)="ReAssignTask(taskId , empId)">Submit Assign</button>
+</div>

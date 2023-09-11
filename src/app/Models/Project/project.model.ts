@@ -1,37 +1,29 @@
 import  * as enum_ from '../../Enum/enum.model'
 import {TeamMembers} from "../Team/team.model";
 export interface GetProjectById {
-  id ?: number;
-  name : string;
-  description : string;
-  estimatedStartDate : Date;
-  estimatedEndDate : Date;
-  startDate : Date;
-  endDate : Date;
-  currentStatus: enum_.ProjectStatus;
+  name: string,
+  description: string,
+  estimatedStartDate: Date,
+  estimatedEndDate: Date,
+  startDate: Date,
+  endDate: Date,
+  currentStatus: enum_.ProjectStatus,
   team: {
     teamName: string,
     teamMembers: TeamMembers[],
-    teamLeader:null ,
-    id:number
-  },
-  tasks: [
-    name : string,
-    description :string,
-    estimatedDueDate: Date,
-    actualDueDate : Date,
-    startDate : Date,
-    endDate : Date,
-    currentStatus : enum_.TaskStatus,
-    projectId: number,
-    taskType : enum_.TaskType,
-    priority: enum_.TaskPriority,
-    durationProgress : string,
-    assignee: string,
+    teamLeader: null,
     id: number
-  ],
-  trackerValue: string,
-  attachments : allFilesOfProject[]
+  },
+  createdByEmployee: {
+    id: string,
+    name: string,
+    email: string,
+    imageUrl: string
+  },
+  id: number ,
+  progress : number ,
+  attachments : allFilesOfProject[] ,
+
 }
 
 export interface GetProjects

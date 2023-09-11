@@ -42,8 +42,8 @@ body {
 #container3{
   height: 500px;
   position: relative;
-  width:40%;
-  margin-left:620px;
+  width:100%;
+  margin-right:750px;
 }
 #container4{
   height: 500px;
@@ -55,14 +55,24 @@ body {
   background: white;
   margin-right: 350px;
   bottom: 0;
-  height: 450px;
+  height: 485px;
   left: 0;
   position:absolute;
   right: 0;
   top: 0;
-  width: 420px;
+  width: 600px;
 }
-
+#content5{
+  background: white;
+  margin-left: 620px;
+  bottom: 0;
+  height: 485px;
+  left: 0;
+  position:absolute;
+  right: 0;
+  top: 0;
+  width: 415px;
+}
 .tForm {
   display: block;
   text-overflow: ellipsis;

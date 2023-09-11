@@ -48,13 +48,14 @@ export class  ProjectStatusPipe implements  PipeTransform {
     transform(value:EnumModal.ProjectStatus) {
        switch (value) {
          case  EnumModal.ProjectStatus.New : return 'New' ;
-         case  EnumModal.ProjectStatus.Canceled : return  'Canceled' ;
          case  EnumModal.ProjectStatus.InProgress : return  'InProgress' ;
-         case  EnumModal.ProjectStatus.Open : return 'Open' ;
          case  EnumModal.ProjectStatus.Completed: return 'Completed';
          default : return 'No transformation created for ${value} ' ;
        }
     }
 }
+
+
+
 
 

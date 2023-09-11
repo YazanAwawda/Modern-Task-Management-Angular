@@ -22,6 +22,7 @@ import {UserRoleComponent} from "../RoleComponent/user-role/user-role.component"
 import {AddRoleComponent} from "../RoleComponent/add-role/add-role.component";
 import {UpdateRoleComponent} from "../RoleComponent/update-role/update-role.component";
 import {AppSideRegisterComponent} from "../authentication/register/register.component";
+import {ProfileUserComponent} from "../ProfileComponent/profile-user/profile-user.component";
 
 export const UiComponentsRoutes: Routes = [
   {
@@ -72,7 +73,7 @@ export const UiComponentsRoutes: Routes = [
         data : {requiredPermissions: [21]}
       } ,
       {
-        path : 'all-tasks/:id',
+        path : 'all-tasks/:id/:employeeIdAssigned/:projectManagerId/:teamId',
        component : ViewTasksOfProjectComponent,
           canActivate : [hasChildAccessPage] ,
           data : {requiredPermissions: [19,20]}
@@ -113,7 +114,7 @@ export const UiComponentsRoutes: Routes = [
            data :{requiredPermissions: [44]}
         },
         {
-        path : 'task-details/:id',
+        path : 'task-details/:id/:employeeIdAssigned/:projectManagerId/:teamId',
         component : TaskDetailsComponent ,
             canActivate : [hasChildAccessPage] ,
             data :{requiredPermissions: [21]}
@@ -155,7 +156,13 @@ export const UiComponentsRoutes: Routes = [
             component: AppSideRegisterComponent,
             canActivate : [hasChildAccessPage] ,
             data : {requiredPermissions: [47]}
-        }
+        },
+      {
+        path:'user-details/:userId' ,
+        component : ProfileUserComponent ,
+        canActivate : [hasChildAccessPage] ,
+        data : {requiredPermissions: [100]}
+      }
     ],
   },
 ];

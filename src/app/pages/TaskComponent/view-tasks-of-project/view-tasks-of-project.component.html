@@ -20,7 +20,7 @@
     </div>
         </div>
         <div class="table-responsive">
-          <table class="table align-items-center table-flush">
+          <table class="table align-items-center table-flush" style="width : 350px;">
             <thead class="thead-light">
             <tr>
               <th scope="col">Task</th>
@@ -36,7 +36,10 @@
             <tbody>
             <tr  style="cursor: pointer" *ngFor="let task of tasks"
                  title="Click To View Task Details"
-                 [routerLink]="['/ui-components/task-details/',task.id]">
+                 [routerLink]=
+                         "['/ui-components/task-details/'
+                         ,task.id ,this.employeeLeaderId
+                         ,this.projectManagerId,this.teamId ]">
               <th scope="row">
                 <div class="media align-items-center">
                   {{task.name}}
@@ -47,9 +50,10 @@
               </td>
               <td>
                 <label>
-               <span [class]="onColorTaskStatus(enumToString(TaskStatus,task.currentStatus))" >
-                  {{enumToString(TaskStatus,task.currentStatus)}}
-               </span>
+<!--               <span [class]="onColorTaskStatus(enumToString(TaskStatus,task.currentStatus))" >-->
+<!--                  {{enumToString(TaskStatus,task.currentStatus)}}-->
+<!--               </span>-->
+                  <span>{{task.currentStatus.name}}</span>
                 </label>
               </td>
               <td>
@@ -85,7 +89,11 @@
               <td>
 
                 <p class="d-inline p-2 text-primary" style="cursor:pointer"
-                   title="Task Details" [routerLink]="['/ui-components/task-details/',task.id]">View</p>
+                   title="Task Details" [routerLink]=
+                     "['/ui-components/task-details/',
+                       task.id
+                     ,this.employeeLeaderId
+                     ,this.projectManagerId  ]">View</p>
                 <p class="d-inline p-2 text-warning"  style="cursor:pointer" title="Edit task"
                    [routerLink]="['/ui-components/edit-task/',task.id]">Edit</p>
                 <p class="d-inline p-2 text-danger">Del</p>
@@ -97,3 +105,4 @@
 
       </div>
     </div>
+

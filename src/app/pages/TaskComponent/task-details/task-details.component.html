@@ -1,51 +1,74 @@
-
-<div style="width : 300px;">
-
-</div>
-<div style="width:642px;margin-left: 350px;" >
 <div>
-    <h6 class="d-inline text-start mb-4 pb-2"> Task Progressing</h6>
-    <h6 class="d-inline text-end mb-4 pb-2" style="padding-left: 315px;"> Progressing Control</h6>
-    <div class="mb-lg-3 row">
-        <div class="col" style="margin-left:426px">
-            <button class=" bi bi-file-plus btn-group-sm btn btn-outline-primary" style="margin: 2px" (click)="increaseProgress()">Increase</button>
-            <button class=" bi bi-dash-square btn-group-sm btn btn-outline-warning"  style="margin: 2px" (click)="decreaseProgress()">Decrease</button>
+<div>
+    <nav class="navbar bg-light">
+        <div class="container-fluid">
+            <p class="navbar-brand fw-semibold" >Task Details</p>
         </div>
-
-
-        <div class="col-sm-5" style="position: absolute">
-            <div class="progress" style="margin-top:15px ">
-                <div class="progress-bar progress-bar-striped
+    </nav>
+</div>
+<div>
+<br>
+    <div>
+        <form class="row gy-2 gx-3 align-items-center">
+            <div class="mb-lg-3 row" >
+                <div class="col-sm-5" style="position: absolute">
+                    <div class="progress" style="margin-top:15px ">
+                        <div class="progress-bar progress-bar-striped
          progress-bar-animated" role="progressbar"
-                     [style.width.%]="progressBarValue"
-                     aria-valuenow="{{progressBarValue}}" aria-valuemin="0"
-                     aria-valuemax="100">
-                    {{ progressBarValue }}%
+                             [style.width.%]="progressBarValue"
+                             aria-valuenow="{{progressBarValue}}" aria-valuemin="0"
+                             aria-valuemax="100">
+                            {{ progressBarValue }}%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" style="margin-left:600px">
+                    <button class=" bi bi-file-plus btn-group-sm btn btn-outline-primary"
+                            style="margin: 2px" (click)="increaseProgress(progressBarValue)">Increase</button>
+                    <button class=" bi bi-dash-square btn-group-sm btn btn-outline-warning"
+                            style="margin: 2px" (click)="decreaseProgress(progressBarValue)">Decrease</button>
+                    <button class="btn-group-lg btn btn-success" type="submit" (click)="changeProgressTask()">Submit Progress</button>
                 </div>
             </div>
-        </div>
+
+        </form>
     </div>
+
 </div>
+
 <div>
     <div class="btn-group" role="group" aria-label="Basic outlined example">
-        <h6 class=" text-start  pb-2">Task Actions Flow</h6>
-        <button  type="button" class="btn btn-outline-primary" (click)="startTask()">Start Task</button>
-        <button  type="button" class="btn btn-outline-primary" (click)="assignTask()">Assign Task</button>
-        <button  type="button" class="btn btn-outline-primary" (click)="markInProgress()">Mark In Progress</button>
-        <button  type="button" class="btn btn-outline-primary" (click)="markResolved()">Mark Resolved</button>
-        <button  type="button" class="btn btn-outline-primary" (click)="reopenTask()">Reopen Task</button>
-        <button  type="button" class="btn btn-outline-primary" (click)="declineTask()">Decline Task</button>
-        <button  type="button" class="btn btn-outline-primary" (click)="closeTask()">Close Task</button>
+        <h6 class=" text-start navbar-brand  pb-2" style="margin:5px;">Task Actions Flow</h6>
+
+            <button  type="button" class="btn btn-outline-primary" *ngIf="checkForStart()"
+                     (click)="startTask(task.id)">Start Task</button>
+
+        <button type="button" class="btn btn-outline-primary" *ngIf="checkForResolve()"
+                (click)="resolveTask(task.id)">Resolve</button>
+        <button  type="button" class="btn btn-outline-primary" *ngIf="checkForReOpen()"
+                 (click)="reopenTask(task.id)">Reopen Task</button>
+        <button type="button" class="btn btn-outline-primary" *ngIf="checkForDeclined()"
+                (click)="declineTask(task.id)">Decline Task</button>
+        <button  type="button" class="btn btn-outline-primary" *ngIf="checkForClose()"
+                 (click)="closeTask(task.id)">Close Task</button>
+      <button type="button"
+              (click)="openDialogEmp()"
+              class="btn btn-outline-primary" *ngIf="checkForReAssigned()">Assign Task</button>
+
     </div>
 </div>
 </div>
+
+
+
 
 <div class="d-inline p-2" id="container">
     <div id="content" class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
 
 
         <div class="row" style="overflow-y: scroll">
-            <h4 class="text-center mb-4 pb-2"> Task Info</h4>
+            <h4 class="text-center mb-4 pb-2 navbar-brand"> Task Info</h4>
 
             <div class="col-md-6">
                 <div>
@@ -60,14 +83,15 @@
             <br><br>
             <div class="col-12">
                 <div>
-                    <div  class="tForm d-inline p-2  text-dark text-center wrap-text">{{task.description}}</div>
+                    <div  class="tForm d-inline p-2
+                     text-dark text-center wrap-text">{{task.description}}</div>
                 </div>
             </div>
 <br><br><br>
 
             <div class="col-md-6">
                 <div class="d-inline p-2 badge text-bg-light  fs-6">Assigned to:</div>
-                <div  class=" d-inline p-2" >{{task.assignedEmployee.id}}</div>
+                <div  class=" d-inline p-2" >{{task.assignedEmployee.name}}</div>
             </div>
             <br><br><br>
             <div class="col-md-6">
@@ -97,7 +121,7 @@
     </div>
 </div>
 
-<div style="position: absolute ; margin-left:400px;"  >
+<div style="position: absolute ; margin-left:400px;width:640px;"  >
 <app-reply-template  [taskId]="taskId"></app-reply-template>
 </div>
 <br>
@@ -123,10 +147,10 @@
     <div id="content1">
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
-                <p class="navbar-brand fs-5" style="padding-left : 235px;">Last Active</p>
+                <p class="navbar-brand fs-5 fw-semibold" style="padding-left : 235px;">Task Time-Line</p>
             </div>
         </nav>
-            <div class="page">
+            <div class="page" style="overflow-y: scroll ; height: 680px;">
                 <div class="timeline" *ngFor="let time of task.taskTimeline">
                     <div class="timeline__group" >
                         <span class="timeline__year time" aria-hidden="true">{{time.transitionDate | date}} 8/27 11:50</span>

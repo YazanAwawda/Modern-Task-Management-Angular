@@ -1,1 +1,111 @@
-<p>profile-user works!</p>
+<section style="background-color: #eee;">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                 class="rounded-circle img-fluid" style="width: 150px;">
+            <h5 class="my-3">{{user.firstName}}</h5>
+            <p class="text-muted mb-1">{{user.jobTitleName}}</p>
+          </div>
+        </div>
+        <div class="card mb-4 mb-lg-0">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush rounded-3">
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3" *ngFor="let userProject of user.projects">
+                <i class="fas fa-globe fa-lg text-warning"></i>
+                <p class="mb-0">{{userProject.name}}</p>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Full Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{user.firstName}} {{user.lastName}}</p>
+              </div>
+            </div>
+
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Phone</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{user.phoneNumber}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Birthdate</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{user.birthdate | date}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Age</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{user.birthdate | age}}y</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Address</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{user.address}}</p>
+              </div>
+            </div>
+<hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Technical Skills</p>
+              </div>
+              <div class="col-sm-9">
+                <p *ngFor="let item of user.technicalSkills"
+                   class="text-muted mb-0">{{item.name}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body">
+                <p class="mb-4"><span class="text-primary font-italic me-1">
+                </span> User Teams
+                </p>
+                <p class="mb-1" style="font-size: .77rem;"
+                   *ngFor="let teamD of user.teams">{{teamD.teamName}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body">
+                <p class="mb-4"><span class="text-primary font-italic me-1"></span>
+User Biography
+                </p>
+                <p class="mb-1" style="font-size: .77rem;">{{user.biography}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

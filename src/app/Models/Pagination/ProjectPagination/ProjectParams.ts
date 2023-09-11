@@ -2,7 +2,7 @@ import * as enum_ from "../../../Enum/enum.model";
 
 export  class ProjectParams {
 
-ProjectStatusToDisplay ?: enum_.ProjectStatus[] = [0] ;
+ProjectStatusToDisplay ?: enum_.ProjectStatus[];
 
 PageIndex  : number  = 1;
 

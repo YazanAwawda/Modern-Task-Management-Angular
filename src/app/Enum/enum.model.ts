@@ -24,10 +24,8 @@ export enum TaskStatus {
 }
 export enum ProjectStatus {
   New = 0,
-  Open = 1,
-  InProgress = 2,
-  Completed = 3,
-  Canceled = 4
+  InProgress = 1,
+  Completed =2,
 }
 
 

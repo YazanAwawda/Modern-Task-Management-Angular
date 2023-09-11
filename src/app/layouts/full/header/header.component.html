@@ -9,15 +9,27 @@
   <!-- Notification Dropdown -->
   <!-- --------------------------------------------------------------- -->
 
-  <button mat-icon-button aria-label="Notifications">
+  <button         [matMenuTriggerFor]="profilemenu1"
+
+                  mat-icon-button aria-label="Notifications">
     <i-tabler
       class="d-flex"
       name="bell"
-      matBadge="1"
+      [matBadge]="countMsg"
       matBadgeColor="primary"
     ></i-tabler>
   </button>
-
+  <mat-menu #profilemenu1="matMenu">
+    <div class="list-group"  >
+      <div class="list-group-item list-group-item-action"  *ngFor="let msg of msgs">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{msg.owner}}</h5>
+          <small>{{msg.notificationDateTime | date}}</small>
+        </div>
+        <p class="mb-1">{{msg.message}}</p>
+      </div>
+    </div>
+  </mat-menu>
 
 
 
@@ -41,24 +53,26 @@
     />
   </button>
   <mat-menu #profilemenu="matMenu" class="topbar-dd cardWithShadow">
-    <button mat-menu-item>
+    <button mat-menu-item
+            [routerLink]="['/ui-components/user-details', this.authService.CurrentUser.id]"
+    >
       <mat-icon class="d-flex align-items-center"
         ><i-tabler name="user" class="icon-18 d-flex"></i-tabler></mat-icon
       >My Profile
     </button>
-    <button mat-menu-item>
-      <mat-icon class="d-flex align-items-center"
-        ><i-tabler name="mail" class="icon-18 d-flex"></i-tabler></mat-icon
-      >My Account
-    </button>
-    <button mat-menu-item>
-      <mat-icon class="d-flex align-items-center"
-        ><i-tabler
-          name="list-check"
-          class="icon-18 d-flex"
-        ></i-tabler></mat-icon
-      >My Task
-    </button>
+<!--    <button mat-menu-item>-->
+<!--      <mat-icon class="d-flex align-items-center"-->
+<!--        ><i-tabler name="mail" class="icon-18 d-flex"></i-tabler></mat-icon-->
+<!--      >My Account-->
+<!--    </button>-->
+<!--    <button mat-menu-item>-->
+<!--      <mat-icon class="d-flex align-items-center"-->
+<!--        ><i-tabler-->
+<!--          name="list-check"-->
+<!--          class="icon-18 d-flex"-->
+<!--        ></i-tabler></mat-icon-->
+<!--      >My Task-->
+<!--    </button>-->
 
     <div class="p-x-12 m-t-12">
       <a

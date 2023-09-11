@@ -10,7 +10,8 @@
          (click)="openDialog(projectID)">Add Task</p>
       <p style="margin:5px" class="d-inline p-2 btn btn-primary text-white"
          *ngIf="hasViewTasks"
-         [routerLink]="['/ui-components/all-tasks/',projects_?.id]" >View Tasks</p>
+         [routerLink]="['/ui-components/all-tasks/',projects_?.id ,
+         getTeamLeader(), projects_.createdByEmployee.id , projects_.team.id]" >View Tasks</p>
     </div>
     <br><br>
     <div class="row">
@@ -18,24 +19,24 @@
       <div>
         <div>
           <div class=" p-2  text-dark text-left">
-            <b style="font-size: 20px;">{{projects_?.name}}</b>
+            <b style="font-size: 20px;">{{projects_.name}}</b>
           </div>
         </div>
       </div>
       <br><br><br>
       <div class="col-12">
       <div>
-        <div  class="tForm d-inline p-2  text-dark text-center">{{projects_?.description}}</div>
+        <div  class="tForm d-inline p-2  text-dark text-center">{{projects_.description}}</div>
       </div>
       </div>
 <br><br><br><br>
       <div class="col-md-6">
         <div class="d-inline p-2  text-dark"><b>Estimated-Start-Date:</b></div>
-        <div  class=" d-inline p-2  text-dark">{{projects_?.estimatedStartDate | date:"MM/dd/yy"}}</div>
+        <div  class=" d-inline p-2  text-dark">{{projects_.estimatedStartDate | date:"MM/dd/yy"}}</div>
       </div>
       <div class="col-md-6">
         <div class="d-inline p-2  text-dark"><b>Estimated-End-Date:</b></div>
-        <div  class=" d-inline p-2  text-dark">{{projects_?.estimatedEndDate |  date:"MM/dd/yy"}}</div>
+        <div  class=" d-inline p-2  text-dark">{{projects_.estimatedEndDate |  date:"MM/dd/yy"}}</div>
       </div>
 <br><br><br>
       <div class="col-md-6" *ngIf="startDate !== undefined">
@@ -144,14 +145,20 @@
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 
-  <div class="d-inline p-2">
-    <div    id="container3"  class="shadow-lg p-3 mb-5 bg-body rounded" >
+  <div   id="container3">
+    <div id="content5"    class="d-inline p-2 shadow-lg p-3 mb-5 bg-body rounded" >
       <app-upload-multiple-files [OwnerId]="projectID"
                                  [type]="type"
                                  [typeId]="typeId"
                                  [filesOfProject]="projects_.attachments"></app-upload-multiple-files>
 
     </div>
+
+    <div id="content4"  class="shadow-lg p-3 mb-5 bg-body rounded" >
+<viewAllTasks [projectId]="projectID" [teamId]="projects_.team.id"></viewAllTasks>
+    </div>
+
+
 
   </div>
 

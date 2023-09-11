@@ -50,8 +50,6 @@
     </p>
 </div>
 
-
-
                                </div>
 
                             </div>
@@ -86,7 +84,7 @@
                         </div>
                         <div *ngIf="hiddenReply[comment.id]">
 
-                          <form (ngSubmit)="postReply(comment.id , $event ,comment)"
+                          <form (ngSubmit)="postReply(comment)"
                                 [formGroup]="editFormGroup">
                             <br>
                             <div>

@@ -98,14 +98,14 @@ export class ReplyFormComponent implements OnInit {
   }
 
 
-commentFileSelected(event:any){
-this.message  = [] ;
-this.progressInfos = [] ;
-this.selectedFiles.File = event.target.files ;
-if(this.selectedFiles.File.length === 0 ) {
-  this.selectedFiles.File = event.target.files[0];
-}
-}
+// commentFileSelected(event:any){
+// this.message  = [] ;
+// this.progressInfos = [] ;
+// this.selectedFiles.File = event.target.files ;
+// if(this.selectedFiles.File.length === 0 ) {
+//   this.selectedFiles.File = event.target.files[0];
+// }
+// }
 
   toggleReplies(id: any) {
     this.selectedCommentId = id;
@@ -119,72 +119,35 @@ if(this.selectedFiles.File.length === 0 ) {
     this.hiddenReply = {}; // Reset hidden comments
   }
 
-  postReply(id:number ,file :uploadFileComment  ,comment?: any) {
+  postReply(comment?: any) {
     const reply: (taskComment & CommentState) = {
       id: null,
       taskId: this.taskId,
       content: this.editFormGroup.value.content,
       parentCommentId: comment.id
     }
-    if(file)
-    this.commentService.create( file ,reply).subscribe({
-      next :(event:HttpEvent<any > | any) => {
-        if(event.type === HttpEventType.UploadProgress) {
-          this.progressInfos[id].value = Math.round(100 * event.loaded / event.total);
-        }
-        else if(event instanceof  HttpResponse){
-          let msg = "Replied Successfully." + file.File;
-          this._toastr.success(msg);
-          this.message.push(msg);
-          this.cancelReply(reply);
-        }
-
-      }, error : err => {
-        this._toastr.error("Uploaded Failed.")
-      }
-
+    if(reply)
+    this.commentService.create( reply).subscribe(() => {
+      this._toastr.success("Replied Successfully.")
     });
 
-    this.progressInfos[id] =
-        {
-          value: 0 ,
-          fileName : file.File.name
-        };
   }
 
 
-  submitReply(id:number ,file : uploadFileComment) {
+  submitReply(id:number ) {
     let taskComment = <TaskComment>{
       taskId: this.taskId,
       content: this.newComment.content
     }
-    if(file) {
+    if(taskComment) {
       let res = this.commentService.
-      create(file ,taskComment );
-      res.subscribe( {
-    next :(event:HttpEvent<any > | any) => {
-    if(event.type === HttpEventType.UploadProgress) {
-    this.progressInfos[id].value = Math.round(100 * event.loaded / event.total);
-  }
-  else if(event instanceof  HttpResponse){
-   let msg = "Posted Successfully." + file.File;
-    this._toastr.success(msg);
-    this.message.push(msg);
-  }
-
-}, error : err => {
-          this._toastr.error("Uploaded Failed.")
-        }
-
+      create(taskComment );
+      res.subscribe( () => {
 
       });
 
     }
-    this.progressInfos[id] =
-        {
-          value: 0 ,
-          fileName : file.File.name
-        };
+
     //   let res = this.commentService.
     //   create(file ,taskComment );
     //   res.subscribe(comment => {
@@ -198,29 +161,29 @@ if(this.selectedFiles.File.length === 0 ) {
   }
 
 
-uploadFilesComment(){
-    this.message = [];
-    if(this.selectedFiles) {
-      for (let i = 0; i < this.selectedFiles.File.length; i++) {
-       if(this.selectedFiles.File.length > 0) {
-         let file :uploadFileComment  = {
-           File : this.selectedFiles.File[i] ,
-           OwnerId : this.newComment.id!
-         }
-         this.postReply(i , file);
-         this.submitReply(i , file);
-      }
-       if(this.selectedFiles.File.length === 0 ) {
-         let file : uploadFileComment = {
-            File : this.selectedFiles.File[0] ,
-            OwnerId : this.newComment.id!
-         }
-         this.postReply(i , file);
-         this.submitReply(i , file);
-       }
-      }
-    }
-}
+// uploadFilesComment(){
+//     this.message = [];
+//     if(this.selectedFiles) {
+//       for (let i = 0; i < this.selectedFiles.File.length; i++) {
+//        if(this.selectedFiles.File.length > 0) {
+//          let file :uploadFileComment  = {
+//            File : this.selectedFiles.File[i] ,
+//            OwnerId : this.newComment.id!
+//          }
+//          this.postReply(i , file);
+//          this.submitReply(i , file);
+//       }
+//        if(this.selectedFiles.File.length === 0 ) {
+//          let file : uploadFileComment = {
+//             File : this.selectedFiles.File[0] ,
+//             OwnerId : this.newComment.id!
+//          }
+//          this.postReply(i , file);
+//          this.submitReply(i , file);
+//        }
+//       }
+//     }
+// }
 
 
   toggleEdit({id, content}: { id: number, content: string } | getComment) {

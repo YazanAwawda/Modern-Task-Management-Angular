@@ -66,7 +66,8 @@ export class EditTaskComponent implements  OnInit{
       name : this.editTaskFormGroup.value.name ,
       description : this.editTaskFormGroup.value.description,
       taskTypeId : this.editTaskFormGroup.value.taskType_,
-      priorityId : this.editTaskFormGroup.value.taskPriority
+      priorityId : this.editTaskFormGroup.value.taskPriority,
+      progress   :0
       // endDate : this.editTaskFormGroup.get('endDate')?.value ,
       // taskType : Number(this.editTaskFormGroup.get('taskType')?.value)
 

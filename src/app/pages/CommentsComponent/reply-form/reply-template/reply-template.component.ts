@@ -116,81 +116,35 @@ export class ReplyTemplateComponent {
     this.hiddenReply = {}; // Reset hidden comments
   }
 
-  postReply(id:number ,file :uploadFileComment  ,comment?: any) {
+  postReply(comment?: any) {
     const reply: (taskComment & CommentState) = {
       id: null,
       taskId: this.taskId,
       content: this.editFormGroup.value.content,
       parentCommentId: comment.id
     }
-    if(file)
-      this.commentService.create( file ,reply).subscribe({
-        next :(event:HttpEvent<any > | any) => {
-          if(event.type === HttpEventType.UploadProgress) {
-            this.progressInfos[id].value = Math.round(100 * event.loaded / event.total);
-          }
-          else if(event instanceof  HttpResponse){
-            let msg = "Replied Successfully." + file.File;
-            this._toastr.success(msg);
-            this.message.push(msg);
-            this.cancelReply(reply);
-          }
+    if(reply)
+      this.commentService.create( reply).subscribe(() => {
 
-        }, error : err => {
-          this._toastr.error("Uploaded Failed.")
-        }
+      })
 
-      });
-
-    this.progressInfos[id] =
-        {
-          value: 0 ,
-          fileName : file.File.name
-        };
   }
 
 
-  submitReply(id:number ,file : uploadFileComment) {
+  submitReply() {
     let taskComment = <TaskComment>{
       taskId: this.taskId,
       content: this.newComment.content
     }
-    if(file) {
+    if(taskComment) {
       let res = this.commentService.
-      create(file ,taskComment );
-      res.subscribe( {
-        next :(event:HttpEvent<any > | any) => {
-          if(event.type === HttpEventType.UploadProgress) {
-            this.progressInfos[id!].value = Math.round(100 * event.loaded / event.total);
-          }
-          else if(event instanceof  HttpResponse){
-            let msg = "Posted Successfully." + file.File;
-            this._toastr.success(msg);
-            this.message.push(msg);
-          }
-
-        }, error : err => {
-          this._toastr.error("Uploaded Failed.")
-        }
-
-
+      create(taskComment );
+      res.subscribe(() => {
+      this._toastr.success("Uploaded comment successfully.")
       });
 
     }
-    this.progressInfos[id!] =
-        {
-          value: 0 ,
-          fileName : file.File.name
-        };
-    //   let res = this.commentService.
-    //   create(file ,taskComment );
-    //   res.subscribe(comment => {
-    //     this.newComment = comment;
-    //
-    //     this._toastr.success("Posted Successfully.");
-    //
-    //
-    // });
+
 
   }
 
@@ -266,26 +220,26 @@ export class ReplyTemplateComponent {
 
     });
   }
-  uploadFilesComment(){
-    this.message = [];
-    if(this.selectedFiles) {
-      for (let i = 0; i < this.selectedFiles.File.length; i++) {
-        if(this.selectedFiles.File.length > 0) {
-          let file :uploadFileComment  = {
-            File : this.selectedFiles.File[i] ,
-            OwnerId :this.newComment.id!
-          }
-          this.submitReply(i , file);
-        }
-        if(this.selectedFiles.File.length === 0 ) {
-          let file : uploadFileComment = {
-            File : this.selectedFiles.File[0] ,
-            OwnerId : this.newComment.id!
-          }
-          this.submitReply(i , file);
-        }
-      }
-    }
-  }
+  // uploadFilesComment(){
+  //   this.message = [];
+  //   if(this.selectedFiles) {
+  //     for (let i = 0; i < this.selectedFiles.File.length; i++) {
+  //       if(this.selectedFiles.File.length > 0) {
+  //         // let file :uploadFileComment  = {
+  //         //   File : this.selectedFiles.File[i] ,
+  //         //   OwnerId :this.newComment.id!
+  //         // }
+  //         this.submitReply(i );
+  //       }
+  //       if(this.selectedFiles.File.length === 0 ) {
+  //         // let file : uploadFileComment = {
+  //         //   File : this.selectedFiles.File[0] ,
+  //         //   OwnerId : this.newComment.id!
+  //         // }
+  //         this.submitReply(i );
+  //       }
+  //     }
+  //   }
+  // }
 
 }

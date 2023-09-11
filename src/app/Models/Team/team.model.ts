@@ -1,4 +1,5 @@
 import {GetProjects} from "../Project/project.model";
+import  * as enum_ from '../../Enum/enum.model'
 
 export interface TeamLeader {
   id: string;
@@ -6,20 +7,30 @@ export interface TeamLeader {
 }
 
 export class Employee {
-  id: string;
-  name : string
-  email ?: string
+        id: string
+        name: string
+        email?: string
+        imageUrl?: string
+}
+
+export class CheckBoxEmployee {
+  id: string
+  name: string
+  email?: string
+  imageUrl?: string
+  checked: boolean = false
 }
 
 export interface CreateTeam {
-  teamName: string;
-  teamLeader: TeamLeader;
-  employees: Employee[];
+  teamName: string,
+  teamLeader: {
+    id: string
+  },
+  employees: Employee[]
 }
 export interface  TeamMembers {
   employee : Employee  ;
-  isTeamLeader ?: boolean ;
-  id ?: number;
+  isTeamLeader : boolean ;
 }
 
 export interface GetTeamMembers {
@@ -32,45 +43,71 @@ export interface GetTeamMembers {
 }
 
 export interface  GetTeam {
-  id : number ;
- teamName :  string ;
- project ?: null;
- teamMembers :TeamMembers[],
-  projects : [ {
-  name : string ;
-  description :  string ;
-    team: {
-      teamName: string,
-      teamMembers: [
-        {
-          employee: {
-            id:number
-          },
-          isTeamLeader: boolean,
-          id: number
-        }
-      ],
-      teamLeader: null,
-      id: number
-    },
+  teamName: string,
+  teamMembers: TeamMembers[],
+  projects: [
+  {
+    name: string,
+    description: string,
     numberOfOpenTasks: number,
+    estimatedStartDate:Date,
+    estimatedEndDate: Date,
     startDate: Date,
-    currentStatus: 0,
+    endDate: Date,
+    currentStatus: enum_.ProjectStatus,
+    progress: number,
     teamId: number,
-    id: number ;
-  } ]
-
+    createdBy: string,
+    id: number
+  }
+],
+  id: number
 }
+
+
+
 
 export  interface  EditTeam {
-  id : number ;
-  teamName : string ;
-  teamMembers : TeamMembers[]
+  id: number,
+  teamName: string,
+  teamMembers: [
+    {
+      id: string
+    }
+  ] | any
 }
 
+
 export interface  GetTeamById {
-  id : number ;
-}
+  teamName: string,
+  teamMembers: [
+    {
+      employee: {
+        id: string,
+        name: string,
+        email: string,
+        imageUrl: string
+      },
+      isTeamLeader: boolean
+    }
+  ],
+  projects: [
+    {
+      name: string,
+      description: string,
+      numberOfOpenTasks: number,
+      estimatedStartDate:Date,
+      estimatedEndDate: Date,
+      startDate: Date,
+      endDate: Date,
+      currentStatus: enum_.ProjectStatus,
+      progress: number,
+      teamId: number,
+      createdBy: string,
+      id: number
+    }
+  ],
+  id: number}
 
 export interface  DeleteTeamById {
   id : number ;
@@ -81,7 +118,7 @@ export interface  GetAvailableTeams {
   teamName: string,
   teamMembers: TeamMembers[],
   projects: GetProjects[],
-  project ?: null
+
 }
 
 export interface  UpdateLeader {

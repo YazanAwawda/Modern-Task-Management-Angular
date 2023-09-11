@@ -220,6 +220,8 @@ export class UploadMultipleFilesComponent implements  OnInit{
               type : type , typeId : typeId}).subscribe(res => {
           console.log(res);
           this.toasty.error("Remove Successfully.");
+        window.location.reload();
+
       });
   }
   ngOnInit(): void {

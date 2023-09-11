@@ -4,10 +4,7 @@ import {TaskServices} from "../../../services/task-service/task-service";
 import {Router} from "@angular/router";
 import {TaskParams} from "../../../Models/Pagination/TaskPagination/TaskParams";
 import {enumToString} from "../../../EnumHelper/enum.helper";
-import {TaskPriority, TaskStatus, TaskType} from "../../../Enum/enum.model";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
+
 
 @Component({
   selector: 'app-task-list',
@@ -50,13 +47,6 @@ export class TaskListComponent {
       this.taskParams.PageSize = res.pageSize ;
       this.totalCount = res.count ;
       console.log(res);
-
-      //  // For task id.
-      // if( this.taskById.projectId == this.projectId ){
-      //   return (this.taskById.id  = this.taskID );
-      // }else {
-      //   return this.onSeeDetails(this.taskID);
-      // }
 
 
     } , err => {

@@ -31,7 +31,7 @@
                  alt="avatar" width="40"
                  height="40" />
             <div class="form-outline w-100 " >
-              <form #r="ngForm" (ngSubmit)="r.form.valid && submitReply( $event, $event)" class="container-sm p-2 ">
+              <form #r="ngForm" (ngSubmit)="r.form.valid && submitReply()" class="container-sm p-2 ">
 
                 <div class="form-group">
             <textarea
@@ -45,53 +45,28 @@
             </textarea>
                 </div>
 <div style="margin-top:10px; position: relative">
-  <div>
+<!--  <div>-->
 
-    <div class="d-inline p-2" style="position: absolute">
-      <input class="custom-file-input" style="width:130px" type="file" multiple (change)="commentFileSelected($event)" />
-    </div>
-  </div>
+<!--&lt;!&ndash;    <div class="d-inline p-2" style="position: absolute">&ndash;&gt;-->
+<!--&lt;!&ndash;      <input class="custom-file-input" style="width:130px" type="file" multiple&ndash;&gt;-->
+<!--&lt;!&ndash;             (change)="commentFileSelected($event)" />&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--  </div>-->
 
-  <div class="d-inline p-2"></div>
-  <div class="d-inline p-2"></div>
-  <div class="d-inline p-2"></div>
-  <div class="d-inline p-2"></div>
-  <div class="d-inline p-2"></div>
-  <div class="d-inline p-2"></div>
-  <div class="d-inline p-2"></div>
-  <div class="d-inline p-2"></div>
-  <div class="d-inline p-2"></div>
-  <div class="d-inline p-2" style="margin-top:15px;">
+<!--  <div class="d-inline p-2"></div>-->
+<!--  <div class="d-inline p-2"></div>-->
+<!--  <div class="d-inline p-2"></div>-->
+<!--  <div class="d-inline p-2"></div>-->
+<!--  <div class="d-inline p-2"></div>-->
+<!--  <div class="d-inline p-2"></div>-->
+<!--  <div class="d-inline p-2"></div>-->
+<!--  <div class="d-inline p-2"></div>-->
+<!--  <div class="d-inline p-2"></div>-->
+  <div class="d-inline p-2">
     <button class="col-4 btn btn-outline-primary"
             type="submit"
-            style="
-                   border:none;
-                   margin-top: 10px; "
-            (click)="uploadFilesComment()"
             [disabled]="!r.valid">
-      <p class="d-inline p-2">
-        <svg  xmlns="http://www.w3.org/2000/svg"
-              class="icon icon-tabler icon-tabler-send"
-              width="20" height="20" viewBox="0 0 24 24"
-              stroke-width="2" stroke="currentColor"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round">
-          <title>Send</title>
-          <path stroke="none"
-                d="M0 0h24v24H0z"
-                fill="none">
-          </path>
-          <path d="M10 14l11 -11"></path>
-          <path d="M21 3l-6.5 18a.55 .55 0 0 1
-                              -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0
-                               -1l18 -6.5">
-          </path>
-        </svg>
-      </p>
-      <p class="d-inline p-2">
-        Send
-      </p>
+      Send
     </button>
   </div>
 </div>

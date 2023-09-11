@@ -8,6 +8,8 @@ import {Router} from "@angular/router";
 import {PermissionService} from "../../../services/permission-service/permission.service";
 import {Permission} from "../../../Models/Permission/permission-model";
 import {Observable} from "rxjs";
+import {TeamService} from "../../../services/team-service/team.service";
+import {GetTeam, TeamMembers} from "../../../Models/Team/team.model";
 
 
 @Component({
@@ -41,8 +43,10 @@ export class ListProjectsComponent implements  OnInit{
   ]
 
    show !:string  ;
+   teams : GetTeam ;
   constructor(private  projectService : ProjectService ,
               private  router : Router ,
+              private  teamService : TeamService ,
               public  permissionService : PermissionService) {
   }
 
@@ -66,6 +70,7 @@ export class ListProjectsComponent implements  OnInit{
        });
    }
 
+   teamId : number ;
     getProjects(){
     this.projectService.getAllProjectsWithPagination(this.projectParams).subscribe((response) => {
       this.projects = response.data;
@@ -75,6 +80,7 @@ export class ListProjectsComponent implements  OnInit{
 
       for (const re of this.projects) {
         let x = enumToString( ProjectStatus ,re.currentStatus) ;
+        this.teamId = re.teamId;
         this.onColorProjectStatus(x);
       }
 
@@ -200,6 +206,8 @@ this.projectService.getProjectByID($event).subscribe(()=>{
     return colorStatus as string ;
 
   }
+
+
 
   protected readonly TaskType = TaskType;
   protected readonly ProjectStatus = ProjectStatus;

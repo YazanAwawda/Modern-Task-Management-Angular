@@ -6,10 +6,10 @@ export const PagesRoutes: Routes = [
   {
     path: '',
     component: AppDashboardComponent,
-    canActivate : [
-      isUserLoggedInGuard
-
-    ] ,
+    // canActivate : [
+    //   isUserLoggedInGuard
+    //
+    // ] ,
     data: {
       title: 'Starter Page',
     },

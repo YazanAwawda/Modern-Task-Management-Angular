@@ -2,6 +2,7 @@ import { NgModule }      from '@angular/core';
 import * as EnumPipe     from '../EnumPipe/enum.pipe';
 import {ConverterPipe} from "../TreeNodePipe/node-pipe";
 import {ValueArrayPipe} from "../ValueArrayPipe/value.pipe";
+import {AgePipe} from "../AgePipe/age-pipe";
 
 @NgModule({
   imports:        [],
@@ -11,13 +12,13 @@ import {ValueArrayPipe} from "../ValueArrayPipe/value.pipe";
      EnumPipe.TaskPriorityPipe
     ,EnumPipe.TaskStatusPipe
     ,EnumPipe.ProjectStatusPipe,
-     ConverterPipe , ValueArrayPipe ],
+     ConverterPipe , ValueArrayPipe , AgePipe],
 
   exports:[
     EnumPipe.TaskTypePipe ,
     EnumPipe.TaskPriorityPipe ,
     EnumPipe.TaskStatusPipe,
-    ConverterPipe , ValueArrayPipe],
+    ConverterPipe , ValueArrayPipe , AgePipe],
 })
 
 export class PipeModule {

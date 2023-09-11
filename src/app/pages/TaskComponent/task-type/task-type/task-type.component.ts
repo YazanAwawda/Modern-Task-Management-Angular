@@ -1,9 +1,7 @@
 import {Component, Inject, TemplateRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {TaskPriority} from "../../../../Models/TaskPriority/task-priority";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ToastrService} from "ngx-toastr";
-import {TaskPriorityService} from "../../../../services/task-priority-service/task-priority";
 import { TaskType } from 'src/app/Models/TaskType/task-type';
 import {TaskTypeService} from "../../../../services/task-type-service/task-type";
 import {PermissionService} from "../../../../services/permission-service/permission.service";
@@ -104,6 +102,7 @@ export class TaskTypeComponent {
   onDeleteType(id:number){
     this.taskTypeService.deleteTaskType(id).subscribe(res => {
       console.log(res);
+      this.getAllTaskType();
       this.toastyService.success("Deleted Done.")
     } , err => {
       this.toastyService.error("An Error Occurred.")

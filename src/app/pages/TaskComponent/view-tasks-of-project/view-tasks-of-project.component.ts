@@ -15,17 +15,20 @@ import {Subject} from "rxjs";
 
 export class ViewTasksOfProjectComponent implements OnInit {
 
+  //Project Manager (Create By)
+  //Team Members
 
-  @ViewChild('search', {static: false}) searchElement !: ElementRef;
+
+    @ViewChild('search', {static: false}) searchElement !: ElementRef;
 
   private searchInputSubject = new Subject<string>();
   searchResult: any;
   tableVisible: boolean = false;
   paginationVisible: boolean = false;
-  projectId !: number;
+  @Input() projectId !: number;
+  @Input() teamId !: number ;
 
-
-   tasks : GetAllTasks[] =[];
+   tasks : GetAllTasks[] ;
    task : GetAllTasks;
    role:{ role: string; colorClass: string; };
 
@@ -39,7 +42,8 @@ export class ViewTasksOfProjectComponent implements OnInit {
   isTeamLeader : boolean ;
 
   protected readonly enumToString = enumToString;
-
+  employeeLeaderId:string;
+  projectManagerId:string | null;
   constructor(private tasksServices: TaskServices,
               private route: Router,
               private activeRoute: ActivatedRoute) {
@@ -53,8 +57,13 @@ export class ViewTasksOfProjectComponent implements OnInit {
 
   ngOnInit(): void {
     this.activeRoute.params.subscribe(x => {
-      this.projectId = Number(x["id"])
+      this.projectId = Number(x["id"]);
+      this.employeeLeaderId =  this.activeRoute.snapshot.paramMap.get('employeeIdAssigned')!;
+      this.projectManagerId = this.activeRoute.snapshot.paramMap.get('projectManagerId');
+      this.teamId = Number(this.activeRoute.snapshot.paramMap.get('teamId'));
     });
+
+    console.log(this.teamId);
     this.GetAllTasks();
   }
 
@@ -93,8 +102,8 @@ export class ViewTasksOfProjectComponent implements OnInit {
       }
 
       console.log(projectId);
-      console.log(res);
-
+      console.log(res.data);
+      console.log(this.tasks);
     }, err => {
       console.log(err);
     })
@@ -261,5 +270,4 @@ export class ViewTasksOfProjectComponent implements OnInit {
   // protected readonly TaskPriority = TaskPriority;
   // protected readonly TaskType = TaskType;
   protected readonly TaskStatus = TaskStatus;
-
 }

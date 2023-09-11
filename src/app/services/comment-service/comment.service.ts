@@ -92,9 +92,7 @@ export class CommentService {
       this.hubConnection.start().then(value => {
         this.addSubmitCommentListener();
       })
-        .catch(err => console.error('Error while starting connection: ' +err));
-
-
+        .catch(err => console.error('Error while starting connection: ' + err));
     }
 
 
@@ -186,22 +184,24 @@ export class CommentService {
                 return res;
             }))
     }
-    create(commentFile : uploadFileComment ,comment : (taskComment & CommentState) ): Observable<(taskComment & CommentState) | any | HttpEvent<any> >  {
+    create(comment : (taskComment & CommentState) ):
+        Observable<(taskComment & CommentState) | any | HttpEvent<any> >  {
 
-        let  issuesList: any[] = [];
+        // let  issuesList: any[] = [];
 
       return this.http.post("https://localhost:7011/api/Tasks/submit-comment" , comment , this.httpOptions)
         .pipe(map(res => {
        return  <(CommentState & taskComment)>res ;
           // setDisplayName(comment.author!);
-        }),concatMap((val : any ) => {
-                for (let item of val.body) {
-                    issuesList.push(item);
-                }
-              return this.uploadAttachmentFileComment(commentFile)
         }),
-            map(() => issuesList)
-            ,catchError((err : any):any=>{
+        //     concatMap((val : any ) => {
+        //         for (let item of val.body) {
+        //             issuesList.push(item);
+        //         }
+        //       return this.uploadAttachmentFileComment(commentFile)
+        //),map(() => {}) }
+
+            catchError((err : any):any=>{
           let errorMessage= 'Unknown error!';
 
           if(err.error instanceof  ErrorEvent) {

@@ -12,7 +12,6 @@ export class TeamDetailsComponent implements  OnInit {
 
   teamData : GetTeam ;
   teamId:number ;
-
   constructor(private  teamService : TeamService , private  route : ActivatedRoute) {
   }
   ngOnInit( ): void {
@@ -24,6 +23,7 @@ export class TeamDetailsComponent implements  OnInit {
      this.teamId = +x['id'])
     this.teamService.getTeamByID(this.teamId).subscribe(res => {
       this.teamData = res;
+
       console.log(res);
     });
   }

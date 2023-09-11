@@ -48,10 +48,18 @@ export class TaskServices {
       projectID = params.ProjectId ;
       params_ = params_.append('ProjectId',projectID);
 
-    if(params.TaskStatusToDisplay)
-      for(const TaskStatusToDisplayKey in params.TaskStatusToDisplay){
+    if(params.TaskStatusFilter)
+      for(const TaskStatusFilter in params.TaskStatusFilter){
      //TODO:   params_ = params_.append("TaskStatusToDisplay" , TaskStatusToDisplayKey);
       }
+    if(params?.GetCreatedByMeTasks)
+      params_ = params_.append('GetCreatedByMeTasks' , params.GetCreatedByMeTasks) ;
+
+    if(params?.GetAssignedToMeTasks)
+      params_ = params_.append('GetAssignedToMeTasks' , params.GetAssignedToMeTasks) ;
+
+    if(params?.GetCreatedToMeTasks)
+      params_ = params_.append('GetCreatedToMeTasks' , params.GetCreatedToMeTasks) ;
 
     if(params.TaskPrioritiesFilter)
       for(const TaskPrioritiesFilterKey in params.TaskPrioritiesFilter){
@@ -71,7 +79,8 @@ export class TaskServices {
       params_ = params_.append('Sort' , params.Sort) ;
     if(params?.Search)
       params_ = params_.append('Search' , params.Search);
-    return this.http.get<ITaskPagination>("https://localhost:7011/api/Tasks",{params: params_});
+    return this.http.get<ITaskPagination>("https://localhost:7011/api/Tasks",
+      {params: params_});
   }
 
   editTask(editTask:EditTask) : Observable<EditTask>{

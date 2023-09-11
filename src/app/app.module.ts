@@ -86,6 +86,50 @@ import {ProfileService} from "./services/profile-service/profile-service";
 import {UpdateRoleComponent} from "./pages/RoleComponent/update-role/update-role.component";
 import {AddRoleComponent} from "./pages/RoleComponent/add-role/add-role.component";
 import {ListUserPermissionComponent} from "./pages/RoleComponent/list-user-permission/list-user-permission.component";
+import {TaskFlowService} from "./services/task-flow-service/task-flow";
+import {UpdateUserRoleComponent} from "./pages/RoleComponent/update-user-role/update-user-role.component";
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import 'datatables.net-fixedheader-bs5'
+import { NgFixedHeaderModule } from 'angular-fixed-header-table';
+import {NotificationService} from "./services/notification-service/notification-service";
+import {ReassingeEmployeeComponent} from "./pages/TaskComponent/reassinge-employee/reassinge-employee.component";
+import {ModalModule} from "ngx-bootstrap/modal";
+
 
 export const INPUT_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -134,6 +178,8 @@ export const INPUT_VALUE_ACCESSOR = {
     UpdateRoleComponent ,
     AddRoleComponent,
     ListUserPermissionComponent,
+    ReassingeEmployeeComponent,
+    UpdateUserRoleComponent,
     TypeofPipe
   ],
   imports: [
@@ -143,6 +189,7 @@ export const INPUT_VALUE_ACCESSOR = {
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    NgFixedHeaderModule,
     MaterialModule,
     DropDownListModule,
     TablerIconsModule.pick(TablerIcons),
@@ -155,7 +202,8 @@ export const INPUT_VALUE_ACCESSOR = {
     NgMultiSelectDropDownModule.forRoot(),
     NgbModule,
     NoopAnimationsModule ,
-    TreeviewModule.forRoot()
+    TreeviewModule.forRoot(),
+    ModalModule.forRoot()
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
@@ -169,8 +217,10 @@ export const INPUT_VALUE_ACCESSOR = {
        PermissionService ,
        TaskPriorityService ,
        TaskTypeService,
+       TaskFlowService,
        ProfileService,
        RoleService,
+       NotificationService,
        CommentService
     ,{ provide: MatDialogRef, useValue: {}}
       ,
@@ -183,7 +233,7 @@ export const INPUT_VALUE_ACCESSOR = {
     INPUT_VALUE_ACCESSOR
 
   ],
-  entryComponents:[CreateTaskComponent]
+  entryComponents:[CreateTaskComponent , ReassingeEmployeeComponent]
   , schemas :  [CUSTOM_ELEMENTS_SCHEMA , NO_ERRORS_SCHEMA]
 })
 export class AppModule {
