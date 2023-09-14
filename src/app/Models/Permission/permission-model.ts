@@ -22,7 +22,7 @@ export  interface  DeleteRole {
 
 export interface  UpdateUserRoleWithPermissions {
   roleName: string,
-  userEmail: string ,
+  userEmail: any ,
   permissions: number []
 }
 

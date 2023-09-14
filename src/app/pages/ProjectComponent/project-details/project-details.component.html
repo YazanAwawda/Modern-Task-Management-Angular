@@ -38,7 +38,8 @@
         <div class="d-inline p-2  text-dark"><b>Estimated-End-Date:</b></div>
         <div  class=" d-inline p-2  text-dark">{{projects_.estimatedEndDate |  date:"MM/dd/yy"}}</div>
       </div>
-<br><br><br>
+
+      <br><br><br>
       <div class="col-md-6" *ngIf="startDate !== undefined">
         <div class="d-inline p-2  text-dark"><b>Start-Date:</b></div>
         <div  class=" d-inline p-2  badge bg-danger text-danger bg-opacity-25">{{startDate }}</div>
@@ -60,8 +61,15 @@
         <div class="d-inline p-2  text-dark"><b>Project Status:</b></div>
         <div  class=" d-inline p-2" [class]="colorStatus">{{projects_?.currentStatus}}</div>
       </div>
+
+
+      <div class="col-md-6">
+        <div class="d-inline p-2  text-dark"><b>Progress Value:</b></div>
+        <div  class=" d-inline p-2" >{{projects_.progress}}</div>
+      </div>
     </div>
   </div>
+
 </div>
 
 
@@ -120,7 +128,11 @@
                </div>
               </div>
              <ul class="list-group">
-               <li *ngFor="let emp of filteredEmp" class="list-group-item d-flex justify-content-between align-items-start">
+               <li *ngFor="let emp of filteredEmp"
+                   [routerLink]="['/ui-components/user-details/',emp.employee.id]"
+                   title="View Profile"
+                   style="cursor:pointer"
+                   class="list-group-item d-flex justify-content-between align-items-start">
                  <div class="ms-2 me-auto">
                    <div class="fw-semibold"> {{emp.employee.name}}</div>
                  </div>
@@ -147,7 +159,8 @@
 
   <div   id="container3">
     <div id="content5"    class="d-inline p-2 shadow-lg p-3 mb-5 bg-body rounded" >
-      <app-upload-multiple-files [OwnerId]="projectID"
+      <app-upload-multiple-files
+                                 [OwnerId]="projectID"
                                  [type]="type"
                                  [typeId]="typeId"
                                  [filesOfProject]="projects_.attachments"></app-upload-multiple-files>
@@ -155,7 +168,12 @@
     </div>
 
     <div id="content4"  class="shadow-lg p-3 mb-5 bg-body rounded" >
-<viewAllTasks [projectId]="projectID" [teamId]="projects_.team.id"></viewAllTasks>
+<viewAllTasks [projectManagerInputId]="projects_.createdByEmployee.id"
+              [TeamLeadID]="getTeamLeader()"
+              [projectId]="projectID"
+              [teamId]="teamId"
+
+></viewAllTasks>
     </div>
 
 

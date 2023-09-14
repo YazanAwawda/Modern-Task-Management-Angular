@@ -91,6 +91,7 @@ export class UploadMultipleFilesComponent implements  OnInit{
          const msg = "Uploaded the file successfully: "+ file.Files.name ;
          this.toasty.success(msg);
          this.message.push(msg);
+         window.location.reload();
        }
 
         }, error : err => {
@@ -119,6 +120,7 @@ export class UploadMultipleFilesComponent implements  OnInit{
                         const msg = "Uploaded the file successfully: "+ file.fileProject.name ;
                         this.toasty.success(msg);
                         this.message.push(msg);
+                        window.location.reload();
                     }
 
                 }, error : err => {

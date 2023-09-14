@@ -1,1 +1,56 @@
-<p>list-user-permission works!</p>
+<div>
+<form [formGroup]="userForm" (ngSubmit)="updateUserRolePermission()">
+  <div class="form-group col">
+    <div class="form-group  add-boarder ">
+      <div class="form-group">
+        <div>
+          <label for="employees">Employees</label>
+          <ng-multiselect-dropdown
+            id="employees"
+            formControlName="userEmail"
+            [placeholder]="'Choose Employee Account'"
+            [settings]="dropdownSettings"
+            [data]="employees"
+            (onSelect)="onItemSelect($event)"
+            (onDeSelect)="onDeselectItem($event)">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="form-outline">
+      <div>
+        <label for="roles">Roles</label>
+        <ng-multiselect-dropdown
+          id="roles"
+          formControlName="roleName"
+          [placeholder]="'Choose Role Name'"
+          [settings]="dropdownSettings1"
+          [data]="roles"
+          (change)="getRolePermissions(selectedRole)"
+          (onSelect)="onItemSelect1($event)"
+          (onDeSelect)="onDeselectItem1($event)">
+        </ng-multiselect-dropdown>
+      </div>
+    </div>
+
+
+
+    <div class="col">
+      <div class="form-outline" *ngIf="selectedRole != null" formArrayName="permissions">
+        <label class="form-label" >Select Permissions</label>
+        <ngx-treeview
+          [config]="config2" [items]="items2"
+          (selectedChange)="values2 = $event">
+        </ngx-treeview>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="d-grid gap-2 col-md-8 mx-auto">
+    <button class="col btn btn-primary" style="position: absolute" type="submit">Confirm Changes</button>
+  </div>
+</form>
+
+</div>

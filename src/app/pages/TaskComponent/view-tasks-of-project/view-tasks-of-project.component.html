@@ -35,9 +35,8 @@
             </thead>
             <tbody>
             <tr  style="cursor: pointer" *ngFor="let task of tasks"
-                 title="Click To View Task Details"
-                 [routerLink]=
-                         "['/ui-components/task-details/'
+                 title="Task Details"
+                 [routerLink]="['/ui-components/task-details/'
                          ,task.id ,this.employeeLeaderId
                          ,this.projectManagerId,this.teamId ]">
               <th scope="row">
@@ -45,15 +44,15 @@
                   {{task.name}}
                 </div>
               </th>
-              <td>
-                {{task.description}}
+              <td    >
+                {{transform(task.description)}}
               </td>
               <td>
                 <label>
 <!--               <span [class]="onColorTaskStatus(enumToString(TaskStatus,task.currentStatus))" >-->
 <!--                  {{enumToString(TaskStatus,task.currentStatus)}}-->
 <!--               </span>-->
-                  <span>{{task.currentStatus.name}}</span>
+                  <span class="badge text-bg-primary">{{task.currentStatus.name}}</span>
                 </label>
               </td>
               <td>
@@ -63,7 +62,7 @@
 <!--                      {{enumToString(TaskType ,task.taskType)}}-->
 <!--                    </span>-->
 
-                    <span>
+                    <span class="badge text-bg-success">
                       {{task.type.name}}
                     </span>
                   </label>
@@ -75,7 +74,7 @@
 <!--                    {{enumToString( TaskPriority ,task.priority)}}-->
 <!--                  </span>-->
 
-                  <span>
+                  <span class="badge text-bg-secondary">
                       {{task.priority.name}}
                     </span>
                 </label>
@@ -84,19 +83,38 @@
               {{task.estimatedDueDate | date}}
               </td>
               <td  class="text-center" >
-                {{task.assignee.employee.name}}
+                  <span *ngIf="task.assignee" class="badge text-bg-light">
+                                      {{task.assignee.employee.name}}
+                  </span>
+                  <span *ngIf="!task.assignee" class="badge text-bg-light">
+                                      Not Assigned
+                  </span>
               </td>
               <td>
+                <div class="d-grid gap-2 d-md-block " >
+                  <div>
+                    <button class="btn btn-success btn-sm"
+                            style="margin:2px;"
+                            type="button"
+                            [routerLink]="['/ui-components/edit-task/',task.id]">Edit</button>
+                  </div>
+<div>
+  <button class="btn btn-primary btn-sm" type="button"
+          style="margin:2px;"
+          [routerLink]="['/ui-components/task-details/'
+                         ,task.id ,this.employeeLeaderId
+                         ,this.projectManagerId,this.teamId ]" >View</button>
+</div>
 
-                <p class="d-inline p-2 text-primary" style="cursor:pointer"
-                   title="Task Details" [routerLink]=
-                     "['/ui-components/task-details/',
-                       task.id
-                     ,this.employeeLeaderId
-                     ,this.projectManagerId  ]">View</p>
-                <p class="d-inline p-2 text-warning"  style="cursor:pointer" title="Edit task"
-                   [routerLink]="['/ui-components/edit-task/',task.id]">Edit</p>
-                <p class="d-inline p-2 text-danger">Del</p>
+<div>
+  <button class="btn btn-danger btn-sm"
+          (click)="onRemoveTask(task.id)"
+          style="margin:2px;"
+          type="submit">Remove</button>
+</div>
+
+
+                </div>
               </td>
             </tr>
             </tbody>

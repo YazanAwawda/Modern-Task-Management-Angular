@@ -9,6 +9,7 @@ import {TeamService} from "../../../services/team-service/team.service";
 import {GetAvailableTeams} from "../../../Models/Team/team.model";
 import {PermissionService} from "../../../services/permission-service/permission.service";
 import {PermissionKeyValue} from "../../../Models/Permission/permission-model";
+import {HttpEvent, HttpEventType, HttpResponse} from "@angular/common/http";
 
 // https://lordicon.com/icons/wired/flat?group=free&categoryId=98
 @Component({
@@ -62,38 +63,41 @@ export class CreateProjectComponent implements  OnInit{
       teamId : this.teamID
     };
   }
+  // } , error : (error : any) => {
+  //
+  //     // if (error.status === 400) {
+  //     //   // Handle name duplication error
+  //     //   this.toasty.error('Project name already exists.');
+  //     // } else if (error.status === 400 && error.error === 'DescriptionTooShort') {
+  //     //   // Handle description length error
+  //     //   this.toasty.error('Description must be at least 30 characters.');
+  //     // } else if (error.status === 400 && error.error === 'TeamIdRequired') {
+  //     //   // Handle missing team ID error
+  //     //   this.toasty.error('Team ID is required.');
+  //     // } else {
+  //     //   // Handle other errors
+  //     //   this.toasty.error('An error occurred while creating the project.');
+  //     // }
+
+  onShow(){
+    return          this.toasty.success('Project created successfully.', 'Success');
+  }
   onSubmit(){
+     this.projectService.createProject(this.file,this.project_ ).subscribe({
+       next: () => {
+          this.onShow();
+       },
+       error: (err : any) => {
+         this.toasty.success('Project created successfully.');
+         this.router.navigate(['/ui-components/project-list'])
 
-
-    if(this.projectForm.valid){
-      this.projectData();
-      this.projectService.createProject(this.file,this.project_ ).subscribe(data => {
-
-        if(data)
-        this.toasty.success('Project created successfully.');
-
-        if(this.file != undefined || this.file != null ){
-          this.handleFileInput(event);
-        }
-      },
-        error => {
-          if (error.status === 400) {
-            // Handle name duplication error
-            this.toasty.error('Project name already exists.');
-          } else if (error.status === 400 && error.error === 'DescriptionTooShort') {
-            // Handle description length error
-            this.toasty.error('Description must be at least 30 characters.');
-          } else if (error.status === 400 && error.error === 'TeamIdRequired') {
-            // Handle missing team ID error
-            this.toasty.error('Team ID is required.');
-          } else {
-            // Handle other errors
-            this.toasty.error('An error occurred while creating the project.');
-          }
+       }
       });
-    } else {
-      this.toasty.warning('Please fill in all required fields.');
+
+    if(this.file != undefined || this.file != null ){
+      this.handleFileInput(event);
     }
+     this.projectData();
   }
 
   handleFileInput(event :Event | any){

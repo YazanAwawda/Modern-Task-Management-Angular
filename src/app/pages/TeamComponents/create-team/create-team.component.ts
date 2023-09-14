@@ -11,6 +11,8 @@ import  {cloneDeep} from "lodash-es";
 import {types} from "sass";
 import String = types.String;
 import {ListItem} from "ng-multiselect-dropdown/multiselect.model";
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-team',
@@ -42,6 +44,8 @@ export class CreateTeamComponent  implements  OnInit{
   constructor(
      private  teamServices  : TeamService
     ,private  fb : FormBuilder ,
+     private  toast : ToastrService ,
+     private  route :Router ,
      private matDialogRef : MatDialogRef<CreateTeamComponent> ,
      @Inject(MAT_DIALOG_DATA) public addData : any) {}
 
@@ -114,6 +118,10 @@ getEmployees() : Observable<Employee[]>
 
   this.teamServices.CreateTeam(team).subscribe(team => {
     console.log(team);
+    this.toast.success("Created Team Successfully.");
+  this.route.navigate(['/ui-components/project-list']);
+  } , err => {
+      this.toast.error("Created Failure.")
   })
      console.log(this.TeamFormGroup.value);
    }

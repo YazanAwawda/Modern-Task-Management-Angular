@@ -33,26 +33,49 @@
       </div>
     </div>
     <div class="table-responsive">
-      <table class="table align-items-center table-flush">
-        <thead class="thead-light">
+      <table class="table">
+        <thead>
         <tr>
+
           <th scope="col">Team Name</th>
-          <th scope="col">Actions</th>
+
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+
+          <th scope="col" class="text-center" >Actions</th>
+
         </tr>
         </thead>
         <tbody>
-        <tr  style="cursor: pointer" *ngFor="let team of teams">
+        <tr  style="cursor: pointer" class="trD" *ngFor="let team of teams">
           <th scope="row">
             <div class="media align-items-center">
               {{team.teamName}}
             </div>
           </th>
 
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th scope="row" class="text-center">
+            <div class="d-grid gap-2 d-md-block " >
+              <button class="btn btn-success btn-sm" type="button" [routerLink]="['/ui-components/edit-team/',team.id]">Edit</button>
+              <button class="btn btn-primary btn-sm" type="button" [routerLink]="['/ui-components/team-details',team.id]" >View</button>
+              <button class="btn btn-danger btn-sm" type="button">Remove</button>
 
-            <p class="d-inline p-2  bg-primary  text-white" title="View"  [routerLink]="['/ui-components/team-details',team.id]" >View</p>
-            <p class="d-inline p-2 bg-success  text-white" title="Edit" [routerLink]="['/ui-components/edit-team/',team.id]">Edit</p>
-            <p class="d-inline p-2 bg-danger  text-white" title="Remove">Del</p>
+            </div>
+          </th>
         </tr>
+
         </tbody>
       </table>
     </div>

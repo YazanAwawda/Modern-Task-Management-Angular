@@ -1,14 +1,27 @@
+<nav class="navbar bg-light">
+  <div class="container-fluid">
+    <span class="fw-semibold fs-5">
+    {{teamData.teamName}} Details
+    </span>
+  </div>
+</nav>
+<br>
 <div>
   <div class="d-inline p-2 "   id="container">
     <div id="content" class="shadow-lg p-3 mb-5 bg-body rounded">
        <div>
-         <p class="d-inline p-2  text-dark fs-3" >{{teamData.teamName}}</p>
-         <p  class="d-inline p-2 btn btn-success text-white" style="margin-left:220px; position: fixed;">Update Team</p>
+         <div class="d-inline p-2  text-dark fs-5" >
+           {{teamData.teamName}}
+           <span class="badge bg-primary rounded-pill" title="count of employees">{{teamData.teamMembers.length}}</span>
+         </div>
+         <button class="d-inline p-2 btn btn-info text-white"
+                 [routerLink]="['/ui-components/edit-team/',teamData.id]"
+             style=" position: absolute; margin-left:250px;">Edit Team</button>
        </div>
 
       <div  style="text-align: right; padding-top:35px;">
         <div>
-          <div class="col-6 mx-auto">
+          <div class="col mx-auto">
             <div class="section-title">
               <div class="top-c-sep">
                 <div class="input-group mb-3">
@@ -19,10 +32,11 @@
                     <path d="M21 21l-6 -6"></path>
                   </svg></button>
                   <input type="text" class= "form-control"
+                         name="search"
                          placeholder="Search Team-Members "
                          aria-label="Example text with button addon"
-                         aria-describedby="button-addon1">
-                  <!--                    [(ngModel)]="searchTerm" (input)="onSearchEmployee()"-->
+                         aria-describedby="button-addon1"
+                         [(ngModel)]="searchTerm" (input)="onSearchEmployee()">
                 </div>
               </div>
             </div>
@@ -30,13 +44,24 @@
         </div>
       </div>
 
-
-      <div class="d-grid gap-3 team-members-list">
-
-        <div class="p-2 bg-light bg-opacity-25 border"  *ngFor="let emp of teamData.teamMembers">
-          {{emp.employee.name}}
-        </div>
+<div style="overflow-y: scroll; height: 300px;">
+  <ul class="list-group">
+    <li *ngFor="let emp of filteredEmp"
+        [routerLink]="['/ui-components/user-details/',emp.employee.id]"
+        title="View Profile"
+        style="cursor:pointer;"
+        class="list-group-item d-flex justify-content-between align-items-start">
+      <div class="ms-2 me-auto">
+        <div class="fw-semibold">
+          {{emp.employee.name}}</div>
       </div>
+      <span class="badge rounded-pill" [class]="printRole(emp.isTeamLeader).colorClass">
+                   {{printRole(emp.isTeamLeader).role}}</span>
+    </li>
+
+  </ul>
+
+</div>
 
     </div>
   </div>
@@ -44,20 +69,51 @@
 
   <div class="d-inline p-2 "  id="container2" style="margin-left: 600px">
     <div id="content2"  class=" shadow-lg p-3 mb-5 bg-body rounded">
-      <div *ngFor="let project of teamData.projects">
-        <div>
-          <p class="text-center text-dark" style="font-size: 30px;">Project Info</p>
+      <div class="d-inline p-2  text-dark fs-5" >Projects work by {{teamData.teamName}}
+        <span class="badge bg-primary rounded-pill"
+              title="count of projects">{{teamData.projects.length}}</span>
+      </div>
+      <br><br>
+      <div>
+        <div class="col mx-auto">
+          <div class="section-title">
+            <div class="top-c-sep">
+              <div class="input-group mb-3">
+                <button class="btn btn-outline-primary" type="submit"
+                        id="button-addon0">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                       class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                    <path d="M21 21l-6 -6"></path>
+                  </svg></button>
+                <input type="text" class= "form-control"
+                       name="search"
+                       placeholder="Search  Project"
+                       aria-label="Example text with button addon"
+                       aria-describedby="button-addon1"
+                       [(ngModel)]="searchTerm1" (input)="onSearchProject()">
+              </div>
+            </div>
+          </div>
         </div>
-        <br>
-        <div style="margin: 5px;">
-          <p class="text-start fs-4">Project List:</p>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              {{project.name}}
-            </li>
-          </ul>
-        </div>
-
+      </div>
+      <div  style="overflow-y: scroll; height: 300px;">
+        <ol class="list-group list-group-numbered">
+          <li class="list-group-item d-flex justify-content-between align-items-start"
+              *ngFor="let project of filteredProject"
+              style="cursor:pointer"
+              [routerLink]="['/ui-components/project/',project.id]">
+            <div class="ms-2 me-auto">
+              <div class="fw-semibold">
+                {{project.name}}
+              </div>
+            </div>
+            <span class="badge bg-primary">
+            {{enumToString(enumModal.ProjectStatus , project.currentStatus)}}
+          </span>
+          </li>
+        </ol>
       </div>
 
 

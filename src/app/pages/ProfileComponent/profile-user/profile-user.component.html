@@ -1,29 +1,30 @@
-<section style="background-color: #eee;">
+<section style="background-color: #ffffff;">
   <div class="container py-5">
     <div class="row">
       <div class="col-lg-4">
-        <div class="card mb-4">
-          <div class="card-body text-center">
+        <div class="card mb-4 shadow-sm p-3 mb-5 bg-body rounded">
+          <div class="card-body text-center ">
             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                  class="rounded-circle img-fluid" style="width: 150px;">
             <h5 class="my-3">{{user.firstName}}</h5>
             <p class="text-muted mb-1">{{user.jobTitleName}}</p>
           </div>
         </div>
-        <div class="card mb-4 mb-lg-0">
+        <p class="mb-0 p-3" >User Projects</p>
+        <div class="card mb-4 mb-lg-0 shadow-sm p-3 mb-5 bg-body rounded">
           <div class="card-body p-0">
             <ul class="list-group list-group-flush rounded-3">
-              <li class="list-group-item d-flex justify-content-between align-items-center p-3" *ngFor="let userProject of user.projects">
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3"
+                  *ngFor="let userProject of user.projects">
                 <i class="fas fa-globe fa-lg text-warning"></i>
                 <p class="mb-0">{{userProject.name}}</p>
               </li>
-
             </ul>
           </div>
         </div>
       </div>
       <div class="col-lg-8">
-        <div class="card mb-4">
+        <div class="card mb-4 shadow-sm p-3 mb-5 bg-body rounded">
           <div class="card-body">
             <div class="row">
               <div class="col-sm-3">
@@ -35,7 +36,7 @@
             </div>
 
             <hr>
-            <div class="row">
+            <div class="row ">
               <div class="col-sm-3">
                 <p class="mb-0">Phone</p>
               </div>
@@ -70,21 +71,76 @@
                 <p class="text-muted mb-0">{{user.address}}</p>
               </div>
             </div>
-<hr>
-            <div class="row">
+            <hr>
+            <div class="row ">
               <div class="col-sm-3">
-                <p class="mb-0">Technical Skills</p>
+                <p class="mb-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-number" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M4 17v-10l7 10v-10"></path>
+                    <path d="M15 17h5"></path>
+                    <path d="M17.5 10m-2.5 0a2.5 3 0 1 0 5 0a2.5 3 0 1 0 -5 0"></path>
+                  </svg>
+                  Created Tasks</p>
               </div>
               <div class="col-sm-9">
-                <p *ngFor="let item of user.technicalSkills"
-                   class="text-muted mb-0">{{item.name}}</p>
+                <p class="text-muted mb-0">{{user.numberOfCreatedTasks}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row ">
+              <div class="col-sm-3">
+                <p class="mb-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-number" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M4 17v-10l7 10v-10"></path>
+                    <path d="M15 17h5"></path>
+                    <path d="M17.5 10m-2.5 0a2.5 3 0 1 0 5 0a2.5 3 0 1 0 -5 0"></path>
+                  </svg>
+                  Currently In Progress Tasks</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{user.numberOfCurrentlyInProgressTasks}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row ">
+              <div class="col-sm-3">
+                <p class="mb-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-number" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M4 17v-10l7 10v-10"></path>
+                    <path d="M15 17h5"></path>
+                    <path d="M17.5 10m-2.5 0a2.5 3 0 1 0 5 0a2.5 3 0 1 0 -5 0"></path>
+                  </svg>
+                  Currently In Pending Tasks</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{user.numberOfCurrentlyPendingTasks}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row ">
+              <div class="col-sm-3">
+                <p class="mb-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-number" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M4 17v-10l7 10v-10"></path>
+                    <path d="M15 17h5"></path>
+                    <path d="M17.5 10m-2.5 0a2.5 3 0 1 0 5 0a2.5 3 0 1 0 -5 0"></path>
+                  </svg>
+                  Currently In Resolved Tasks</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{user.numberOfCurrentlyResolvedTasks}}</p>
               </div>
             </div>
           </div>
         </div>
+
         <div class="row">
           <div class="col-md-6">
-            <div class="card mb-4 mb-md-0">
+            <div class="card mb-4 mb-md-0 shadow-sm p-3 mb-5 bg-body rounded">
               <div class="card-body">
                 <p class="mb-4"><span class="text-primary font-italic me-1">
                 </span> User Teams
@@ -95,12 +151,26 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="card mb-4 mb-md-0">
+            <div class="card mb-4 mb-md-0 shadow-sm p-3 mb-5 bg-body rounded">
               <div class="card-body">
                 <p class="mb-4"><span class="text-primary font-italic me-1"></span>
 User Biography
                 </p>
                 <p class="mb-1" style="font-size: .77rem;">{{user.biography}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+<br>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card mb-4 mb-md-0 shadow-sm p-3 mb-5 bg-body rounded">
+              <div class="card-body">
+                <p class="mb-4"><span class="text-primary font-italic me-1"></span>
+                  User Technical Skills
+                </p>
+                <p class="mb-1" style="font-size: .77rem;"
+                   *ngFor="let skill of user.technicalSkills">{{skill.name}}</p>
               </div>
             </div>
           </div>

@@ -87,7 +87,11 @@ export class TaskServices {
     return this.http.patch<EditTask>("https://localhost:7011/api/Tasks" , editTask);
   }
 
-  deleteTaskById(id : number):Observable<DeleteTask>{
-    return  this.http.delete<DeleteTask>(`${this.taskUrl}/${id}`);
+  deleteTaskById(id : number){
+    return  this.http.delete<DeleteTask>("https://localhost:7011/api/Tasks" , {
+    body : {
+      "id" : id
+    }
+    });
   }
 }

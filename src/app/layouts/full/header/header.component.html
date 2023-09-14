@@ -9,7 +9,8 @@
   <!-- Notification Dropdown -->
   <!-- --------------------------------------------------------------- -->
 
-  <button         [matMenuTriggerFor]="profilemenu1"
+
+  <button  (click)="$event.stopPropagation()"    [matMenuTriggerFor]="profilemenu1"
 
                   mat-icon-button aria-label="Notifications">
     <i-tabler
@@ -21,7 +22,8 @@
   </button>
   <mat-menu #profilemenu1="matMenu">
     <div class="list-group"  >
-      <div class="list-group-item list-group-item-action"  *ngFor="let msg of msgs">
+      <div class="list-group-item list-group-item-action" style="cursor: pointer"
+           *ngFor="let msg of (this.notificationService.notifications$ | async)">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1">{{msg.owner}}</h5>
           <small>{{msg.notificationDateTime | date}}</small>
@@ -41,7 +43,7 @@
   <!-- profile Dropdown -->
   <!-- --------------------------------------------------------------- -->
 
-  <button
+  <button (click)="$event.stopPropagation()"
     mat-icon-button
     [matMenuTriggerFor]="profilemenu"
     aria-label="Notifications"

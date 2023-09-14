@@ -69,3 +69,10 @@ export  interface  GetUser {
    id: number
 
 }
+
+
+export  interface  ResetPassword{
+   email : string,
+  newPassowrd ?: string,
+  token ?: string
+}

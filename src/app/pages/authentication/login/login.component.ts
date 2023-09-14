@@ -20,10 +20,11 @@ export class AppSideLoginComponent implements  OnInit , OnDestroy{
               private  fb :  FormBuilder ,
               private  toasty : ToastrService ,
               private  notificationService : NotificationService ,
-              private  permissionService : PermissionService ,
+              public  permissionService : PermissionService ,
               private  router : Router) {
 
-    localStorage.clear();
+    // localStorage.clear();
+
   }
 
   ngOnInit(): void {
@@ -32,7 +33,10 @@ export class AppSideLoginComponent implements  OnInit , OnDestroy{
       password : [ ' '  ]
     });
 
+    const storedConnectionId = localStorage.getItem(this.notificationService.connectionId);
+    console.log(storedConnectionId);
     this.notificationService.getConnectionOnNotifications();
+
   }
   get email_() {return this.userFormGroup.get('email') ;}
   get password_() {return this.userFormGroup.get('password');}

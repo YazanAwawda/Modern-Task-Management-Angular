@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {catchError, map, Observable, of, Subject} from "rxjs";
-import {CurrentUser, User, userRegister} from "../../Models/User/User";
+import {CurrentUser , ResetPassword, User, userRegister} from "../../Models/User/User";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {NotificationService} from "../notification-service/notification-service";
@@ -23,6 +23,9 @@ export class AuthenticationService {
 
   private tryGetUser(){
     this.CurrentUser =  JSON.parse(localStorage.getItem("current-user"));
+    this.http.get("https://localhost:7011/api/Permission/GetUserPermissions").subscribe(res => {
+      this.isAuthenticatedValue = true
+    })
 
   }
   private  _updateMenu = new Subject<void>();
@@ -38,6 +41,10 @@ export class AuthenticationService {
   getToken(){
     return localStorage.getItem('token') || ' ' ;
   }
+  // public isAuthenticated() {
+  //  return !!this.getToken();
+  // }
+
   public isAuthenticated(): Observable<boolean> {
     const token = localStorage.getItem('token');
 
@@ -49,23 +56,22 @@ export class AuthenticationService {
     } else {
       // Make an HTTP request to check the token validity.
       let headers = new HttpHeaders({
-        'Authorization': `Bearer ${token}`
-      }
+          'Authorization': `Bearer ${token}`
+        }
       );
 
       return this.http.get<any>('https://localhost:7011/api/Team', { headers }).pipe(
-          map((res) => {
-            console.log(res);
-            return res.status !== 401; // Check the response status to determine authentication.
-          }),
-          catchError((error) => {
-            console.error(error);
-            return of(false); // Return a false Observable in case of an error.
-          })
+        map((res) => {
+          console.log(res);
+          return res.status !== 401; // Check the response status to determine authentication.
+        }),
+        catchError((error) => {
+          console.error(error);
+          return of(false); // Return a false Observable in case of an error.
+        })
       );
     }
   }
-
   logOut(){
     alert('Your session expired');
     this.isAuthenticatedValue = false;
@@ -79,5 +85,23 @@ export class AuthenticationService {
   {
     return localStorage.setItem('token' , tokenData.token);
   }
+
+
+ResetPassword(user : ResetPassword){
+    return this.http.post("https://localhost:7011/api/Authentication/reset-password",{
+      "email": user.email,
+      "newPassowrd": user.newPassowrd,
+      "token": user.token
+    });
+}
+
+
+
+
+ForgetPassword(email:string){
+    return this.http.post("https://localhost:7011/api/Authentication/forget-password" , {
+     "email" : email
+    });
+}
 
 }

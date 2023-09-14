@@ -12,7 +12,8 @@ import {ActivatedRoute, Route, Router} from "@angular/router";
   templateUrl: './update-role.component.html',
   styleUrls: ['./update-role.component.scss']
 })
-export class UpdateRoleComponent implements  OnInit{
+export class UpdateRoleComponent implements  OnInit {
+
   @ViewChild(TreeviewComponent) NgxViewTree: TreeviewComponent;
 
   roleName: string ;
@@ -132,7 +133,6 @@ export class UpdateRoleComponent implements  OnInit{
   getRolesPermissions(nameRole :string){
     this.roleService.GetRolePermissions(nameRole).subscribe
     (res => {
-
       let selectedItems : number[] ;
       selectedItems =       res.flatMap((item : Permission) => {
         return item.permissions.flatMap((item : PermissionKeyValue) => {

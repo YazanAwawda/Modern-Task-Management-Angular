@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
-import {isUserLoggedInGuard} from "./Gurad/auth-guard";
 
 const routes: Routes = [
   {
@@ -17,9 +16,7 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () =>
-          import('./pages/pages.module').then((m) => m.PagesModule), canActivate:[
-          isUserLoggedInGuard
-        ]
+          import('./pages/pages.module').then((m) => m.PagesModule)
       },
       {
         path: 'ui-components',

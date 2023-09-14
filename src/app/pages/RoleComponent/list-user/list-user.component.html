@@ -1,0 +1,88 @@
+
+<main>
+    <mat-toolbar color="primary">
+        <button mat-icon-button
+                class="example-icon"
+                aria-label="Example icon-button with menu icon">
+            <mat-icon>supervised_user_circle</mat-icon>
+        </button>
+
+        <h4 style="color:rgb(233,255,2)"> Users List </h4>
+    </mat-toolbar>
+</main>
+
+
+<div class="main-content">
+    <div class="container">
+        <!-- Table -->
+        <div class="row">
+            <div class="col">
+                <!--      <div class="card-group shadow">-->
+                <!--        <h2 class="mb-5">Tasks List</h2>-->
+
+                <!--        <div class="mb-3">-->
+                <!--          <form class="search-bar" style="margin-left: 675px;">-->
+                <!--            <input type="search" name="search" pattern=".*\S.*" required>-->
+                <!--            <button class="search-btn" type="submit">-->
+                <!--              <span>Search</span>-->
+                <!--            </button>-->
+                <!--          </form>-->
+                <!--        </div>-->
+
+                <!--      </div>-->
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+
+                    <th scope="col" class="fw-semibold">User Name</th>
+                    <th scope="col" class="fw-semibold">User Email</th>
+
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+
+                    <th scope="col" class="text-center fw-semibold">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  class="trD" style="cursor: pointer" *ngFor="let user of employeesSystem"
+                     [routerLink]="['/ui-components/user-details',user.id]" >
+                    <th scope="row">
+                        <div class="media align-items-center fw-normal">
+                            {{user.name}}
+                        </div>
+                    </th>
+
+                    <th scope="row">
+                        <div class="media align-items-center fw-normal">
+                            {{user.email}}
+                        </div>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th scope="row" class="text-center">
+                        <div class="d-grid gap-2 d-md-block " >
+                            <button class="btn btn-primary btn-sm" type="button"
+                                    style="margin:2px"
+                                    [routerLink]="['/ui-components/user-details',user.id]" >View</button>
+                        </div>
+                    </th>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

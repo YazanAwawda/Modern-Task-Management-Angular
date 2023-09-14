@@ -10,9 +10,32 @@
       <div class="d-flex justify-content-between align-items-center pb-2">
         <app-paging-header  [pageNumber]="this.projectParams.PageIndex" [pageSize]="projectParams.PageSize" [totalCount]="totalCount"></app-paging-header>
       </div>
+      <div class="row">
+        <div class="col-lg-12 mx-auto mb-6">
+          <div class="section-title text-center">
+            <div class="top-c-sep">
+              <div class="input-group mb-3">
+                <button class="btn btn-outline-primary" type="submit"
+                        id="button-addon1"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                  <path d="M21 21l-6 -6"></path>
+                </svg></button>
+                <input type="text" class= "form-control"
+                       name="search"
+                       placeholder="Search Project "
+                       aria-label="Example text with button addon"
+                       aria-describedby="button-addon1"
+                       [(ngModel)]="searchTerm" (input)="onSearchProject()">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
       <div class="row row-cols-1 row-cols-md-4 g-4">
-        <div class="col" *ngFor="let project of projects">
+        <div class="col" *ngFor="let project of filteredProject">
 
           <div class="card h-100">
             <div class="d-flex justify-content-between">

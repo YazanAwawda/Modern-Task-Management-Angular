@@ -41,20 +41,25 @@
     <div class="btn-group" role="group" aria-label="Basic outlined example">
         <h6 class=" text-start navbar-brand  pb-2" style="margin:5px;">Task Actions Flow</h6>
 
-            <button  type="button" class="btn btn-outline-primary" *ngIf="checkForStart()"
+            <button  type="button" class="btn btn-outline-primary" *ngIf="checkForStart() &&
+            this.hasPermission.checkPermission([32])"
                      (click)="startTask(task.id)">Start Task</button>
 
-        <button type="button" class="btn btn-outline-primary" *ngIf="checkForResolve()"
+        <button type="button" class="btn btn-outline-primary" *ngIf="checkForResolve() &&
+            this.hasPermission.checkPermission([35])"
                 (click)="resolveTask(task.id)">Resolve</button>
-        <button  type="button" class="btn btn-outline-primary" *ngIf="checkForReOpen()"
+        <button  type="button" class="btn btn-outline-primary" *ngIf="checkForReOpen() &&
+            this.hasPermission.checkPermission([33])"
                  (click)="reopenTask(task.id)">Reopen Task</button>
-        <button type="button" class="btn btn-outline-primary" *ngIf="checkForDeclined()"
+        <button type="button" class="btn btn-outline-primary" *ngIf="checkForDeclined() "
                 (click)="declineTask(task.id)">Decline Task</button>
-        <button  type="button" class="btn btn-outline-primary" *ngIf="checkForClose()"
+        <button  type="button" class="btn btn-outline-primary" *ngIf="checkForClose() &&
+            this.hasPermission.checkPermission([34])"
                  (click)="closeTask(task.id)">Close Task</button>
       <button type="button"
               (click)="openDialogEmp()"
-              class="btn btn-outline-primary" *ngIf="checkForReAssigned()">Assign Task</button>
+              class="btn btn-outline-primary" *ngIf="checkForReAssigned() &&
+            this.hasPermission.checkPermission([30])">ReAssign Task</button>
 
     </div>
 </div>
@@ -90,31 +95,32 @@
 <br><br><br>
 
             <div class="col-md-6">
-                <div class="d-inline p-2 badge text-bg-light  fs-6">Assigned to:</div>
-                <div  class=" d-inline p-2" >{{task.assignedEmployee.name}}</div>
+                <div class="d-inline p-2  fs-6">Assigned to:</div>
+                <div *ngIf="task.assignedEmployee"  class=" d-inline p-2 badge text-bg-light" >{{task.assignedEmployee.name}}</div>
+                <div *ngIf="!task.assignedEmployee"  class=" d-inline p-2 badge text-bg-light" >Not Assigned</div>
             </div>
             <br><br><br>
             <div class="col-md-6">
-                <div class="d-inline p-2 badge text-bg-light fs-6">Task Status:</div>
+                <div class="d-inline p-2  fs-6">Task Status:</div>
                 <div  class=" d-inline p-2 badge text-bg-primary" >{{task.currentStatus.name}}</div>
             </div>
             <br><br><br>
             <div class="col-md-6">
-                <div class="d-inline p-2  badge text-bg-light fs-6">Task Type:</div>
+                <div class="d-inline p-2  fs-6">Task Type:</div>
                 <div  class=" d-inline p-2 badge text-bg-warning" >{{task.type.name}}</div>
             </div>
             <div class="col-md-6">
-                <div class="d-inline p-2  badge text-bg-light fs-6">Task Priority:</div>
-                <div  class=" d-inline p-2 badge text-bg-primary" >{{task.priority.name}}</div>
+                <div class="d-inline p-2  fs-6">Task Priority:</div>
+                <div  class=" d-inline p-2 badge text-bg-success" >{{task.priority.name}}</div>
             </div>
 <br><br><br>
             <div class="col-md-6">
-                <div class="d-inline p-2  badge text-bg-light fs-6">Start Date:</div>
-                <div  class=" d-inline p-2 " >11/5</div>
+                <div class="d-inline p-2  fs-6">Start Date:</div>
+                <div  class=" d-inline p-2 " >{{task.estimatedDueDate | date}}</div>
             </div>
             <div class="col-md-6">
-                <div class="d-inline p-2  badge text-bg-light fs-6">End Date:</div>
-                <div  class=" d-inline p-2 " >8/26</div>
+                <div class="d-inline p-2  fs-6">End Date:</div>
+                <div  class=" d-inline p-2 ">Sep 25, 2023</div>
             </div>
 
         </div>

@@ -11,6 +11,7 @@ import {
 } from "../../Models/Project/project.model";
 import {IProjectPagination} from "../../Models/Pagination/ProjectPagination/ProjectPagination";
 import {ProjectParams} from "../../Models/Pagination/ProjectPagination/ProjectParams";
+import {ToastrService} from "ngx-toastr";
 
 
 @Injectable({
@@ -98,7 +99,10 @@ export class ProjectService {
         }
         return null;
       }),
-      concatMap(val => typeof(val) === typeof(FormData) ? this.http.post<number | any>('https://localhost:7011/api/Project/Upload',val) : of()
+      concatMap(val =>
+        typeof(val) === typeof(FormData) ?
+          this.http.post<number | any>('https://localhost:7011/api/Project/Upload',val) : of()
+
       ))
   }
 

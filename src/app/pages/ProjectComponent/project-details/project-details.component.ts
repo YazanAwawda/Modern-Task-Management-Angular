@@ -29,16 +29,14 @@ export class ProjectDetailsComponent {
 
   isPopupOpened  = true ;
 
-  public projects_ !: GetProjectById ;
-  public projectID !: number  ;
+  public projects_ : GetProjectById ;
+  public projectID : number  ;
 
 
   teamMembers : TeamMembers;
 
   tasksData: CreateTasks;
   tasksArray : any [] = [] ;
-
-  teamId:number;
 
   colorStatus : string;
   projectStatus : any ;
@@ -51,12 +49,9 @@ export class ProjectDetailsComponent {
   role:{ role: string; colorClass: string; };
 
   isTeamLeader : boolean  ;
-  teamLeaderId: string  ;
-  teamLeadId: any;
   type : string = "Project";
   typeId:string = "projectId";
 
-  isLeader : boolean;
 
   constructor(private  projectService : ProjectService ,
               private route : ActivatedRoute ,
@@ -115,46 +110,29 @@ export class ProjectDetailsComponent {
     return color as string;
   }
 
-
-
+  teamId:number;
 
    ngOnInit(){
 
 
      this.route.params.subscribe(params => {
-       this.projectID = +params['id'];});
+       this.projectID = +params['id'];
+       }
+     );
 
      this.projectService.getProjectByID((this.projectID)).subscribe(
        (project_:GetProjectById  ) => {
-         this.projects_ = project_;
-         this.projectID = project_.id! ;
+          this.projects_ = project_;
+          this.projectID = project_.id! ;
+          this.teamId =this.projects_.team.id;
 
-
-
-         // For show the value string of Team Leader Of Project
-         for(const res of this.projects_.team.teamMembers){
-           this.teamMembers = res;
-           this.isTeamLeader =  this.teamMembers.isTeamLeader!  ;
-           this.teamLeaderId =   this.teamMembers.employee.id  ;
-           this.projects_.team.teamMembers.map(item => {
-             return<TeamMembers> {
-               employee : {
-                 id : this.teamMembers.employee.id
-               },
-               isTeamLeader : this.teamMembers.isTeamLeader
-             }});
-
-           this.isLeader = this.isTeamLeader;
-
-
+          console.log(this.teamId);
            //Search..Employees
            this.filteredEmp = this.projects_.team.teamMembers ;
            this.AllEmp = this.projects_.team.teamMembers;
 
            //For specify the admin employee from normal employee.
            this.role = this.printRole(this.isTeamLeader);
-         }
-
 
          // For show the value string of Current Status Of Project
          this.projectStatus = enumToString(enumModal.ProjectStatus , this.projects_.currentStatus ) ;

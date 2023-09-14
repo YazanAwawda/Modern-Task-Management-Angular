@@ -27,6 +27,15 @@ export class SidebarComponent implements OnInit {
       navCap: 'Team Components',
     },
     {
+      displayName: 'All Users',
+      iconName: 'rosette',
+      route: '/ui-components/user-list',
+      hasPermission :  of(false) ,
+      permissionKey : [48]
+
+
+    },
+    {
       displayName: 'All Teams',
       iconName: 'rosette',
       route: '/ui-components/teams',
@@ -71,7 +80,7 @@ export class SidebarComponent implements OnInit {
       displayName: 'Login',
       iconName: 'lock',
       route: '/authentication/login',
-      hasPermission :  of(true && !this.authService.isAuthenticatedValue)
+      hasPermission :  of(!this.authService.isAuthenticatedValue)
 
 
     },
@@ -79,7 +88,7 @@ export class SidebarComponent implements OnInit {
       displayName: 'Logout',
       iconName: 'lock',
       route: '/authentication/login',
-      hasPermission :  of(true && this.authService.isAuthenticatedValue)
+      hasPermission :  of(this.authService.isAuthenticatedValue)
 
 
     },
@@ -96,6 +105,18 @@ export class SidebarComponent implements OnInit {
       route : '/ui-components/user-role',
       hasPermission :  of(false),
       permissionKey:[55 , 57]
+    }
+    , {
+      displayName: 'User Permission',
+      iconName :'user-circle',
+      route : '/ui-components/update-user-with-permissions',
+      hasPermission :  of(false),
+      permissionKey:[57]
+    }
+    , {
+      displayName: 'User Permission',
+      iconName :'user-circle',
+      route : '/ui-components/reset-password'
     }
   ];
 

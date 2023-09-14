@@ -1662,7 +1662,14 @@ body {
   padding: 10px; /* Optional: Add padding for spacing */
 
 }
+th, thead{
+  position: sticky;
+  top: 0;
+}
 
+.trD:hover{
+  background: #d0cfcf;
+}
 //span{
 //  height:25px;
 //  width:75px;

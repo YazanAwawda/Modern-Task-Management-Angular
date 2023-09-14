@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {CommentService} from "../../../services/comment-service/comment.service";
@@ -13,6 +13,7 @@ import {GetTeamMembers, TeamMembers } from 'src/app/Models/Team/team.model';
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {CreateTaskComponent} from "../create-task/create-task.component";
 import {ReassingeEmployeeComponent} from "../reassinge-employee/reassinge-employee.component";
+import {PermissionService} from "../../../services/permission-service/permission.service";
 
 @Component({
   selector: 'app-task-details',
@@ -35,13 +36,14 @@ export class TaskDetailsComponent implements  OnInit , OnDestroy {
   employeeLeaderId: string;
   projectManagerId: string | null;
   teamMembers : GetTeamMembers[];
-  teamId : number ;
+  @Input() teamId : number ;
   constructor(private route: ActivatedRoute,
               private taskFlowService: TaskFlowService,
               private taskService: TaskServices,
               private  toasty : ToastrService ,
               private router: Router ,
               private  dialog : MatDialog ,
+              public  hasPermission : PermissionService,
               private commentService: CommentService,
               private authService: AuthenticationService) {
   }
@@ -116,6 +118,7 @@ export class TaskDetailsComponent implements  OnInit , OnDestroy {
     this.taskFlowService.startTask(id).subscribe(res => {
       this.toasty.success("Task is started.")
       this.getTaskDetails();
+      window.location.reload();
       console.log(res);
     });
   }
@@ -124,6 +127,7 @@ export class TaskDetailsComponent implements  OnInit , OnDestroy {
     this.taskFlowService.reopenTask(id).subscribe(res => {
       this.toasty.success("Task is reopened.")
       this.getTaskDetails();
+      window.location.reload();
       console.log(res);
     });
   }
@@ -132,6 +136,7 @@ export class TaskDetailsComponent implements  OnInit , OnDestroy {
     this.taskFlowService.declineTask(id).subscribe(res => {
       this.toasty.success("Task is declined. ")
       this.getTaskDetails();
+      window.location.reload();
       console.log(res);
     });
   }
@@ -141,6 +146,7 @@ export class TaskDetailsComponent implements  OnInit , OnDestroy {
       this.toasty.success("Task has been resolved.")
       this.getTaskDetails();
       console.log(res);
+      window.location.reload();
     } , error => {
       this.toasty.error( "You are not allowed to view this task");
       this.router?.navigate(['/ui-components/project-list']);
@@ -188,35 +194,56 @@ export class TaskDetailsComponent implements  OnInit , OnDestroy {
     });
   }
    checkForStart(){
-    // اظهار زري البداية والحل في حالة المهمة كانت جديدة للتو او في حالة تكليف الموظف بالمهمة بناءا على مقارنة الحالة ومقارنة الموظف المكلف بعمل المهمة مع مدير المشروع والموظف القائد
-    return this.authService.CurrentUser.id === this.task.assignedEmployee.id &&
-        ( this.task.currentStatus.status === 0 ) ;
+    if(this.task.assignedEmployee) {
+      // اظهار زري البداية والحل في حالة المهمة كانت جديدة للتو او في حالة تكليف الموظف بالمهمة بناءا على مقارنة الحالة ومقارنة الموظف المكلف بعمل المهمة مع مدير المشروع والموظف القائد
+      return this.authService.CurrentUser.id === this.task.assignedEmployee.id &&
+          (this.task.currentStatus.status === 0 || this.task.currentStatus.status === 6);
+    }
+    return false;
    }
 
   checkForResolve(){
-    // اظهار زري البداية والحل في حالة المهمة كانت جديدة للتو او في حالة تكليف الموظف بالمهمة بناءا على مقارنة الحالة ومقارنة الموظف المكلف بعمل المهمة مع مدير المشروع والموظف القائد
-    return this.authService.CurrentUser.id === this.task.assignedEmployee.id &&
-        ( this.task.currentStatus.status === 4  ) ;
+    if(this.task.assignedEmployee) {
+
+      // اظهار زري البداية والحل في حالة المهمة كانت جديدة للتو او في حالة تكليف الموظف بالمهمة بناءا على مقارنة الحالة ومقارنة الموظف المكلف بعمل المهمة مع مدير المشروع والموظف القائد
+      return this.authService.CurrentUser.id === this.task.assignedEmployee.id &&
+          (this.task.currentStatus.status === 4);
+    }
+    return false;
   }
 
 
   checkForReOpen(){
-    return (this.authService.CurrentUser.id === this.task.createdBy.employee.id ||
-        this.authService.CurrentUser.id === this.employeeLeaderId ||
-        this.authService.CurrentUser.id === this.projectManagerId ) && this.task.currentStatus.status === 7
+    if(this.task.assignedEmployee) {
+
+      return (this.authService.CurrentUser.id === this.task.createdBy.employee.id ||
+          this.authService.CurrentUser.id === this.employeeLeaderId ||
+          this.authService.CurrentUser.id === this.projectManagerId)
+          && this.task.currentStatus.status === 7
+    }
+    return false;
   }
 
   checkForClose(){
-    return (this.authService.CurrentUser.id === this.task.createdBy.employee.id ||
-        this.authService.CurrentUser.id === this.employeeLeaderId ||
-        this.authService.CurrentUser.id === this.projectManagerId ) && this.task.currentStatus.status === 7
+    if(this.task.assignedEmployee) {
+
+      return (this.authService.CurrentUser.id === this.task.createdBy.employee.id ||
+          this.authService.CurrentUser.id === this.employeeLeaderId ||
+          this.authService.CurrentUser.id === this.projectManagerId)
+          && this.task.currentStatus.status === 7
+    }
+    return false;
   }
 
   checkForDeclined(){
-   return (this.authService.CurrentUser.id ===
-       this.task.createdBy.employee.id ||  this.authService.CurrentUser.id === this.employeeLeaderId ||
-    this.authService.CurrentUser.id === this.projectManagerId )
-       && (this.task.currentStatus.status === 6  || this.task.currentStatus.status === 0)
+    if(this.task.assignedEmployee) {
+
+      return (this.authService.CurrentUser.id ===
+              this.task.createdBy.employee.id || this.authService.CurrentUser.id === this.employeeLeaderId ||
+              this.authService.CurrentUser.id === this.projectManagerId)
+          && (this.task.currentStatus.status === 6 || this.task.currentStatus.status === 0)
+    }
+    return false;
   }
 
   checkForClosed(){
@@ -235,11 +262,15 @@ export class TaskDetailsComponent implements  OnInit , OnDestroy {
   }
 
   checkForReAssigned() {
-    return this.authService.CurrentUser.id === this.task.assignedEmployee.id &&
-        ( this.task.currentStatus.status === 7   ) ||
-        ( this.task.currentStatus.status === 4 ) ||
-        ( this.task.currentStatus.status === 1   ) ||
-        (this.task.currentStatus.status  === 0);
+    if(this.task.assignedEmployee) {
+
+      return this.authService.CurrentUser.id === this.task.assignedEmployee.id &&
+          (this.task.currentStatus.status === 7) ||
+          (this.task.currentStatus.status === 4) ||
+          (this.task.currentStatus.status === 1) ||
+          (this.task.currentStatus.status === 0);
+    }
+    return false;
   }
 
   isPopupOpened : boolean;

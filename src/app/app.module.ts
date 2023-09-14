@@ -87,48 +87,13 @@ import {UpdateRoleComponent} from "./pages/RoleComponent/update-role/update-role
 import {AddRoleComponent} from "./pages/RoleComponent/add-role/add-role.component";
 import {ListUserPermissionComponent} from "./pages/RoleComponent/list-user-permission/list-user-permission.component";
 import {TaskFlowService} from "./services/task-flow-service/task-flow";
-import {UpdateUserRoleComponent} from "./pages/RoleComponent/update-user-role/update-user-role.component";
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
-import 'datatables.net-fixedheader-bs5'
 import 'datatables.net-fixedheader-bs5'
 import { NgFixedHeaderModule } from 'angular-fixed-header-table';
 import {NotificationService} from "./services/notification-service/notification-service";
 import {ReassingeEmployeeComponent} from "./pages/TaskComponent/reassinge-employee/reassinge-employee.component";
 import {ModalModule} from "ngx-bootstrap/modal";
+import {ListUserComponent} from "./pages/RoleComponent/list-user/list-user.component";
+import {SecurityComponent} from "./pages/authentication/security/security.component";
 
 
 export const INPUT_VALUE_ACCESSOR = {
@@ -168,6 +133,7 @@ export const INPUT_VALUE_ACCESSOR = {
     EditTeamComponent,
     TaskDetailsComponent,
     ReplyFormComponent ,
+    ListUserComponent ,
     ReplyTemplateComponent,
     AccessDeniedComponent,
     TaskTypeComponent,
@@ -175,12 +141,11 @@ export const INPUT_VALUE_ACCESSOR = {
     UploadMultipleFilesComponent,
     ProfileUserComponent,
     UserRoleComponent,
-    UpdateRoleComponent ,
     AddRoleComponent,
     ListUserPermissionComponent,
     ReassingeEmployeeComponent,
-    UpdateUserRoleComponent,
-    TypeofPipe
+    TypeofPipe,
+    UpdateRoleComponent, SecurityComponent
   ],
   imports: [
     BrowserModule,

@@ -5,6 +5,7 @@ import * as signalR from '@microsoft/signalr'
 import {AuthenticationService} from "../auth-service/auth.service";
 import {LogLevel} from "@microsoft/signalr";
 import {ToastrService} from "ngx-toastr";
+import {BehaviorSubject} from "rxjs";
 
 
 @Injectable({
@@ -16,6 +17,7 @@ export  class NotificationService {
     public  hubConnection : signalR.HubConnection | undefined ;
     public  message : string | undefined ;
     public  notification : Notification[] ;
+    public notifications$ : BehaviorSubject<Notification[]> = new BehaviorSubject<Notification[]>([]);
     public connectionId: string; // Store the connection ID here
 
     private  httpOptions = {
@@ -37,6 +39,7 @@ public  getNotifications(){
 return this.http.get<Notification[]>("https://localhost:7011/api/Notification").
 subscribe(res => {
     this.notification = res;
+    this.notifications$.next(res)
     console.log(res);
 });
 }
@@ -62,7 +65,7 @@ public  getConnectionOnNotifications(){
 
     this.hubConnection.start().then(() => {
         this.connectionId = this.hubConnection.connectionId; // Store the connection ID
-        this.getConnectionId();
+        localStorage.setItem(this.connectionId, this.hubConnection.connectionId);
         this.ReceiveNotification();
     })
         .catch(err => console.error('Error while get notifications: ' +err));
@@ -73,6 +76,8 @@ public  getConnectionOnNotifications(){
 
         this.hubConnection.on('ReceiveNotification',
             (msg : Notification )  => {
+            this.notification.push(msg);
+                this.notifications$.next(this.notification)
            this.toasty.success(msg.message);
         });
 
@@ -86,9 +91,7 @@ public  getConnectionOnNotifications(){
             .catch(reason => console.log(reason));
     }
 
-    public getConnectionId(): string {
-        return this.connectionId;
-    }
+
 
 
 

@@ -20,9 +20,11 @@ import {GetTeam, TeamMembers} from "../../../Models/Team/team.model";
 export class ListProjectsComponent implements  OnInit{
 
 
-  @ViewChild('Search',{static:false})  searchElement!: ElementRef;
+  @ViewChild('search' , {static : false}) searchElement !: ElementRef ;
 
-   projects ?: GetProjects[] ;
+   searchTerm : string = "" ;
+   filteredProject : GetProjects [] = []
+   projects ?: GetProjects[] = [] ;
    projectId: number ;
 
    projectParams  = new ProjectParams();
@@ -74,6 +76,8 @@ export class ListProjectsComponent implements  OnInit{
     getProjects(){
     this.projectService.getAllProjectsWithPagination(this.projectParams).subscribe((response) => {
       this.projects = response.data;
+      this.filteredProject = this.projects ;
+
       this.projectParams.PageIndex = response.pageIndex ;
       this.projectParams.PageSize = response.pageSize;
       this.totalCount = response.count;
@@ -205,6 +209,13 @@ this.projectService.getProjectByID($event).subscribe(()=>{
 
     return colorStatus as string ;
 
+  }
+  onSearchProject(){
+    let searchTerm = this.searchTerm.trim();
+    this.filteredProject = this.projects.filter(item =>
+      (item.name.toLowerCase().includes(searchTerm) ||
+        (item.name.toUpperCase().includes(searchTerm))
+        || (item.name.includes(searchTerm)) ));
   }
 
 

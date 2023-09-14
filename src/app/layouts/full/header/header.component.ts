@@ -25,17 +25,14 @@ export class HeaderComponent  implements  OnInit{
   @Output() toggleCollapsed = new EventEmitter<void>();
 
   showFiller = false;
-  msgs : Notification[]  = [];
   countMsg : number ;
   constructor(public dialog: MatDialog ,
               public authService : AuthenticationService,
-              private  notificationService :  NotificationService) {}
+              public  notificationService :  NotificationService) {}
 
 
   getAllMessages(){
-    this.msgs = this.notificationService.notification;
-    this.countMsg = this.msgs.length;
-    this.notificationService.getNotifications();
+    this.notificationService.notifications$.subscribe(res => this.countMsg = res.length);
   }
 
   ngOnInit(): void {

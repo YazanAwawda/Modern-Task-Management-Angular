@@ -6,6 +6,7 @@ import {TaskParams} from "../../../Models/Pagination/TaskPagination/TaskParams";
 import {TaskPriority, TaskStatus, TaskType} from "../../../Enum/enum.model";
 import { enumToString } from 'src/app/EnumHelper/enum.helper';
 import {Subject} from "rxjs";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'viewAllTasks',
@@ -27,6 +28,8 @@ export class ViewTasksOfProjectComponent implements OnInit {
   paginationVisible: boolean = false;
   @Input() projectId !: number;
   @Input() teamId !: number ;
+  @Input() projectManagerInputId !: string;
+  @Input() TeamLeadID !: string ;
 
    tasks : GetAllTasks[] ;
    task : GetAllTasks;
@@ -46,6 +49,7 @@ export class ViewTasksOfProjectComponent implements OnInit {
   projectManagerId:string | null;
   constructor(private tasksServices: TaskServices,
               private route: Router,
+              private  toastService: ToastrService ,
               private activeRoute: ActivatedRoute) {
   }
 
@@ -58,9 +62,9 @@ export class ViewTasksOfProjectComponent implements OnInit {
   ngOnInit(): void {
     this.activeRoute.params.subscribe(x => {
       this.projectId = Number(x["id"]);
-      this.employeeLeaderId =  this.activeRoute.snapshot.paramMap.get('employeeIdAssigned')!;
-      this.projectManagerId = this.activeRoute.snapshot.paramMap.get('projectManagerId');
-      this.teamId = Number(this.activeRoute.snapshot.paramMap.get('teamId'));
+      this.employeeLeaderId =  this.activeRoute.snapshot.paramMap.get('employeeIdAssigned') ?? this.TeamLeadID;
+      this.projectManagerId = this.activeRoute.snapshot.paramMap.get('projectManagerId') ?? this.projectManagerInputId;
+      this.teamId = this.teamId || Number(this.activeRoute.snapshot.paramMap.get('teamId'));
     });
 
     console.log(this.teamId);
@@ -252,6 +256,35 @@ export class ViewTasksOfProjectComponent implements OnInit {
     return color as string ;
 
   }
+
+  onRemoveTask(id:any){
+    this.tasksServices.deleteTaskById(id).subscribe(res => {
+     this.toastService.error("You Removed Task");
+     window.location.reload();
+      console.log(res);
+    });
+  }
+
+   transform(text: string): string {
+    const maxCharacters = 60; // Maximum characters for two lines
+    const maxLines = 2;       // Maximum lines
+
+    const words = text.split(' ');
+
+    const truncatedText = words.reduce((result, word) => {
+      if (result.length + word.length <= maxCharacters) {
+        result += (result ? ' ' : '') + word;
+      } else if (result.split('\n').length < maxLines) {
+        result += `\n${word}`;
+      }
+      return result;
+    }, '');
+
+    return words.length > truncatedText.split(' ').length
+      ? `${truncatedText}...`
+      : truncatedText;
+  }
+
 
   printRole(role_: any) {
     let roleEmp: string;
