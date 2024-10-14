@@ -19,7 +19,7 @@ import {ToastrService} from "ngx-toastr";
 })
 export class ProjectService {
 
-  private  projectUrl : 'https://localhost:7011/api/Project';
+  private  projectUrl : string ='https://localhost:7011/api/Project';
   file_s !: uploadFilesProject ;
 
 
